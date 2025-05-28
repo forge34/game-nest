@@ -1,5 +1,5 @@
 {
-  "name": "@myapp/shared-types",
+  "name": "@game-forge/shared-types",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
