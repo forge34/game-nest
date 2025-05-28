@@ -6,6 +6,11 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "dev:client": "npm run dev -w ./packages/client",
+    "dev:server": "npm run dev -w ./packages/server",
+    "test:server": "npm run test -w ./packages/server"
+  },
   "devDependencies": {
     "typescript": "^5.8.3"
   }
