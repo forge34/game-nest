@@ -1,0 +1,9 @@
+{
+  "name": "game-forge",
+  "version": "1.0.0",
+  "description": "game library project , kinda similar to steam",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
