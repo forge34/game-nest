@@ -1,4 +1,3 @@
-import type {} from "../generated/prisma";
 import { PrismaClient } from "../generated/prisma";
 import dotenv from "dotenv";
 
@@ -39,6 +38,12 @@ type FetchedCover = {
   width: number;
 };
 
+type AccessToken = {
+  access_token: string;
+  expires_in: number;
+  token_type: "bearer";
+};
+
 async function getAccessToken() {
   const client_id = process.env.CLIENT_ID || "";
   const client_secret = process.env.CLIENT_SECRET || "";
@@ -54,54 +59,68 @@ async function getAccessToken() {
       grant_type: "client_credentials",
     }),
   });
+
   if (res.ok) {
-    res = await res.json();
+    const token = (await res.json()) as AccessToken;
+    return token;
   }
 }
 
-async function fetchGames(token: string): Promise<FetchedGames[]> {
-  const res = await fetch("https://api.igdb.com/v4/games/", {
-    method: "POST",
-    headers: {
-      "Client-ID": process.env.CLIENT_ID || "",
-      Authorization: `Bearer ${token}`,
-      Accept: "application/json",
-    },
-    body: `fields id,name,summary,first_release_date,cover.url,genres,platforms;
-      sort popularity desc;
-      where rating != null & cover != null;
-      limit 30;`,
-  });
-
-  return res.json();
-}
-
-async function fetchGenres(token: string, ids: number[]) {
-  const genres: FetchedGenres[] = [];
-
-  for (const id of ids) {
-    let res = await fetch("https://api.igdb.com/v4/genres/", {
+async function fetchGames(token: string) {
+  try {
+    const res = await fetch("https://api.igdb.com/v4/games/", {
       method: "POST",
       headers: {
         "Client-ID": process.env.CLIENT_ID || "",
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
-      body: `fields name , slug;where id = ${id};`,
+      body: `fields id,name,summary,first_release_date,cover.url,genres,platforms;
+      sort popularity desc;
+      where rating != null & cover != null;
+      limit 30;`,
     });
+    if (res.status == 401) {
+      console.log("Throwing");
+      throw new Error(res.statusText);
+    }
 
-    const genre = (await res.json()) as FetchedGenres;
-
-    genres.push(genre);
+    return res.json();
+  } catch (e) {
+    console.log(e);
+    console.log("Exiting");
+    process.exit(1);
   }
+}
 
-  return genres;
+async function fetchGenres(token: string, ids: number[]) {
+  try {
+    const res = await fetch("https://api.igdb.com/v4/genres/", {
+      method: "POST",
+      headers: {
+        "Client-ID": process.env.CLIENT_ID || "",
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+      body: `fields name , slug;where id = ( ${ids.join(",")} );`,
+    });
+    if (res.status == 401) {
+      console.log("Throwing");
+      throw new Error(res.statusText);
+    }
+
+    const genres = (await res.json()) as FetchedGenres[];
+
+    return genres;
+  } catch (e) {
+    console.log(e);
+    console.log("Exiting");
+    process.exit(1);
+  }
 }
 
 async function fetchPlatforms(token: string, ids: number[]) {
-  const platforms: FetchedPlatforms[] = [];
-
-  for (const id of ids) {
+  try {
     let res = await fetch("https://api.igdb.com/v4/platforms/", {
       method: "POST",
       headers: {
@@ -109,35 +128,50 @@ async function fetchPlatforms(token: string, ids: number[]) {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
-      body: `fields name , slug, abbreviation;where id = ${id};`,
+      body: `fields name , slug, abbreviation;where id = ( ${ids.join(",")} );`,
     });
+    if (res.status == 401) {
+      console.log("Throwing");
+      throw new Error(res.statusText);
+    }
 
-    const platform = (await res.json()) as FetchedPlatforms;
-
-    platforms.push(platform);
+    const platofrms = (await res.json()) as FetchedPlatforms[];
+    return platofrms;
+  } catch (e) {
+    console.log(e);
+    console.log("Exiting");
+    process.exit(1);
   }
-
-  return platforms;
 }
 
 async function fetchCovers(token: string, id: number) {
-  let res = await fetch("https://api.igdb.com/v4/covers/", {
-    method: "POST",
-    headers: {
-      "Client-ID": process.env.CLIENT_ID || "",
-      Authorization: `Bearer ${token}`,
-      Accept: "application/json",
-    },
-    body: `fields height,width,url;where id = ${id};`,
-  });
+  try {
+    let res = await fetch("https://api.igdb.com/v4/covers/", {
+      method: "POST",
+      headers: {
+        "Client-ID": process.env.CLIENT_ID || "",
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+      body: `fields height,width,url;where id = ${id};`,
+    });
+    if (res.status == 401) {
+      console.log("Throwing");
+      throw new Error(res.statusText);
+    }
 
-  const cover = (await res.json())[0] as FetchedCover;
+    const cover = (await res.json())[0] as FetchedCover;
 
-  return cover;
+    return cover;
+  } catch (e) {
+    console.log(e);
+    console.log("Exiting");
+    process.exit(1);
+  }
 }
 
 async function seed() {
-  const token = "1j7uqqxf1hd846b520hc8cs6eucsmy";
+  const token = (await getAccessToken())?.access_token || "";
   const prisma = new PrismaClient();
 
   const games = await fetchGames(token);
