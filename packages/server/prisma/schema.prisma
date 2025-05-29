@@ -78,6 +78,7 @@ model Platform {
   id           Int     @id @default(autoincrement())
   igdbId       Int     @unique
   name         String
+  slug String?
   abbreviation String?
   games        Game[]
 }
