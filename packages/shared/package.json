@@ -1,14 +1,18 @@
 {
-  "name": "@game-forge/shared-types",
+  "name": "@game-forge/shared",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc -p tsconfig.json"
   },
-  "dependencies": {
-    "@myapp/backend": "1.0.0"
-  },
-  "devDependencies": {
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   }
 }

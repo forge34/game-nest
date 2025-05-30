@@ -9,7 +9,8 @@
   "scripts": {
     "dev:client": "npm run dev -w ./packages/client",
     "dev:server": "npm run dev -w ./packages/server",
-    "test:server": "npm run test -w ./packages/server"
+    "test:server": "npm run test -w ./packages/server",
+    "prisma:generate": "npx prisma generate --schema ./packages/server/prisma/schema.prisma && npm run build --w ./packages/shared/"
   },
   "devDependencies": {
     "typescript": "^5.8.3"

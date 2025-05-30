@@ -4,12 +4,11 @@
   "scripts": {
     "test": "NODE_ENV=test && vitest",
     "start": "node dist/server.js",
-    "build": "tsc && npx prisma db push --accept-data-loss",
+    "build": "tsc && npx prisma db push",
     "dev": "NODE_ENV=development && nodemon src/server.ts"
   },
   "private": true,
   "dependencies": {
-    "@myapp/shared-types": "1.0.0",
     "@prisma/client": "^6.4.1",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
