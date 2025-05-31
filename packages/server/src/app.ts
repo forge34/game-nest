@@ -4,6 +4,8 @@ import cors, { CorsOptions } from "cors";
 import express, { Express } from "express";
 import morgan from "morgan";
 import router from "./routes/index";
+import { configJwt, configLocal } from "./config/passport";
+import passport from "passport";
 
 const app: Express = express();
 
@@ -19,6 +21,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+configLocal();
+configJwt();
+
+app.use(passport.initialize());
 app.use(router);
 
 export { app };
