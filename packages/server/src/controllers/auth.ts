@@ -1,8 +1,19 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, CookieOptions } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { body, validationResult } from "express-validator";
+import { body, oneOf, validationResult } from "express-validator";
 import prisma from "../config/prisma";
 import bcrypt from "bcryptjs";
+import { User } from "../../generated/prisma";
+import jwt from "jsonwebtoken";
+import passport from "passport";
+
+const cookieOptions: CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 1000 * 60 * 60 * 24 * 7,
+  path: "/",
+};
 
 const nameValidation = (field: string) =>
   body(field)
@@ -54,6 +65,48 @@ const Auth = {
       },
     ),
   ],
+
+  login: [
+    oneOf([nameValidation("username"), body("email").isEmail()]),
+    body("password")
+      .trim()
+      .isLength({ min: 8 })
+      .withMessage("Password should be at least 8 characters")
+      .escape(),
+    expressAsyncHandler(
+      async (req: Request, res: Response, next: NextFunction) => {
+        const errors = validationResult(req);
+
+        if (errors.isEmpty()) {
+          next();
+        } else {
+          console.log("passed local");
+          res.status(401).json({ errors: errors.array() });
+        }
+      },
+    ),
+    expressAsyncHandler(
+      async (req: Request, res: Response, next: NextFunction) => {
+        passport.authenticate(
+          "local",
+          { session: false },
+          (err: any, user: any, info?: { message: string }) => {
+            console.log(info);
+
+            if (err) {
+              return next(err);
+            }
+
+            if (!user) {
+              res.status(401).json(info);
+            } else {
+              res.status(200).json("login successs");
+            }
+          },
+        )(req, res, next);
+      },
+    ),
+  ],
 };
 
-export default Auth
+export default Auth;

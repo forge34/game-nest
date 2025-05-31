@@ -8,5 +8,6 @@ router.get("/", (req, res) => {
 });
 
 router.post("/signup", Auth.signup);
+router.post("/login", Auth.login);
 
 export default router;

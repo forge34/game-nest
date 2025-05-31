@@ -10,22 +10,26 @@ const localVerify: passportLocal.VerifyFunction = async (
   password,
   done,
 ) => {
-  const user = await prisma.user.findFirst({
-    where: {
-      OR: [{ name: username }, { email: username }],
-    },
-  });
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [{ name: username }, { email: username }],
+      },
+    });
 
-  if (!user) {
-    return done("User not found", false);
-  }
+    if (!user) {
+      return done(null, false, { message: "User not found" });
+    }
 
-  const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.password);
 
-  if (match) {
-    return done(null, user);
-  } else if (!match) {
-    return done("Invalid username or password", false);
+    if (match) {
+      return done(null, user);
+    } else if (!match) {
+      return done(null, false, { message: "Invalid username or password" });
+    }
+  } catch (e) {
+    return done(e);
   }
 };
 
