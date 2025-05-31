@@ -19,8 +19,8 @@ model User {
   name       String
   email      String   @unique
   password   String
-  bio        String
-  avatarUrl  String
+  bio        String?
+  avatarUrl  String?
   favourites Game[]   @relation("UserFavourites")
   reviews    Review[]
 }
@@ -29,7 +29,7 @@ model Game {
   id           Int        @id @default(autoincrement())
   igdbId       Int        @unique
   title        String
-  slug         String? @unique
+  slug         String?    @unique
   summary      String?
   storyline    String?
   rating       Float?
@@ -67,8 +67,8 @@ model Cover {
 }
 
 model Genre {
-  id     Int    @id @default(autoincrement())
-  igdbId Int    @unique
+  id     Int     @id @default(autoincrement())
+  igdbId Int     @unique
   name   String
   slug   String? @unique
   games  Game[]
@@ -78,7 +78,7 @@ model Platform {
   id           Int     @id @default(autoincrement())
   igdbId       Int     @unique
   name         String
-  slug String?
+  slug         String?
   abbreviation String?
   games        Game[]
 }
