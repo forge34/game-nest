@@ -1,6 +1,7 @@
 import { Router } from "express";
 import AuthRoute from "../controllers/auth";
 import GamesRoute from "../controllers/games";
+import UsersRoute from "../controllers/user";
 
 const router = Router();
 
@@ -13,5 +14,6 @@ router.post("/login", AuthRoute.login);
 
 router.get("/games", GamesRoute.findMany);
 router.get("/games/:id", GamesRoute.findOneById)
+router.get("/favourites",UsersRoute.findFavourties)
 
 export default router;
