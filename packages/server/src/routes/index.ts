@@ -4,13 +4,14 @@ import GamesRoute from "../controllers/games";
 
 const router = Router();
 
-router.get("/", (req, res) => {
+router.get("/", (_, res) => {
   res.json("Hello word");
 });
 
 router.post("/signup", Auth.signup);
 router.post("/login", Auth.login);
 
-router.get("/games", GamesRoute.getMany);
+router.get("/games", GamesRoute.findMany);
+router.get("/games/:id", GamesRoute.findOneById)
 
 export default router;
