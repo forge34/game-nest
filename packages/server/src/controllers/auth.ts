@@ -22,7 +22,7 @@ const nameValidation = (field: string) =>
     .withMessage(`${field} length too short`)
     .escape();
 
-const Auth = {
+const AuthRoute = {
   signup: [
     nameValidation("name"),
     body("email").isEmail(),
@@ -109,4 +109,4 @@ const Auth = {
   ],
 };
 
-export default Auth;
+export default AuthRoute;
