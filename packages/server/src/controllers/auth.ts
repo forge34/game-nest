@@ -100,6 +100,15 @@ const AuthRoute = {
             if (!user) {
               res.status(401).json(info);
             } else {
+              const currentUser = user as User;
+              const token = jwt.sign(
+                { id: currentUser.id },
+                process.env.SECRET,
+                {
+                  expiresIn: "1h",
+                },
+              );
+              res.cookie("jwt", token, cookieOptions);
               res.status(200).json("login successs");
             }
           },
