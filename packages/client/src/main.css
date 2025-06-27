@@ -60,7 +60,8 @@ ul {
   list-style: none;
 }
 
-img ,svg{
+img,
+svg {
   max-width: 100%;
   height: auto;
 }
@@ -69,44 +70,4 @@ img ,svg{
   background-color: var(--bg-main);
   width: 100dvw;
   height: 100dvh;
-
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 92% 8%;
-}
-
-.website-name {
-  display: flex;
-  flex-direction: row;
-
-  img {
-    filter: brightness(120%) saturate(110%);
-  }
-
-  h1 {
-    margin-block: auto;
-    font: var(--gpText-BodyLarge);
-    color: var(--text-main);
-  }
-}
-
-.icon {
-  margin-inline: 0.5rem;
-}
-
-.invert {
-  filter: invert(100%);
-}
-
-@media (min-width: 1024px) {
-  #root {
-    grid-template-columns: 15% 85%;
-    grid-template-rows: 7% 93%;
-  }
-
-  .website-name { 
-    h1 { 
-      font: var(--gpText-HeadingMedium);
-    }
-  }
 }
