@@ -62,11 +62,6 @@ ul {
   list-style: none;
 }
 
-#root {
-  width: 100dvw;
-  height: 100dvh;
-}
-
 @theme {
   --font-logo: "Queensides", "sans-serif";
 }
