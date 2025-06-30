@@ -37,6 +37,7 @@ function RouteComponent() {
     setSelectedGenres(genres);
   }
 
+
   return (
     <div className="flex flex-col mx-6 my-4 ">
       <GenreFilter
@@ -47,8 +48,12 @@ function RouteComponent() {
 
       <div className="flex flex-col mt-4 gap-y-4 ">
         {data.games.map((game) => {
-          if (game.genres.some((genre) => !selectedGenres.includes(genre.name)) && selectedGenres.length !== 0)
+          if (
+            selectedGenres.length > 0 &&
+            !game.genres.some((genre) => selectedGenres.includes(genre.name))
+          ) {
             return null;
+          }
 
           const releaseDate = game.releaseDate
             ? format(game.releaseDate, "dd MMM yyyy")
@@ -64,7 +69,13 @@ function RouteComponent() {
                 <h3 className="text-lg font-semibold">{game.title}</h3>
                 <div className="flex flex-row gap-4 mt-2 flex-wrap">
                   {game.genres.map((genre) => (
-                    <Badge key={genre.id}>{genre.name}</Badge>
+                    <Badge
+                      variant="secondary"
+                      className="bg-accent-green text-muted"
+                      key={genre.id}
+                    >
+                      {genre.name}
+                    </Badge>
                   ))}
                 </div>
 

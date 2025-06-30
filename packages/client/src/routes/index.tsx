@@ -53,7 +53,7 @@ function RouteComponent() {
                 <Link to="/">Go to Game page</Link>
               </Button>
               <Button variant="outline">
-                <Heart color="red" />
+                <Heart color="var(--heart)" />
                 <Link to="/">Add to favourites</Link>
               </Button>
             </CardAction>

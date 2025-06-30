@@ -34,17 +34,22 @@ function GenreFilter({
   }
 
   return (
-    <div className="flex flex-row w-full justify-between">
+    <div className="flex flex-row w-full gap-x-8">
       <Popover>
         <PopoverTrigger>
-          <Button variant="outline">Categories</Button>
+          <Button variant="outline" className="text-md">
+            Categories
+          </Button>
         </PopoverTrigger>
         <PopoverContent>
           {filters.map((genre) => (
             <div className="flex flex-row my-3">
               <p>{genre.name}</p>
 
-              <Badge variant="outline" className="ml-auto mr-2">
+              <Badge
+                variant="outline"
+                className="ml-auto mr-2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
+              >
                 {genre.games.length}
               </Badge>
               <Checkbox
@@ -56,10 +61,12 @@ function GenreFilter({
           ))}
         </PopoverContent>
       </Popover>
-      <div className="ml-auto">
+      <div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">Sort by</Button>
+            <Button variant="outline" className="text-md">
+              Sort by
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>Sort filters</DropdownMenuLabel>
