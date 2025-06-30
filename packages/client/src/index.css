@@ -3,6 +3,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Queensides";
+  src: url("./assets/Queensides.ttf");
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -48,7 +53,6 @@ html {
   box-sizing: inherit;
 }
 
-
 a {
   all: unset;
 }
@@ -58,10 +62,13 @@ ul {
   list-style: none;
 }
 
-
 #root {
   width: 100dvw;
   height: 100dvh;
+}
+
+@theme {
+  --font-logo: "Queensides", "sans-serif";
 }
 
 @theme inline {

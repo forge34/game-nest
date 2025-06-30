@@ -13,22 +13,31 @@ function RootComponent() {
   return (
     <ThemeProvider>
       <nav className="flex flex-row py-2 border  px-4 items-center">
-        <span className="flex flex-row justify-around w-full">
-          <span className="flex flex-row">
-            <Home size={"1rem"} className="mx-2" />
-            <Link to="/">Home</Link>
+        <span className="flex flex-row justify-around w-full self-stretch">
+          <h3 className="text-2xl font-logo">GameForge</h3>
+          <span className="flex flex-row self-center ">
+            <Button variant="link">
+              <Home size={"1rem"} className="mx-2 my-auto" />
+              <Link to="/">Home</Link>
+            </Button>
           </span>
-          <span className="flex flex-row">
-            <Globe size={"1rem"} className="mx-2" />
-            <Link to="/">Browse</Link>
+          <span className="flex flex-row self-center">
+            <Button variant="link">
+              <Globe size={"1rem"} className="mx-2 my-auto" />
+              <Link to="/browse">Browse</Link>
+            </Button>
           </span>
-          <span className="flex flex-row">
-            <Library size={"1rem"} className="mx-2" />
-            <Link to="/">My library</Link>
+          <span className="flex flex-row self-center">
+            <Button variant="link">
+              <Library size={"1rem"} className="mx-2 my-auto" />
+              <Link to="/library">My library</Link>
+            </Button>
           </span>
-          <span className="flex flex-row">
-            <Info size={"1rem"} className="mx-2" />
-            <Link to="/">About</Link>
+          <span className="flex flex-row self-center">
+            <Button variant="link">
+              <Info size={"1rem"} className="mx-2 my-auto" />
+              <Link to="/">About</Link>
+            </Button>
           </span>
         </span>
         <span className="flex flex-row gap-4 ml-auto">
@@ -41,7 +50,7 @@ function RootComponent() {
           <ModeToggle />
         </span>
       </nav>
-      <Outlet/>
+      <Outlet />
       <TanStackRouterDevtools />
     </ThemeProvider>
   );

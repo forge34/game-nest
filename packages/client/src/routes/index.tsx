@@ -41,9 +41,9 @@ function RouteComponent() {
             <p className="text-sm my-2 text-muted-foreground line-clamp-4">
               {featured.summary}
             </p>
-            <div className="flex flex-row gap-4 mt-2 wrap-anywhere">
+            <div className="flex flex-row gap-4 mt-2 flex-wrap">
               {featured.genres.map((genre) => (
-                <Badge className="text-md" key={genre.id}>
+                <Badge  key={genre.id}>
                   {genre.name}
                 </Badge>
               ))}
@@ -63,12 +63,12 @@ function RouteComponent() {
       </div>
       <ScrollArea className="h-[48rem] w-[20rem] border rounded-md bg-card ml-auto">
         <div className="p-4">
-          <h4 className="mb-4 text-sm font-medium leading-none">
+          <h4 className="mb-4 text-md font-medium leading-none">
             Popular games
           </h4>
           <div className="space-y-2">
             {data.map((game) => (
-              <div key={game.id} className="flex items-center gap-2">
+              <div key={game.id} className="flex items-center gap-2 hover:bg-muted/10 transition-colors rounded-md">
                 <img
                   src={game.coverImage?.url.replace("t_thumb", "t_cover_big")}
                   className="w-[4rem] h-[4rem] rounded object-cover"
