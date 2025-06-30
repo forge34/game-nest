@@ -1,1 +1,1 @@
-export * from "../../server/generated/prisma";
+export * from "./prisma-types";
