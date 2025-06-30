@@ -7,6 +7,8 @@ const GamesRoute = {
       include: {
         coverImage: true,
         genres: true,
+        platforms:true,
+        reviews:true
       },
     });
 

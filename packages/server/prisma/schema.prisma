@@ -81,6 +81,7 @@ model Platform {
   slug         String?
   abbreviation String?
   games        Game[]
+  imgUrl       String?
 }
 
 model Company {
