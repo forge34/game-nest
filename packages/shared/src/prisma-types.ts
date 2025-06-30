@@ -9,3 +9,9 @@ export type GamesAllIncluded = Prisma.GameGetPayload<{
     companies: true;
   };
 }>;
+
+export type GenresWithGames = Prisma.GenreGetPayload<{
+  include:{
+    games:true
+  }
+}>
