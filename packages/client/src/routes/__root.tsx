@@ -1,7 +1,7 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import { ThemeProvider } from "@/components/theme-proivder";
 import { Button } from "@/components/ui/button";
-import { createRootRoute, Link } from "@tanstack/react-router";
+import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Globe, Home, Info, Library } from "lucide-react";
 
@@ -41,6 +41,7 @@ function RootComponent() {
           <ModeToggle />
         </span>
       </nav>
+      <Outlet/>
       <TanStackRouterDevtools />
     </ThemeProvider>
   );
