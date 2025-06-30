@@ -6,7 +6,7 @@ const GamesRoute = {
     const games = await prisma.game.findMany({
       include: {
         coverImage: true,
-        genres:true
+        genres: true,
       },
     });
 
@@ -25,6 +25,16 @@ const GamesRoute = {
     });
 
     res.status(200).json(game);
+  },
+
+  genresFindMany: async (req: Request, res: Response) => {
+    const genres = await prisma.genre.findMany({
+      include: {
+        games: true,
+      },
+    });
+
+    res.status(200).json(genres);
   },
 };
 
