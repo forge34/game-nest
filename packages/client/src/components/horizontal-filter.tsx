@@ -48,6 +48,7 @@ function GenreFilter({
                 {genre.games.length}
               </Badge>
               <Checkbox
+                checked={selectedGenres.includes(genre.name)}
                 value={genre.name}
                 onCheckedChange={() => togglefilter(genre.name)}
               />
