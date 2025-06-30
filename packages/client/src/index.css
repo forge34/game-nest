@@ -4,32 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Text Colors */
-  --text-main: #f3f3f3;
-  --text-dim: #76808c;
-
-  /* Background Colors */
-  --bg-main: #0e141b;
-  --bg-highlight: #1e2329;
-  --bg-hover: #313843;
-  --bg-secondary: #14344b;
-  --bg-tertiary: #212b45;
-
-  /* Brand / Interface Colors */
-  --color-primary: #66c0f4;
-  --color-secondary: #48619b;
-
-  /* Accent Colors */
-  --accent-green: #a1cd44;
-  --accent-red: #cd5444;
-  --accent-yellow: #c1b15f;
-
-  --gpText-HeadingLarge: normal 700 28px/1.4 "Motiva Sans", Arial, sans-serif;
-  --gpText-HeadingMedium: normal 700 22px/1.4 "Motiva Sans", Arial, sans-serif;
-  --gpText-HeadingSmall: normal 700 18px/1.4 "Motiva Sans", Arial, sans-serif;
-  --gpText-BodyLarge: normal 400 16px/1.4 "Motiva Sans", Arial, sans-serif;
-  --gpText-BodyMedium: normal 400 14px/1.4 "Motiva Sans", Arial, sans-serif;
-  --gpText-BodySmall: normal 400 12px/1.4 "Motiva Sans", Arial, sans-serif;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -104,7 +78,6 @@ svg {
 }
 
 #root {
-  background-color: var(--bg-main);
   width: 100dvw;
   height: 100dvh;
 }
