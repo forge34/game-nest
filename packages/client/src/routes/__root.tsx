@@ -42,7 +42,7 @@ function RootComponent() {
         </span>
         <span className="flex flex-row gap-4 ml-auto">
           <Button>
-            <Link to="/">Login</Link>
+            <Link to="/login">Login</Link>
           </Button>
           <Button>
             <Link to="/">Create Account</Link>
