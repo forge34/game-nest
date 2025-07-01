@@ -7,10 +7,12 @@ import { User } from "../../generated/prisma";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const cookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: true,
-  sameSite: "none",
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
   maxAge: 1000 * 60 * 60 * 24 * 7,
   path: "/",
 };
@@ -24,7 +26,7 @@ const nameValidation = (field: string) =>
 
 const AuthRoute = {
   signup: [
-    nameValidation("name"),
+    nameValidation("username"),
     body("email").isEmail(),
     body("password")
       .trim()
@@ -48,7 +50,7 @@ const AuthRoute = {
             if (!err) {
               await prisma.user.create({
                 data: {
-                  name: req.body.name,
+                  name: req.body.username,
                   password: hash,
                   email: req.body.email,
                 },
@@ -105,7 +107,7 @@ const AuthRoute = {
                 { id: currentUser.id },
                 process.env.SECRET,
                 {
-                  expiresIn: "1h",
+                  expiresIn: "3d",
                 },
               );
               res.cookie("jwt", token, cookieOptions);
