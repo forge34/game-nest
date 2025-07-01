@@ -9,7 +9,7 @@ async function safeFetch<TData>(
   init: RequestInit,
 ): Promise<TData | null> {
   try {
-    const res = await fetch(url, {
+    const res = await fetch(`${import.meta.env.VITE_API}/${url}`, {
       mode: "cors",
       ...init,
     });
