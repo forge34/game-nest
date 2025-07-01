@@ -11,6 +11,11 @@ const prisma = new PrismaClient({
       url: databaseUrl,
     },
   },
+  omit: {
+    user: {
+      password: true,
+    },
+  },
 });
 
 export default prisma;

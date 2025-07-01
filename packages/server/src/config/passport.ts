@@ -15,6 +15,10 @@ const localVerify: passportLocal.VerifyFunction = async (
       where: {
         OR: [{ name: username }, { email: username }],
       },
+      select: {
+        password: true,
+        name: true,
+      },
     });
 
     if (!user) {
@@ -60,6 +64,10 @@ const configJwt = () => {
       const user = await prisma.user.findFirst({
         where: {
           id: payload.id,
+        },
+        include: {
+          reviews: true,
+          favourites: true,
         },
       });
 
