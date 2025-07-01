@@ -111,7 +111,7 @@ const AuthRoute = {
                 },
               );
               res.cookie("jwt", token, cookieOptions);
-              res.status(200).json("login successs");
+              res.status(200).json({ data: user, message: "login successs" });
             }
           },
         )(req, res, next);
