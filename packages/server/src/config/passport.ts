@@ -16,8 +16,14 @@ const localVerify: passportLocal.VerifyFunction = async (
         OR: [{ name: username }, { email: username }],
       },
       select: {
+        id: true,
+        bio: true,
+        email: true,
+        avatarUrl: true,
         password: true,
         name: true,
+        reviews: true,
+        favourites: true,
       },
     });
 
@@ -28,7 +34,8 @@ const localVerify: passportLocal.VerifyFunction = async (
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      return done(null, user);
+      const { password, ...rest } = user;
+      return done(null, rest);
     } else if (!match) {
       return done(null, false, { message: "Invalid username or password" });
     }
