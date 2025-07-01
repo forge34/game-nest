@@ -7,7 +7,7 @@ export type RouteError = {
 async function safeFetch<TData>(
   url: string,
   init: RequestInit,
-): Promise<TData | null> {
+): Promise<TData> {
   try {
     const res = await fetch(`${import.meta.env.VITE_API}/${url}`, {
       mode: "cors",
@@ -18,7 +18,7 @@ async function safeFetch<TData>(
 
     const body = isJson ? await res.json().catch(() => null) : null;
 
-    if (!res.ok) {
+    if (!res.ok || body === null) {
       throw {
         status: res.status,
         message: body?.message || res.statusText || "Request failed",
