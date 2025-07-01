@@ -12,14 +12,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  password: z.string().min(8, {}),
-});
+const formSchema = z
+  .object({
+    username: z.string().min(2, {
+      message: "Username must be at least 2 characters.",
+    }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
+    confirmPassword: z.string(),
+  })
+  .refine((values) => {
+    return values.password === values.confirmPassword;
+  }, "Passwords do not match!");
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/signup")({
   component: RouteComponent,
 });
 
@@ -29,6 +36,7 @@ function RouteComponent() {
     defaultValues: {
       username: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -38,7 +46,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col gap-4 fixed w-fit top-[50%] left-[50%] translate-[-50%] bg-card py-4 px-6 rounded-md border">
-      <h3 className="text-lg font-bold ">Login</h3>
+      <h3 className="text-lg font-bold ">Create Account</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
           <FormField
@@ -65,10 +73,21 @@ function RouteComponent() {
               </FormItem>
             )}
           />
-
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="Confirm Password" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
           <Button type="submit">Submit</Button>
           <Button type="button" variant="outline" className="ml-6">
-            don't have account? Create one! 
+            Already have account? Login
           </Button>
         </form>
       </Form>

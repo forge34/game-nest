@@ -45,7 +45,7 @@ function RootComponent() {
             <Link to="/login">Login</Link>
           </Button>
           <Button>
-            <Link to="/">Create Account</Link>
+            <Link to="/signup">Create Account</Link>
           </Button>
           <ModeToggle />
         </span>

@@ -11,12 +11,19 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SignupImport } from './routes/signup'
 import { Route as LoginImport } from './routes/login'
 import { Route as LibraryImport } from './routes/library'
 import { Route as BrowseImport } from './routes/browse'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const SignupRoute = SignupImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LoginRoute = LoginImport.update({
   id: '/login',
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -84,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/browse': typeof BrowseRoute
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
 }
 
 export interface FileRoutesByTo {
@@ -91,6 +106,7 @@ export interface FileRoutesByTo {
   '/browse': typeof BrowseRoute
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
 }
 
 export interface FileRoutesById {
@@ -99,14 +115,15 @@ export interface FileRoutesById {
   '/browse': typeof BrowseRoute
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/browse' | '/library' | '/login'
+  fullPaths: '/' | '/browse' | '/library' | '/login' | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/browse' | '/library' | '/login'
-  id: '__root__' | '/' | '/browse' | '/library' | '/login'
+  to: '/' | '/browse' | '/library' | '/login' | '/signup'
+  id: '__root__' | '/' | '/browse' | '/library' | '/login' | '/signup'
   fileRoutesById: FileRoutesById
 }
 
@@ -115,6 +132,7 @@ export interface RootRouteChildren {
   BrowseRoute: typeof BrowseRoute
   LibraryRoute: typeof LibraryRoute
   LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -122,6 +140,7 @@ const rootRouteChildren: RootRouteChildren = {
   BrowseRoute: BrowseRoute,
   LibraryRoute: LibraryRoute,
   LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
 }
 
 export const routeTree = rootRoute
@@ -137,7 +156,8 @@ export const routeTree = rootRoute
         "/",
         "/browse",
         "/library",
-        "/login"
+        "/login",
+        "/signup"
       ]
     },
     "/": {
@@ -151,6 +171,9 @@ export const routeTree = rootRoute
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/signup": {
+      "filePath": "signup.tsx"
     }
   }
 }
