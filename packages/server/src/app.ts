@@ -6,6 +6,7 @@ import morgan from "morgan";
 import router from "./routes/index";
 import { configJwt, configLocal } from "./config/passport";
 import passport from "passport";
+import { Prisma } from "../generated/prisma";
 
 const app: Express = express();
 
@@ -31,6 +32,22 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err.name === "AuthenticationError") {
     res.status(401).json({ message: "Unauthorized" });
     return;
+  }
+  if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    if (err.code === "P2002") {
+      console.log("handling")
+      const target = err.meta?.target;
+
+      const fields =
+        Array.isArray(target) && target.every((t) => typeof t === "string")
+          ? target.join(", ")
+          : "field";
+
+      res.status(409).json({
+        message: `A record with this ${fields} already exists.`,
+      });
+      return;
+    }
   }
 
   res
