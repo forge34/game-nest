@@ -25,7 +25,6 @@ async function safeFetch<TData>(
         errors: body?.errors,
       } satisfies RouteError;
     }
-
     return body as TData;
   } catch {
     throw {

@@ -1,23 +1,13 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import {
-  Outlet,
-  RouterProvider,
-  createRootRouteWithContext,
-  createRouter,
-} from "@tanstack/react-router";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import "./index.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 import { queryClient } from "./api";
 
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient;
-}>()({
-  component: () => <Outlet />,
-});
 // Create a new router instance
 const router = createRouter({
   routeTree,

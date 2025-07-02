@@ -1,15 +1,34 @@
+import { getMe } from "@/api/auth";
 import { ModeToggle } from "@/components/mode-toggle";
-import { ThemeProvider } from "@/components/theme-proivder";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { useAuthStore } from "@/store/auth";
+import { type QueryClient } from "@tanstack/react-query";
+import {
+  createRootRouteWithContext,
+  Link,
+  Outlet,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Globe, Home, Info, Library } from "lucide-react";
 
-export const Route = createRootRoute({
+interface MyRouterContext {
+  queryClient: QueryClient;
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent,
+  loader: async ({ context }) => {
+    const data = await context.queryClient.ensureQueryData(getMe());
+    useAuthStore.getState().setUser(data);
+
+    return data;
+  },
 });
 
 function RootComponent() {
+  const user = useAuthStore((s) => s.user);
+
   return (
     <ThemeProvider>
       <nav className="flex flex-row py-2 border  px-4 items-center">
@@ -41,12 +60,20 @@ function RootComponent() {
           </span>
         </span>
         <span className="flex flex-row gap-4 ml-auto">
-          <Button>
-            <Link to="/login">Login</Link>
-          </Button>
-          <Button>
-            <Link to="/signup">Create Account</Link>
-          </Button>
+          {!user ? (
+            <>
+              <Button>
+                <Link to="/login">Login</Link>
+              </Button>
+              <Button>
+                <Link to="/signup">Create Account</Link>
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button>Logout</Button>
+            </>
+          )}
           <ModeToggle />
         </span>
       </nav>

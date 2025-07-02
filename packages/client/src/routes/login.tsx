@@ -11,6 +11,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useLogin } from "@/api/auth";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -32,8 +33,10 @@ function RouteComponent() {
     },
   });
 
+  const login = useLogin();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    login.mutate(values);
   }
 
   return (
@@ -60,7 +63,7 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Password" {...field} />
+                  <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -68,7 +71,7 @@ function RouteComponent() {
 
           <Button type="submit">Submit</Button>
           <Button type="button" variant="outline" className="ml-6">
-            don't have account? Create one! 
+            don't have account? Create one!
           </Button>
         </form>
       </Form>
