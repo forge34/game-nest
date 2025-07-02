@@ -43,7 +43,12 @@ function RouteComponent() {
             <div className="flex flex-row gap-4 mt-2 flex-wrap">
               <h3 className="block text-sm">Genres : </h3>
               {featured.genres.map((genre) => (
-                <Badge className="text-foreground bg-accent-green" key={genre.id}>{genre.name}</Badge>
+                <Badge
+                  className="text-foreground bg-accent-green"
+                  key={genre.id}
+                >
+                  {genre.name}
+                </Badge>
               ))}
             </div>
             <div className="flex flex-row gap-4 my-4 flex-wrap">
@@ -60,12 +65,17 @@ function RouteComponent() {
             </div>
 
             <CardAction className="flex flex-row mt-auto gap-4">
-              <Button>
-                <Link to="/">Go to Game page</Link>
+              <Button asChild>
+                <Link
+                  to="/browse/$gameId"
+                  params={{ gameId: `${featured.igdbId}` }}
+                >
+                  Go to Game page
+                </Link>
               </Button>
               <Button variant="outline">
                 <Heart color="var(--heart)" />
-                <Link to="/">Add to favourites</Link>
+                <Link to="/">Add to library</Link>
               </Button>
             </CardAction>
           </CardContent>

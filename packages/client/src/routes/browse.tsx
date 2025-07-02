@@ -42,11 +42,11 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex flex-col mx-6 my-4 ">
+    <>
       {!isMatched ? (
         <Outlet />
       ) : (
-        <>
+        <div className="flex flex-col mx-6 my-4 ">
           <GenreFilter
             filters={genres}
             selectedGenres={selectedGenres}
@@ -117,15 +117,14 @@ function RouteComponent() {
                       <Button variant="outline">
                         <Heart />
                       </Button>
-                      <Button className="mt-auto">Visit page</Button>
                     </CardContent>
                   </Card>
                 </Link>
               );
             })}
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 }

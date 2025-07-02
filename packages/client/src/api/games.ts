@@ -11,7 +11,7 @@ const getAllGames = () =>
 const getGameById = (id: string) =>
   queryOptions({
     queryKey: ["game", id],
-    queryFn: () => safeFetch<GamesAllIncluded>(`game/${id}`, {}),
+    queryFn: () => safeFetch<GamesAllIncluded>(`games/${id}`, {}),
   });
 
 const getAllGenres = () =>
