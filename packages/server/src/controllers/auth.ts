@@ -40,28 +40,25 @@ const AuthRoute = {
         return value === req.body.password;
       })
       .escape(),
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response) => {
       const errors = validationResult(req);
 
-      if (errors.isEmpty()) {
-        bcrypt.hash(req.body.password, 10, async (err, hash) => {
-          if (!err) {
-            await prisma.user.create({
-              data: {
-                name: req.body.username,
-                password: hash,
-                email: req.body.email,
-              },
-            });
-
-            res.status(200).json("user created");
-          } else {
-            res.status(500).json({ message: "Internal server error" });
-          }
-        });
-      } else {
-        res.status(401).json({ errors: errors.array() });
+      if (!errors.isEmpty()) {
+        res
+          .status(400)
+          .json({ message: "create account field", errors: errors.array() });
+        return;
       }
+      const password = await bcrypt.hash(req.body.password, 10);
+      await prisma.user.create({
+        data: {
+          name: req.body.username,
+          password: password,
+          email: req.body.email,
+        },
+      });
+
+      res.status(200).json({ message: "user created" });
     },
   ],
 
