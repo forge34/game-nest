@@ -14,13 +14,14 @@ export const Route = createFileRoute("/browse")({
     genres: GenresWithGames[];
     games: GamesAllIncluded[];
   }> => {
-    const genresRes = await fetch(`${import.meta.env.VITE_API}/genres`, {
-      mode: "cors",
-    });
-
-    const gamesRes = await fetch(`${import.meta.env.VITE_API}/games`, {
-      mode: "cors",
-    });
+    const [genresRes, gamesRes] = await Promise.all([
+      await fetch(`${import.meta.env.VITE_API}/genres`, {
+        mode: "cors",
+      }),
+      await fetch(`${import.meta.env.VITE_API}/games`, {
+        mode: "cors",
+      }),
+    ]);
 
     const genres = await genresRes.json();
     const games = await gamesRes.json();
@@ -36,7 +37,6 @@ function RouteComponent() {
   function onFilter(genres: string[]) {
     setSelectedGenres(genres);
   }
-
 
   return (
     <div className="flex flex-col mx-6 my-4 ">
@@ -71,10 +71,21 @@ function RouteComponent() {
                   {game.genres.map((genre) => (
                     <Badge
                       variant="secondary"
-                      className="bg-accent-green text-muted"
+                      className="bg-accent-green text-foreground"
                       key={genre.id}
                     >
                       {genre.name}
+                    </Badge>
+                  ))}
+                </div>
+                <div className="flex flex-row gap-4 mt-2 flex-wrap">
+                  {game.platforms.map((platform) => (
+                    <Badge
+                      variant="secondary"
+                      className="bg-foreground text-muted"
+                      key={platform.id}
+                    >
+                      {platform.name}
                     </Badge>
                   ))}
                 </div>
@@ -86,9 +97,9 @@ function RouteComponent() {
                   {game.reviews.length} User Reviews
                 </p>
               </CardContent>
-              <CardContent className="flex flex-col ">
+              <CardContent className="flex flex-col py-3 ">
                 <Button variant="outline">
-                  <Heart  />
+                  <Heart />
                 </Button>
                 <Button className="mt-auto">Visit page</Button>
               </CardContent>

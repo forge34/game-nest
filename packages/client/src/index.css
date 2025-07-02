@@ -122,6 +122,7 @@ ul {
 @theme {
   --font-logo: "Queensides", "sans-serif";
   --color-accent-green: var(--chart-2);
+  --color-offwhite: oklch(0.985 0 0);
 }
 
 @theme inline {

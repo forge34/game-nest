@@ -29,7 +29,7 @@ function RouteComponent() {
       <div className="flex flex-col ">
         <h1 className="text-2xl font-bold my-2">Featured Game</h1>
 
-        <Card className="flex flex-row p-4  w-[48rem] items-start">
+        <Card className="flex flex-row p-4  w-[48rem] h-max items-start">
           <CardImage
             className="w-[12rem]  rounded-md object-cover flex-shrink-0"
             src={featured.coverImage?.url.replace("t_thumb", "t_original")}
@@ -41,12 +41,24 @@ function RouteComponent() {
               {featured.summary}
             </p>
             <div className="flex flex-row gap-4 mt-2 flex-wrap">
+              <h3 className="block text-sm">Genres : </h3>
               {featured.genres.map((genre) => (
-                <Badge  key={genre.id}>
-                  {genre.name}
+                <Badge className="text-foreground bg-accent-green" key={genre.id}>{genre.name}</Badge>
+              ))}
+            </div>
+            <div className="flex flex-row gap-4 my-4 flex-wrap">
+              <h3 className="block text-sm">Platforms : </h3>
+              {featured.platforms.map((platform) => (
+                <Badge
+                  variant="secondary"
+                  className="bg-foreground text-muted"
+                  key={platform.id}
+                >
+                  {platform.name}
                 </Badge>
               ))}
             </div>
+
             <CardAction className="flex flex-row mt-auto gap-4">
               <Button>
                 <Link to="/">Go to Game page</Link>
@@ -67,7 +79,10 @@ function RouteComponent() {
           </h4>
           <div className="space-y-2">
             {data.map((game) => (
-              <div key={game.id} className="flex items-center gap-2 hover:bg-muted/10 transition-colors rounded-md">
+              <div
+                key={game.id}
+                className="flex items-center gap-2 hover:bg-muted/10 transition-colors rounded-md"
+              >
                 <img
                   src={game.coverImage?.url.replace("t_thumb", "t_cover_big")}
                   className="w-[4rem] h-[4rem] rounded object-cover"
