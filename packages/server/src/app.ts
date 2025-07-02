@@ -1,7 +1,7 @@
 import "dotenv/config";
 import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
-import express, { Express } from "express";
+import express, { Express, ErrorRequestHandler } from "express";
 import morgan from "morgan";
 import router from "./routes/index";
 import { configJwt, configLocal } from "./config/passport";
@@ -26,5 +26,18 @@ configJwt();
 
 app.use(passport.initialize());
 app.use(router);
+
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+  if (err.name === "AuthenticationError") {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
+
+  res
+    .status(err.code || 500)
+    .json({ message: err.message || "Internal Server Error" });
+};
+
+app.use(errorHandler);
 
 export { app };
