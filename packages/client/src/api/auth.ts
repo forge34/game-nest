@@ -54,10 +54,12 @@ const signupFn = ({
   username,
   password,
   confirmPassword,
+  email,
 }: {
   username: string;
   password: string;
   confirmPassword: string;
+  email: string;
 }) => {
   return safeFetch("signup", {
     method: "POST",
@@ -65,6 +67,7 @@ const signupFn = ({
       username,
       password,
       confirmPassword,
+      email,
     }),
     credentials: "include",
     headers: { "content-Type": "application/json" },
