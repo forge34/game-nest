@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response, CookieOptions } from "express";
-import expressAsyncHandler from "express-async-handler";
 import { body, oneOf, validationResult } from "express-validator";
 import prisma from "../config/prisma";
 import bcrypt from "bcryptjs";
@@ -41,31 +40,29 @@ const AuthRoute = {
         return value === req.body.password;
       })
       .escape(),
-    expressAsyncHandler(
-      async (req: Request, res: Response, next: NextFunction) => {
-        const errors = validationResult(req);
+    async (req: Request, res: Response, next: NextFunction) => {
+      const errors = validationResult(req);
 
-        if (errors.isEmpty()) {
-          bcrypt.hash(req.body.password, 10, async (err, hash) => {
-            if (!err) {
-              await prisma.user.create({
-                data: {
-                  name: req.body.username,
-                  password: hash,
-                  email: req.body.email,
-                },
-              });
+      if (errors.isEmpty()) {
+        bcrypt.hash(req.body.password, 10, async (err, hash) => {
+          if (!err) {
+            await prisma.user.create({
+              data: {
+                name: req.body.username,
+                password: hash,
+                email: req.body.email,
+              },
+            });
 
-              res.status(200).json("user created");
-            } else {
-              res.status(500).json({ message: "Internal server error" });
-            }
-          });
-        } else {
-          res.status(401).json({ errors: errors.array() });
-        }
-      },
-    ),
+            res.status(200).json("user created");
+          } else {
+            res.status(500).json({ message: "Internal server error" });
+          }
+        });
+      } else {
+        res.status(401).json({ errors: errors.array() });
+      }
+    },
   ],
 
   login: [
@@ -75,48 +72,40 @@ const AuthRoute = {
       .isLength({ min: 8 })
       .withMessage("Password should be at least 8 characters")
       .escape(),
-    expressAsyncHandler(
-      async (req: Request, res: Response, next: NextFunction) => {
-        const errors = validationResult(req);
+    async (req: Request, res: Response, next: NextFunction) => {
+      const errors = validationResult(req);
 
-        if (errors.isEmpty()) {
-          next();
-        } else {
-          console.log("passed local");
-          res.status(401).json({ errors: errors.array() });
-        }
-      },
-    ),
-    expressAsyncHandler(
-      async (req: Request, res: Response, next: NextFunction) => {
-        passport.authenticate(
-          "local",
-          { session: false },
-          (err: any, user: any, info?: { message: string }) => {
-            console.log(info);
+      if (errors.isEmpty()) {
+        next();
+      } else {
+        console.log("passed local");
+        res.status(401).json({ errors: errors.array() });
+      }
+    },
+    async (req: Request, res: Response, next: NextFunction) => {
+      passport.authenticate(
+        "local",
+        { session: false },
+        (err: any, user: any, info?: { message: string }) => {
+          console.log(info);
 
-            if (err) {
-              return next(err);
-            }
+          if (err) {
+            return next(err);
+          }
 
-            if (!user) {
-              res.status(401).json(info);
-            } else {
-              const currentUser = user as User;
-              const token = jwt.sign(
-                { id: currentUser.id },
-                process.env.SECRET,
-                {
-                  expiresIn: "3d",
-                },
-              );
-              res.cookie("jwt", token, cookieOptions);
-              res.status(200).json({ data: user, message: "login successs" });
-            }
-          },
-        )(req, res, next);
-      },
-    ),
+          if (!user) {
+            res.status(401).json(info);
+          } else {
+            const currentUser = user as User;
+            const token = jwt.sign({ id: currentUser.id }, process.env.SECRET, {
+              expiresIn: "3d",
+            });
+            res.cookie("jwt", token, cookieOptions);
+            res.status(200).json({ data: user, message: "login successs" });
+          }
+        },
+      )(req, res, next);
+    },
   ],
 };
 
