@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Filter, ListFilter } from "lucide-react";
 
 interface GenreFilterProps {
   filters: GenresWithGames[];
@@ -38,6 +39,7 @@ function GenreFilter({
       <Popover>
         <PopoverTrigger>
           <Button variant="outline" className="text-md">
+            <Filter />
             Categories
           </Button>
         </PopoverTrigger>
@@ -65,6 +67,7 @@ function GenreFilter({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="text-md">
+              <ListFilter />
               Sort by
             </Button>
           </DropdownMenuTrigger>

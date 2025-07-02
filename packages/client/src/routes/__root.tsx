@@ -10,7 +10,7 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Globe, Home, Info, Library } from "lucide-react";
+import { Globe, Home, Info, Library, LogInIcon } from "lucide-react";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -73,10 +73,15 @@ function RootComponent() {
           {!user ? (
             <>
               <Button asChild>
-                <Link to="/login">Login</Link>
+                <Link to="/login">
+                  <LogInIcon />
+                  Login
+                </Link>
               </Button>
               <Button asChild>
-                <Link to="/signup">Create Account</Link>
+                <Link to="/signup">
+
+                  Create Account</Link>
               </Button>
             </>
           ) : (
