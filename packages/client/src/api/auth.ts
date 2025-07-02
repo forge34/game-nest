@@ -7,7 +7,7 @@ import { useNavigate } from "@tanstack/react-router";
 export const getMe = () =>
   queryOptions({
     queryKey: ["me"],
-    queryFn: () => safeFetch<User>("me", { credentials: "include" }),
+    queryFn: () => safeFetch<User>("me", { credentials: "include" }, true),
     staleTime: 1000 * 60 * 5,
     retry: (_: number, error: RouteError) => {
       if (error.status === 401) {
