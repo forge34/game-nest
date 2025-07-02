@@ -23,7 +23,6 @@ function RouteComponent() {
   const data = Route.useLoaderData();
 
   const featured = data[Math.floor(Math.random() * data.length)];
-  console.log(featured.rating);
 
   return (
     <div className="flex flex-row mx-16 my-4  gap-4">

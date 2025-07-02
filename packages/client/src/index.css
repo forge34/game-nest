@@ -114,10 +114,6 @@ html {
   box-sizing: inherit;
 }
 
-a {
-  all: unset;
-}
-
 ol,
 ul {
   list-style: none;

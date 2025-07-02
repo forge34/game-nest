@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -108,7 +108,7 @@ function RouteComponent() {
           />
           <Button type="submit">Submit</Button>
           <Button type="button" variant="outline" className="ml-6">
-            Already have account? Login
+            <Link to="/login">Already have account? Login</Link>
           </Button>
         </form>
       </Form>

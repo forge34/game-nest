@@ -35,37 +35,47 @@ function RootComponent() {
         <span className="flex flex-row justify-around w-full self-stretch">
           <h3 className="text-2xl font-logo">GameForge</h3>
           <span className="flex flex-row self-center ">
-            <Button variant="link">
-              <Home size={"1rem"} className="mx-2 my-auto" />
-              <Link to="/">Home</Link>
+            <Button variant="link" asChild>
+              <Link to="/">
+                <Home size={"1rem"} className="mx-2 my-auto" />
+                Home
+              </Link>
             </Button>
           </span>
           <span className="flex flex-row self-center">
-            <Button variant="link">
-              <Globe size={"1rem"} className="mx-2 my-auto" />
-              <Link to="/browse">Browse</Link>
+            <Button variant="link" asChild>
+              <Link to="/browse">
+                <Globe size={"1rem"} className="mx-2 my-auto" />
+                Browse
+              </Link>
             </Button>
           </span>
+          {user && (
+            <span className="flex flex-row self-center">
+              <Button variant="link" asChild>
+                <Link to="/library">
+                  <Library size={"1rem"} className="mx-2 my-auto" />
+                  My library
+                </Link>
+              </Button>
+            </span>
+          )}
           <span className="flex flex-row self-center">
-            <Button variant="link">
-              <Library size={"1rem"} className="mx-2 my-auto" />
-              <Link to="/library">My library</Link>
-            </Button>
-          </span>
-          <span className="flex flex-row self-center">
-            <Button variant="link">
-              <Info size={"1rem"} className="mx-2 my-auto" />
-              <Link to="/">About</Link>
+            <Button variant="link" asChild>
+              <Link to="/">
+                <Info size={"1rem"} className="mx-2 my-auto" />
+                About
+              </Link>
             </Button>
           </span>
         </span>
         <span className="flex flex-row gap-4 ml-auto">
           {!user ? (
             <>
-              <Button>
+              <Button asChild>
                 <Link to="/login">Login</Link>
               </Button>
-              <Button>
+              <Button asChild>
                 <Link to="/signup">Create Account</Link>
               </Button>
             </>
