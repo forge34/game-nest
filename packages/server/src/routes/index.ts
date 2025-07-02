@@ -15,7 +15,7 @@ router.post("/login", AuthRoute.login);
 router.get("/games", GamesRoute.findMany);
 router.get("/games/:id", GamesRoute.findOneById)
 router.get("/genres" , GamesRoute.genresFindMany)
-router.get("/favourites",UsersRoute.findFavourties)
+router.get("/library",UsersRoute.findFavourties)
 router.get("/me" ,UsersRoute.getMe)
 
 export default router;

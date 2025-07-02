@@ -6,9 +6,12 @@ const GamesRoute = {
     const games = await prisma.game.findMany({
       include: {
         coverImage: true,
+        reviews: true,
         genres: true,
-        platforms:true,
-        reviews:true
+        screenshots: true,
+        platforms: true,
+        parent_game: true,
+        companies: true,
       },
     });
 
@@ -19,10 +22,16 @@ const GamesRoute = {
     const id = parseInt(req.params.id);
     const game = await prisma.game.findFirst({
       where: {
-        id: id,
+        igdbId: id,
       },
       include: {
         coverImage: true,
+        reviews: true,
+        genres: true,
+        screenshots: true,
+        platforms: true,
+        parent_game: true,
+        companies: true,
       },
     });
 

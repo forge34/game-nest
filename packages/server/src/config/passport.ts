@@ -23,7 +23,7 @@ const localVerify: passportLocal.VerifyFunction = async (
         password: true,
         name: true,
         reviews: true,
-        favourites: true,
+        library: true,
       },
     });
 
@@ -74,7 +74,7 @@ const configJwt = () => {
         },
         include: {
           reviews: true,
-          favourites: true,
+          library: true,
         },
       });
 

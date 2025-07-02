@@ -9,16 +9,16 @@ const UsersRoute = {
     async (req: Request, res: Response) => {
       const { id } = req.user as User;
 
-      const favourites = await prisma.user.findFirst({
+      const library = await prisma.user.findFirst({
         where: {
           id: id,
         },
         include: {
-          favourites: true,
+          library: true,
         },
       });
 
-      res.status(200).json(favourites.favourites);
+      res.status(200).json(library.library);
     },
   ],
 

@@ -8,6 +8,7 @@ export type GamesAllIncluded = Prisma.GameGetPayload<{
     parent_game: true;
     companies: true;
     reviews: true;
+    screenshots:true
   };
 }>;
 
@@ -20,6 +21,6 @@ export type GenresWithGames = Prisma.GenreGetPayload<{
 export type User = Prisma.UserGetPayload<{
   include: {
     reviews: true;
-    favourites: true;
+    library: true;
   };
 }>;

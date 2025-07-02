@@ -16,6 +16,7 @@ type FetchedGames = {
   coverid: number;
   genres: number[];
   platforms: number[];
+  rating:number;
 };
 
 type FetchedGenres = {
@@ -32,11 +33,6 @@ type FetchedPlatforms = {
   platform_logo?: number;
 };
 
-type FetchedPlatformLogo = {
-  id: number;
-  url: string;
-};
-
 type FetchedCover = {
   id: number;
   url: string;
@@ -48,6 +44,12 @@ type AccessToken = {
   access_token: string;
   expires_in: number;
   token_type: "bearer";
+};
+
+type FetchedScreenshot = {
+  id: number;
+  image_id: string;
+  url: string;
 };
 
 async function getAccessToken() {
@@ -81,15 +83,17 @@ async function fetchGames(token: string) {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
-      body: `fields id,name,slug,summary,first_release_date,cover.url,genres,platforms;
-      sort popularity desc;
-      where rating != null & cover != null;
-      limit 30;`,
+      body: `
+        fields id, name, slug, rating,summary, first_release_date, cover.url, cover, genres, platforms;
+        sort total_rating_count desc;
+        where rating != null & cover != null & total_rating_count > 50;
+        limit 30;
+      `,
     });
 
     if (res.status === 401) throw new Error(res.statusText);
 
-    return res.json();
+    return ( await res.json() ) as FetchedGames[];
   } catch (e) {
     console.error(e);
     process.exit(1);
@@ -138,21 +142,21 @@ async function fetchPlatforms(token: string, ids: number[]) {
   }
 }
 
-async function fetchPlatformLogo(token: string, id: number) {
+async function fetchScreenshots(token: string, gameId: number) {
   try {
-    const res = await fetch("https://api.igdb.com/v4/platform_logos/", {
+    const res = await fetch("https://api.igdb.com/v4/screenshots/", {
       method: "POST",
       headers: {
         "Client-ID": process.env.CLIENT_ID || "",
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
-      body: `fields url; where id = ${id};`,
+      body: `fields id,image_id,url; where game = ${gameId}; limit 10;`,
     });
 
     if (res.status === 401) throw new Error(res.statusText);
 
-    return (await res.json())[0] as FetchedPlatformLogo;
+    return (await res.json()) as FetchedScreenshot[];
   } catch (e) {
     console.error(e);
     process.exit(1);
@@ -192,6 +196,7 @@ async function seed() {
     const genres = await fetchGenres(token, game.genres);
     const platforms = await fetchPlatforms(token, game.platforms);
     const cover = await fetchCovers(token, game.cover.id);
+    const screenshots = await fetchScreenshots(token, game.id);
 
     await prisma.game.upsert({
       where: { igdbId: game.id },
@@ -201,6 +206,7 @@ async function seed() {
         slug: game.slug,
         title: game.name,
         summary: game.summary,
+        rating: game.rating,
         releaseDate: new Date(game.first_release_date * 1000),
         coverImage: {
           connectOrCreate: {
@@ -228,27 +234,26 @@ async function seed() {
         platforms: {
           connectOrCreate: await Promise.all(
             platforms.map(async (platform) => {
-              let logoUrl: string | null = null;
-
-              if (platform.platform_logo) {
-                const logo = await fetchPlatformLogo(token, platform.platform_logo);
-                logoUrl = logo?.url || null;
-              }
-
               return {
                 create: {
                   igdbId: platform.id,
                   abbreviation: platform.abbreviation,
                   slug: platform.slug,
                   name: platform.name,
-                  imgUrl: logoUrl,
                 },
                 where: {
                   igdbId: platform.id,
                 },
               };
-            })
+            }),
           ),
+        },
+        screenshots: {
+          create: screenshots.map((screenshot) => ({
+            igbdId: screenshot.id,
+            imageId: screenshot.image_id,
+            url: screenshot.url,
+          })),
         },
       },
     });
