@@ -11,7 +11,8 @@ const GamesRoute = {
         screenshots: true,
         platforms: true,
         parent_game: true,
-        companies: true,
+        developer: true,
+        publisher: true,
       },
     });
 
@@ -31,7 +32,8 @@ const GamesRoute = {
         screenshots: true,
         platforms: true,
         parent_game: true,
-        companies: true,
+        developer: true,
+        publisher: true,
       },
     });
 
