@@ -13,6 +13,7 @@ const GamesRoute = {
         parent_game: true,
         developer: true,
         publisher: true,
+        ageRating: true,
       },
     });
 
@@ -34,6 +35,7 @@ const GamesRoute = {
         parent_game: true,
         developer: true,
         publisher: true,
+        ageRating: true,
       },
     });
 

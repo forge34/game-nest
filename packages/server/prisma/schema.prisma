@@ -48,6 +48,7 @@ model Game {
   User         User[]        @relation("UserLibrary")
   reviews      Review[]
   screenshots  Screenshots[]
+  ageRating    AgeRating[]   
 }
 
 model Review {
@@ -101,4 +102,16 @@ model Screenshots {
   gameId  Int
   imageId String
   url     String
+}
+
+model AgeRating {
+  id         Int     @id @default(autoincrement())
+  igdbId     Int     @unique
+  game       Game    @relation(fields: [gameId], references: [id])
+  gameId     Int
+
+  organization     Int    
+  ratingCategory   Int   
+  synopsis         String?
+  ratingCoverUrl   String?
 }

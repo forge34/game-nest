@@ -62,6 +62,16 @@ type FetchedGame = {
   genres: number[];
   platforms: number[];
   involved_companies?: number[];
+  age_ratings: number[];
+};
+
+type FetchedAgeRating = {
+  id: number;
+  organization: number;
+  rating_category: number;
+  rating_cover_url?: string;
+  synopsis?: string;
+  rating_content_descriptions?: number[];
 };
 
 type AccessToken = {
@@ -108,6 +118,7 @@ async function seed() {
         "genres",
         "platforms",
         "involved_companies",
+        "age_ratings",
       ])
       .where(["rating != null", "cover != null", "total_rating_count > 50"])
       .limit(50)
@@ -119,7 +130,6 @@ async function seed() {
   for (const game of games) {
     console.log(`Processing: ${game.name} (#${game.id})`);
 
-    // --- Skip game if cover fetch fails or has no URL ---
     let coverData: FetchedCover | undefined = undefined;
     if (game.cover) {
       const cover = (
@@ -149,7 +159,6 @@ async function seed() {
       continue;
     }
 
-    // --- Genres ---
     let genres: FetchedGenres[] = [];
     if (game.genres?.length) {
       genres = (
@@ -267,6 +276,35 @@ async function seed() {
       },
     });
 
+    if (game.age_ratings?.length) {
+      const ratings = (
+        await client
+          .fields([
+            "id",
+            "organization",
+            "rating_category",
+            "rating_cover_url",
+            "synopsis",
+          ])
+          .where(`id = (${game.age_ratings.join(",")})`)
+          .request("/age_ratings")
+      ).data as FetchedAgeRating[];
+
+      for (const rating of ratings) {
+        await prisma.ageRating.upsert({
+          where: { igdbId: rating.id },
+          update: {},
+          create: {
+            igdbId: rating.id,
+            game: { connect: { igdbId: game.id } },
+            organization: rating.organization,
+            ratingCategory: rating.rating_category,
+            synopsis: rating.synopsis || null,
+            ratingCoverUrl: rating.rating_cover_url || null,
+          },
+        });
+      }
+    }
     console.log(`Inserted: ${game.name}`);
   }
 
