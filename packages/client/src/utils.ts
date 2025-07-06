@@ -39,4 +39,29 @@ async function safeFetch<TData>(
   }
 }
 
+export const ratingOrganizations: Record<number, string> = {
+  1: "ESRB",
+  2: "PEGI",
+  3: "CERO",
+  4: "USK",
+  5: "GRAC",
+  6: "CLASSIND",
+  7: "ACB",
+};
+
+export const ratingCategories: Record<number, string> = {
+  1: "3+",
+  2: "7+",
+  3: "12+",
+  4: "16+",
+  5: "18+",
+  6: "RP (Rating Pending)",
+  7: "EC (Early Childhood)",
+  8: "E (Everyone)",
+  9: "E10+",
+  10: "T (Teen)",
+  11: "M (Mature)",
+  12: "AO (Adults Only)",
+};
+
 export { safeFetch };

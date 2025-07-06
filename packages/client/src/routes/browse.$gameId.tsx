@@ -2,7 +2,7 @@ import { getGameById } from "@/api/games";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
-
+import { format } from "date-fns";
 import {
   Carousel,
   CarouselContent,
@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/carousel";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
+import { ratingCategories, ratingOrganizations } from "@/utils";
+import GameRating from "@/components/game-rating";
 
 export const Route = createFileRoute("/browse/$gameId")({
   component: RouteComponent,
@@ -26,13 +29,13 @@ export const Route = createFileRoute("/browse/$gameId")({
 
 function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
-  console.log(game);
   return (
     <div className="flex w-full flex-col gap-6 py-6 px-8">
-      <Tabs defaultValue="info"> 
+      <Tabs defaultValue="info">
         <TabsList className="bg-card">
-          <TabsTrigger  value="info">Info</TabsTrigger>
+          <TabsTrigger value="info">Info</TabsTrigger>
           <TabsTrigger value="screenshots">Screenshots</TabsTrigger>
+          <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
         <TabsContent
           value="info"
@@ -43,29 +46,90 @@ function RouteComponent() {
             <h3 className="text-xl font-semibold text-muted-foreground">
               About
             </h3>
-            <p className="text-muted-foreground">{game?.summary}</p>
-            <div className="flex flex-row gap-4 mt-2 flex-wrap">
-              <h3 className="block text-sm">Genres : </h3>
-              {game?.genres.map((genre) => (
-                <Badge
-                  className="text-foreground bg-accent-green"
-                  key={genre.id}
-                >
-                  {genre.name}
-                </Badge>
-              ))}
+            {game?.summary && <GameSummary summary={game.summary} />}
+            <div className="flex flex-col gap-y-2 gap-x-4 mt-2">
+              <h3 className="text-lg font-semibold">Genres </h3>
+              <div className="flex flex-row gap-2">
+                {game?.genres.map((genre) => (
+                  <Badge
+                    className="text-foreground bg-accent-green"
+                    key={genre.id}
+                  >
+                    {genre.name}
+                  </Badge>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-row gap-4 my-4 flex-wrap">
-              <h3 className="block text-sm">Platforms : </h3>
-              {game?.platforms.map((platform) => (
-                <Badge
-                  variant="secondary"
-                  className="bg-foreground text-muted"
-                  key={platform.id}
-                >
-                  {platform.name}
-                </Badge>
-              ))}
+            <div className="flex flex-col gap-y-2 gap-x-4 my-4 flex-wrap">
+              <h3 className="text-lg font-semibold">Platforms</h3>
+              <div className="flex flex-row gap-y-2 gap-x-4">
+                {game?.platforms.map((platform) => (
+                  <Badge
+                    variant="secondary"
+                    className="bg-foreground text-muted"
+                    key={platform.id}
+                  >
+                    {platform.name}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-row gap-y-2 gap-x-8">
+              <div className="flex flex-col">
+                <h3 className="text-lg font-semibold">Release Date</h3>
+                <p className="text-muted-foreground text-sm">
+                  {game?.releaseDate
+                    ? format(game.releaseDate, "dd MMM yyyy")
+                    : "Unknown"}
+                </p>
+              </div>
+              <div className="flex flex-col gap-y-1">
+                <h3 className="text-lg font-semibold">Age Rating</h3>
+                {Array.isArray(game?.ageRating) && game.ageRating.length > 0 ? (
+                  <div className="flex flex-col gap-y-2 text-muted-foreground text-sm">
+                    {game.ageRating.map((r) => (
+                      <div key={r.id}>
+                        {ratingCategories[r.ratingCategory] ?? "Unknown Rating"}{" "}
+                        ({ratingOrganizations[r.organization] ?? "Unknown Org"})
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground text-sm">Not rated</p>
+                )}
+              </div>
+              <div className="flex flex-col gap-y-2">
+                <h3>User rating</h3>
+                <GameRating rating={game?.rating || null} />
+              </div>
+            </div>
+            <div className="flex gap-x-12 flex-row">
+              <div className="flex flex-col gap-1 my-4 flex-wrap">
+                <h3 className="text-lg font-semibold">Developers</h3>
+                {game?.developer.map((developer) => {
+                  return (
+                    <p
+                      className="text-muted-foreground text-sm"
+                      key={developer.id}
+                    >
+                      {developer.name}
+                    </p>
+                  );
+                })}
+              </div>
+              <div className="flex flex-col gap-1 my-4 flex-wrap">
+                <h3 className="text-lg font-semibold">Publishers</h3>
+                {game?.publisher.map((publisher) => {
+                  return (
+                    <p
+                      className="text-muted-foreground text-sm"
+                      key={publisher.id}
+                    >
+                      {publisher.name}
+                    </p>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -85,7 +149,10 @@ function RouteComponent() {
           <Carousel className="mx-10" opts={{ loop: true }}>
             <CarouselContent>
               {game?.screenshots.map((screenshot) => (
-                <CarouselItem className="basis-1/3 pl-4 " key={screenshot.id}>
+                <CarouselItem
+                  className="basis-full sm:basis-1/2 lg:basis-1/3 pl-4"
+                  key={screenshot.id}
+                >
                   <img
                     className="rounded-md h-full"
                     src={screenshot.url.replace("t_thumb", "t_original")}
@@ -97,7 +164,30 @@ function RouteComponent() {
             <CarouselNext />
           </Carousel>
         </TabsContent>
+        <TabsContent value="raviews"></TabsContent>
       </Tabs>
+    </div>
+  );
+}
+
+function GameSummary({ summary }: { summary: string }) {
+  const [expanded, setExpanded] = useState(false);
+  const limit = 300;
+  const isLong = summary.length > limit;
+
+  const toggleExpanded = () => setExpanded((prev) => !prev);
+
+  return (
+    <div className="relative text-muted-foreground">
+      <p>{expanded || !isLong ? summary : summary.slice(0, limit) + "..."}</p>
+      {isLong && (
+        <button
+          onClick={toggleExpanded}
+          className="mt-2 text-primary font-semibold hover:underline"
+        >
+          {expanded ? "Show less" : "Read more"}
+        </button>
+      )}
     </div>
   );
 }
