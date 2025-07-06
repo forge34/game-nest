@@ -74,7 +74,13 @@ const signupFn = ({
   });
 };
 
-export const useSign = () =>
-  useMutation({
+export const useSign = () => {
+  const navigate = useNavigate();
+
+  return useMutation({
     mutationFn: signupFn,
+    onSuccess: () => {
+      navigate({ to: "/login" });
+    },
   });
+};
