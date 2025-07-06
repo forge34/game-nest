@@ -6,9 +6,11 @@ export type GamesAllIncluded = Prisma.GameGetPayload<{
     genres: true;
     platforms: true;
     parent_game: true;
-    companies: true;
     reviews: true;
-    screenshots:true
+    screenshots: true;
+    ageRating: true;
+    developer: true;
+    publisher: true;
   };
 }>;
 
