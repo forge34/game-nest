@@ -123,6 +123,30 @@ ul {
   --font-logo: "Queensides", "sans-serif";
   --color-accent-green: var(--chart-2);
   --color-offwhite: oklch(0.985 0 0);
+  --animate-expand: expand 250ms ease-in-out 50ms forwards;
+  --animate-collapse: collapse 200ms ease-in-out 50ms forwards;
+  --spacing-collapsible: var(--radix-collapsible-content-width);
+
+  @keyframes expand {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
+  }
+  @keyframes collapse {
+    from {
+      height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+    }
+  }
 }
 
 @theme inline {
