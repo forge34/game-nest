@@ -3,6 +3,7 @@ import { safeFetch, type RouteError } from "@/utils";
 import type { User } from "@game-forge/shared";
 import { queryOptions, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 export const getMe = () =>
   queryOptions({
@@ -26,7 +27,7 @@ const loginFn = ({
   username: string;
   password: string;
 }) => {
-  return safeFetch<User>("login", {
+  return safeFetch<{ data:User }>("login", {
     method: "POST",
     body: JSON.stringify({
       username,
@@ -43,8 +44,9 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: loginFn,
-    onSuccess: (user: User) => {
+    onSuccess: ({ data: user }: { data: User }) => {
       setUser(user);
+      toast.success("Sucessful login");
       navigate({ to: "/" });
     },
   });
@@ -80,6 +82,7 @@ export const useSign = () => {
   return useMutation({
     mutationFn: signupFn,
     onSuccess: () => {
+      toast.success("Account created");
       navigate({ to: "/login" });
     },
   });

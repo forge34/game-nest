@@ -7,6 +7,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 import { queryClient } from "./api";
+import { Toaster } from "./components/ui/sonner";
 
 // Create a new router instance
 const router = createRouter({
@@ -32,6 +33,7 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <Toaster position="top-center" richColors />
       </QueryClientProvider>
     </StrictMode>,
   );

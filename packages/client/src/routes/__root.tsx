@@ -1,8 +1,10 @@
+import { queryClient } from "@/api";
 import { getMe } from "@/api/auth";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth";
+import type { User } from "@game-forge/shared";
 import { type QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
@@ -11,6 +13,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Globe, Home, Info, Library, LogInIcon } from "lucide-react";
+import { useEffect } from "react";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -20,7 +23,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent,
   loader: async ({ context }) => {
     const data = await context.queryClient.ensureQueryData(getMe());
-    useAuthStore.getState().setUser(data);
 
     return data;
   },
@@ -28,7 +30,15 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootComponent() {
   const user = useAuthStore((s) => s.user);
+  const setUser = useAuthStore((s) => s.setUser);
+  const query = getMe();
+  const me = queryClient.getQueryData<User>(query.queryKey);
 
+  useEffect(() => {
+    if (!user && me) {
+      setUser(me);
+    }
+  }, [user, me, setUser]);
   return (
     <ThemeProvider>
       <nav className="flex flex-row py-2 border  px-4 items-center">
@@ -79,9 +89,7 @@ function RootComponent() {
                 </Link>
               </Button>
               <Button asChild>
-                <Link to="/signup">
-
-                  Create Account</Link>
+                <Link to="/signup">Create Account</Link>
               </Button>
             </>
           ) : (

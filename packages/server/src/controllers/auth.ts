@@ -84,8 +84,6 @@ const AuthRoute = {
         "local",
         { session: false },
         (err: any, user: any, info?: { message: string }) => {
-          console.log(info);
-
           if (err) {
             return next(err);
           }
