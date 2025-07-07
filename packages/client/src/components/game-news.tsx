@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 const dummyNews = [
   {
@@ -27,9 +28,9 @@ const dummyNews = [
   },
 ];
 
-export function GameNews() {
+export function GameNews({ className }: { className?: string }) {
   return (
-    <div className="w-[42rem] space-y-6 mt-2">
+    <div className={cn("w-[42rem] space-y-6 mt-2" ,className)}>
       <h2 className="text-xl font-bold">Latest News</h2>
 
       {dummyNews.map((news, idx) => (
