@@ -37,11 +37,11 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col gap-4 mt-4 mx-4 lg:mx-10">
-      <Card className="order-1 w-[75%] mx-auto py-3">
+      <Card className="order-1 w-[75%] mx-auto py-3 flex flex-col lg:flex-row">
         <CardHeader className="w-full ">
           <h3 className="text-2xl font-bold">Featured Game</h3>
           <img
-            className="w-full rounded-md object-cover flex-shrink-0"
+            className="w-full  rounded-md object-top-left flex-shrink-0"
             src={featured.coverImage?.url.replace("t_thumb", "t_original")}
             alt={featured.title}
           />
