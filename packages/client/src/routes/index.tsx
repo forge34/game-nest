@@ -85,7 +85,7 @@ function RouteComponent() {
           <CardAction className="flex flex-row my-auto gap-4 ">
             <Button>
               <Link
-                to="/browse/$gameId"
+                to="/discover/$gameId"
                 params={{ gameId: `${featured.igdbId}` }}
               >
                 Go to Game page
@@ -113,7 +113,7 @@ function RouteComponent() {
             {data.map((game) => (
               <CarouselItem key={game.igdbId} className="basis-1/5">
                 <Link
-                  to={`/browse/$gameId`}
+                  to={`/discover/$gameId`}
                   params={{ gameId: `${game.igdbId}` }}
                 >
                   <div className="flex flex-col items-center gap-2 hover:bg-muted/10 transition-colors rounded-md">

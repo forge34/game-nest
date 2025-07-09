@@ -23,7 +23,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 
-export const Route = createFileRoute("/browse/$gameId")({
+export const Route = createFileRoute("/discover/$gameId")({
   component: RouteComponent,
   loader: async ({ context, params }) => {
     const data = await context.queryClient.ensureQueryData(

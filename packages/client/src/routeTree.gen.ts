@@ -14,9 +14,9 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SignupImport } from './routes/signup'
 import { Route as LoginImport } from './routes/login'
 import { Route as LibraryImport } from './routes/library'
-import { Route as BrowseImport } from './routes/browse'
+import { Route as DiscoverImport } from './routes/discover'
 import { Route as IndexImport } from './routes/index'
-import { Route as BrowseGameIdImport } from './routes/browse.$gameId'
+import { Route as DiscoverGameIdImport } from './routes/discover.$gameId'
 
 // Create/Update Routes
 
@@ -38,9 +38,9 @@ const LibraryRoute = LibraryImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const BrowseRoute = BrowseImport.update({
-  id: '/browse',
-  path: '/browse',
+const DiscoverRoute = DiscoverImport.update({
+  id: '/discover',
+  path: '/discover',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -50,10 +50,10 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const BrowseGameIdRoute = BrowseGameIdImport.update({
+const DiscoverGameIdRoute = DiscoverGameIdImport.update({
   id: '/$gameId',
   path: '/$gameId',
-  getParentRoute: () => BrowseRoute,
+  getParentRoute: () => DiscoverRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -67,11 +67,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/browse': {
-      id: '/browse'
-      path: '/browse'
-      fullPath: '/browse'
-      preLoaderRoute: typeof BrowseImport
+    '/discover': {
+      id: '/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverImport
       parentRoute: typeof rootRoute
     }
     '/library': {
@@ -95,82 +95,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
-    '/browse/$gameId': {
-      id: '/browse/$gameId'
+    '/discover/$gameId': {
+      id: '/discover/$gameId'
       path: '/$gameId'
-      fullPath: '/browse/$gameId'
-      preLoaderRoute: typeof BrowseGameIdImport
-      parentRoute: typeof BrowseImport
+      fullPath: '/discover/$gameId'
+      preLoaderRoute: typeof DiscoverGameIdImport
+      parentRoute: typeof DiscoverImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface BrowseRouteChildren {
-  BrowseGameIdRoute: typeof BrowseGameIdRoute
+interface DiscoverRouteChildren {
+  DiscoverGameIdRoute: typeof DiscoverGameIdRoute
 }
 
-const BrowseRouteChildren: BrowseRouteChildren = {
-  BrowseGameIdRoute: BrowseGameIdRoute,
+const DiscoverRouteChildren: DiscoverRouteChildren = {
+  DiscoverGameIdRoute: DiscoverGameIdRoute,
 }
 
-const BrowseRouteWithChildren =
-  BrowseRoute._addFileChildren(BrowseRouteChildren)
+const DiscoverRouteWithChildren = DiscoverRoute._addFileChildren(
+  DiscoverRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/browse': typeof BrowseRouteWithChildren
+  '/discover': typeof DiscoverRouteWithChildren
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/browse/$gameId': typeof BrowseGameIdRoute
+  '/discover/$gameId': typeof DiscoverGameIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/browse': typeof BrowseRouteWithChildren
+  '/discover': typeof DiscoverRouteWithChildren
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/browse/$gameId': typeof BrowseGameIdRoute
+  '/discover/$gameId': typeof DiscoverGameIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/browse': typeof BrowseRouteWithChildren
+  '/discover': typeof DiscoverRouteWithChildren
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/browse/$gameId': typeof BrowseGameIdRoute
+  '/discover/$gameId': typeof DiscoverGameIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/browse'
+    | '/discover'
     | '/library'
     | '/login'
     | '/signup'
-    | '/browse/$gameId'
+    | '/discover/$gameId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/browse' | '/library' | '/login' | '/signup' | '/browse/$gameId'
+  to:
+    | '/'
+    | '/discover'
+    | '/library'
+    | '/login'
+    | '/signup'
+    | '/discover/$gameId'
   id:
     | '__root__'
     | '/'
-    | '/browse'
+    | '/discover'
     | '/library'
     | '/login'
     | '/signup'
-    | '/browse/$gameId'
+    | '/discover/$gameId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  BrowseRoute: typeof BrowseRouteWithChildren
+  DiscoverRoute: typeof DiscoverRouteWithChildren
   LibraryRoute: typeof LibraryRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
@@ -178,7 +185,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  BrowseRoute: BrowseRouteWithChildren,
+  DiscoverRoute: DiscoverRouteWithChildren,
   LibraryRoute: LibraryRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
@@ -195,7 +202,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/browse",
+        "/discover",
         "/library",
         "/login",
         "/signup"
@@ -204,10 +211,10 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
-    "/browse": {
-      "filePath": "browse.tsx",
+    "/discover": {
+      "filePath": "discover.tsx",
       "children": [
-        "/browse/$gameId"
+        "/discover/$gameId"
       ]
     },
     "/library": {
@@ -219,9 +226,9 @@ export const routeTree = rootRoute
     "/signup": {
       "filePath": "signup.tsx"
     },
-    "/browse/$gameId": {
-      "filePath": "browse.$gameId.tsx",
-      "parent": "/browse"
+    "/discover/$gameId": {
+      "filePath": "discover.$gameId.tsx",
+      "parent": "/discover"
     }
   }
 }

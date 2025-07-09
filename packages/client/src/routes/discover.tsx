@@ -11,7 +11,7 @@ import { getAllGames, getAllGenres } from "@/api/games";
 import { useQuery } from "@tanstack/react-query";
 import CollapsibleCard from "@/components/collapsible-card";
 
-export const Route = createFileRoute("/browse")({
+export const Route = createFileRoute("/discover")({
   component: RouteComponent,
   loader: async ({
     context,
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/browse")({
 function RouteComponent() {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const match = useMatchRoute();
-  const isMatched = match({ to: "/browse" });
+  const isMatched = match({ to: "/discover" });
   const { data: genres = [] } = useQuery(getAllGenres());
   const { data: games = [] } = useQuery(getAllGames());
 
@@ -61,7 +61,7 @@ function RouteComponent() {
 
               return (
                 <Link
-                  to="/browse/$gameId"
+                  to="/discover/$gameId"
                   params={{ gameId: game.igdbId as unknown as string }}
                   key={game.id}
                 >

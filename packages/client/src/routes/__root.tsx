@@ -12,7 +12,7 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Globe, Home, Info, Library, LogInIcon } from "lucide-react";
+import {  Home, Info, Library, LogInIcon, Search } from "lucide-react";
 import { useEffect } from "react";
 
 interface MyRouterContext {
@@ -54,9 +54,9 @@ function RootComponent() {
           </span>
           <span className="flex flex-row self-center">
             <Button variant="link" asChild>
-              <Link to="/browse">
-                <Globe size={"1rem"} className="mx-2 my-auto" />
-                Browse
+              <Link to="/discover">
+                <Search size={"1rem"} className="mx-2 my-auto" />
+                Discover
               </Link>
             </Button>
           </span>
