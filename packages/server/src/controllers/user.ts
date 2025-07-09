@@ -9,20 +9,16 @@ const UsersRoute = {
     async (req: Request, res: Response) => {
       const { id } = req.user as User;
 
-      const library = await prisma.user.findFirst({
+      const library = await prisma.userGame.findMany({
         where: {
-          id: id,
+          userId: id,
         },
         include: {
-          library: {
-            include: {
-              game: true,
-            },
-          },
+          game: true,
         },
       });
 
-      res.status(200).json(library.library);
+      res.status(200).json(library);
     },
   ],
 
