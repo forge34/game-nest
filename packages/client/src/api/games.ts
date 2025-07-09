@@ -1,6 +1,10 @@
 import { safeFetch } from "@/utils";
-import type { GamesAllIncluded, GenresWithGames } from "@game-forge/shared";
-import { queryOptions } from "@tanstack/react-query";
+import type {
+  GamesAllIncluded,
+  GenresWithGames,
+  Library,
+} from "@game-forge/shared";
+import { queryOptions, useMutation } from "@tanstack/react-query";
 
 const getAllGames = () =>
   queryOptions({
@@ -20,4 +24,31 @@ const getAllGenres = () =>
     queryFn: () => safeFetch<GenresWithGames[]>("genres", {}),
   });
 
-export { getAllGames, getGameById, getAllGenres };
+const getLibrary = () =>
+  queryOptions({
+    queryKey: ["library"],
+    queryFn: () =>
+      safeFetch<Library>("library", {
+        credentials: "include",
+      }),
+  });
+
+const addToLibrary = (gameId: string) => {
+  console.log(gameId);
+  return safeFetch("library", {
+    method: "post",
+    credentials: "include",
+    body: JSON.stringify({
+      gameId,
+    }),
+    headers: { "Content-Type": "application/json" },
+  });
+};
+
+const useAddToLibrary = () => {
+  return useMutation({
+    mutationFn: (id: string) => addToLibrary(id),
+  });
+};
+
+export { getAllGames, getGameById, getAllGenres, useAddToLibrary, getLibrary };
