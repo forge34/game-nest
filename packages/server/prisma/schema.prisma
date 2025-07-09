@@ -15,14 +15,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  email     String   @unique
+  email     String     @unique
   password  String
   bio       String?
   avatarUrl String?
-  library   Game[]   @relation("UserLibrary")
   reviews   Review[]
+  library   UserGame[]
 }
 
 model Game {
@@ -45,10 +45,10 @@ model Game {
   publisher    Company[]     @relation("PublishedBy")
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  User         User[]        @relation("UserLibrary")
   reviews      Review[]
   screenshots  Screenshots[]
-  ageRating    AgeRating[]   
+  ageRating    AgeRating[]
+  library      UserGame[]
 }
 
 model Review {
@@ -105,13 +105,39 @@ model Screenshots {
 }
 
 model AgeRating {
-  id         Int     @id @default(autoincrement())
-  igdbId     Int     @unique
-  game       Game    @relation(fields: [gameId], references: [id])
-  gameId     Int
+  id     Int  @id @default(autoincrement())
+  igdbId Int  @unique
+  game   Game @relation(fields: [gameId], references: [id])
+  gameId Int
 
-  organization     Int    
-  ratingCategory   Int   
-  synopsis         String?
-  ratingCoverUrl   String?
+  organization   Int
+  ratingCategory Int
+  synopsis       String?
+  ratingCoverUrl String?
+}
+
+model UserGame {
+  userId       String
+  gameId       Int
+  status       GameStatus
+  hoursPlayed  Int        @default(0)
+  rating       Float?
+  favorite     Boolean    @default(false)
+  addedAt      DateTime   @default(now())
+  lastPlayedAt DateTime?
+  reviewed     Boolean    @default(false)
+  completion   Float      @default(0)
+
+  user User @relation(fields: [userId], references: [id])
+  game Game @relation(fields: [gameId], references: [id])
+
+  @@id([userId, gameId])
+}
+
+enum GameStatus {
+  Wishlist
+  Playing
+  Completed
+  Backlog
+  Dropped
 }
