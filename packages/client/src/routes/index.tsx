@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
 } from "@/components/ui/card";
-import type { GamesAllIncluded } from "@game-forge/shared";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
@@ -18,35 +17,34 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useAuthStore } from "@/store/auth";
+import { useQuery } from "@tanstack/react-query";
+import { getAllGames } from "@/api/games";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
-  loader: async (): Promise<GamesAllIncluded[]> => {
-    const res = await fetch(`${import.meta.env.VITE_API}/games`, {
-      mode: "cors",
-    });
-
-    return await res.json();
+  loader: async ({ context }) => {
+    return await context.queryClient.ensureQueryData(getAllGames());
   },
 });
 
 function RouteComponent() {
-  const data = Route.useLoaderData();
-
+  const { data = [] } = useQuery(getAllGames());
+  const user = useAuthStore((s) => s.user);
   const featured = data[Math.floor(Math.random() * data.length)];
 
   return (
     <div className="flex flex-col gap-4 mt-4 mx-4 lg:mx-10">
-      <Card className="order-1 w-[75%] mx-auto py-3 flex flex-col lg:flex-row">
-        <CardHeader className="w-full ">
+      <Card className="order-1 w-[85%] mx-auto py-3 flex flex-col lg:flex-row">
+        <CardHeader className="w-full lg:w-[45%]">
           <h3 className="text-2xl font-bold">Featured Game</h3>
           <img
-            className="w-full  rounded-md object-top-left flex-shrink-0"
+            className="lg:h-auto lg:w-[16rem] rounded-md object-top-left flex-shrink-0"
             src={featured.coverImage?.url.replace("t_thumb", "t_original")}
             alt={featured.title}
           />
         </CardHeader>
-        <CardContent className="flex flex-col h-full justify-between">
+        <CardContent className="lg:w-[85%] flex flex-col justify-between">
           <h3 className="text-xl font-semibold">{featured.title}</h3>
           <p className="text-sm my-2 text-muted-foreground line-clamp-4">
             {featured.summary}
@@ -71,7 +69,7 @@ function RouteComponent() {
               </Badge>
             ))}
           </div>
-          <CardAction className="flex flex-row mt-auto gap-4">
+          <CardAction className="flex flex-row mt-auto gap-4 mb-4">
             <Button>
               <Link
                 to="/browse/$gameId"
@@ -80,17 +78,19 @@ function RouteComponent() {
                 Go to Game page
               </Link>
             </Button>
-            <Button variant="outline">
-              <Heart color="var(--heart)" />
-              <Link to="/">Add to library</Link>
-            </Button>
+            {user && (
+              <Button variant="outline">
+                <Heart color="var(--heart)" />
+                <Link to="/">Add to library</Link>
+              </Button>
+            )}
           </CardAction>
         </CardContent>
       </Card>
       <GameNews className="order-3 row-start-2 " />
       <div className="order-2 border rounded-md bg-card py-2 px-8 h-full">
         <h3 className="text-2xl font-semibold">Popular games</h3>
-        <Carousel className="mt-2 mx-6" opts={{ loop: true }}>
+        <Carousel className="mt-6 mx-6" opts={{ loop: true }}>
           <CarouselContent>
             {data.map((game) => (
               <CarouselItem key={game.igdbId} className="basis-1/5">
@@ -104,7 +104,7 @@ function RouteComponent() {
                         "t_thumb",
                         "t_cover_big",
                       )}
-                      className="w-[12rem] rounded-md object-cover"
+                      className="w-[10rem] rounded-md object-cover"
                       alt={game.title}
                     />
                     <span className="text-sm">{game.title}</span>
