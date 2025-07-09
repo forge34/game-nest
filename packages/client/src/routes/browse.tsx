@@ -42,13 +42,13 @@ function RouteComponent() {
       {!isMatched ? (
         <Outlet />
       ) : (
-        <div className="flex flex-col mx-6 mask-y-from-04 ">
+        <div className="flex flex-col mx-6 mask-y-from-04 gap-4">
           <GenreFilter
             filters={genres}
             selectedGenres={selectedGenres}
             onChangeChecked={onFilter}
           />
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {games.map((game) => {
               if (
                 selectedGenres.length > 0 &&

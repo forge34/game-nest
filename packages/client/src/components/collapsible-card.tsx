@@ -74,7 +74,8 @@ function CollapsibleCard({ game }: { game: GamesAllIncluded }) {
             {game.reviews.length} User Reviews
           </p>
 
-          <div className="flex justify-end mt-3">
+          <div className="flex justify-between mt-3">
+            <Button >Add to library</Button>
             <Button size="icon" variant="outline">
               <Heart className="w-4 h-4" />
             </Button>

@@ -20,6 +20,7 @@ import {
 import { useAuthStore } from "@/store/auth";
 import { useQuery } from "@tanstack/react-query";
 import { getAllGames } from "@/api/games";
+import { format } from "date-fns";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -32,9 +33,12 @@ function RouteComponent() {
   const { data = [] } = useQuery(getAllGames());
   const user = useAuthStore((s) => s.user);
   const featured = data[Math.floor(Math.random() * data.length)];
+  const releaseDate = featured.releaseDate
+    ? format(featured.releaseDate, "dd MMM yyyy")
+    : "Unkown";
 
   return (
-    <div className="flex flex-col gap-4 mt-4 mx-4 lg:mx-10">
+    <div className="flex flex-col gap-4 mt-4 mx-4 lg:mx-10 py-3 px-6">
       <Card className="order-1 w-[85%] mx-auto py-3 flex flex-col lg:flex-row">
         <CardHeader className="w-full lg:w-[45%]">
           <h3 className="text-2xl font-bold">Featured Game</h3>
@@ -49,27 +53,36 @@ function RouteComponent() {
           <p className="text-sm my-2 text-muted-foreground line-clamp-4">
             {featured.summary}
           </p>
-          <div className="flex flex-row gap-4 mt-2 flex-wrap">
-            <h3 className="block text-sm">Genres : </h3>
-            {featured.genres.map((genre) => (
-              <Badge className="text-foreground bg-accent-green" key={genre.id}>
-                {genre.name}
-              </Badge>
-            ))}
+          <div className="flex flex-col gap-4 mt-2 flex-wrap">
+            <h3 className="text-md text-muted-foreground">Genres</h3>
+            <div className="flex flex-row gap-x-2 flex-wrap">
+              {featured.genres.map((genre) => (
+                <Badge
+                  variant="outline"
+                  className="text-foreground outline outline-primary"
+                  key={genre.id}
+                >
+                  {genre.name}
+                </Badge>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-row gap-4 my-4 flex-wrap">
-            <h3 className="block text-sm">Platforms : </h3>
-            {featured.platforms.map((platform) => (
-              <Badge
-                variant="secondary"
-                className="bg-foreground text-muted"
-                key={platform.id}
-              >
-                {platform.name}
-              </Badge>
-            ))}
+          <div className="flex flex-col gap-4 my-4 flex-wrap">
+            <h3 className="text-muted-foreground">Platforms </h3>
+            <div className="flex flex-row gap-x-2">
+              {featured.platforms.map((platform) => (
+                <Badge
+                  variant="secondary"
+                  className="bg-foreground text-muted"
+                  key={platform.id}
+                >
+                  {platform.name}
+                </Badge>
+              ))}
+            </div>
           </div>
-          <CardAction className="flex flex-row mt-auto gap-4 mb-4">
+          <h3 className="text-sm text-muted-foreground">{releaseDate}</h3>
+          <CardAction className="flex flex-row my-auto gap-4 ">
             <Button>
               <Link
                 to="/browse/$gameId"
@@ -79,10 +92,15 @@ function RouteComponent() {
               </Link>
             </Button>
             {user && (
-              <Button variant="outline">
-                <Heart color="var(--heart)" />
-                <Link to="/">Add to library</Link>
-              </Button>
+              <>
+                <Button variant="outline">
+                  <Link to="/">Add to library</Link>
+                </Button>
+
+                <Button variant="outline">
+                  <Heart color="var(--heart)" />
+                </Button>
+              </>
             )}
           </CardAction>
         </CardContent>

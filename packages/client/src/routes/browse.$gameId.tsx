@@ -15,6 +15,13 @@ import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { ratingCategories, ratingOrganizations } from "@/utils";
 import GameRating from "@/components/game-rating";
+import { Button } from "@/components/ui/button";
+import { Heart, Library, Plus } from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 export const Route = createFileRoute("/browse/$gameId")({
   component: RouteComponent,
@@ -29,6 +36,7 @@ export const Route = createFileRoute("/browse/$gameId")({
 
 function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
+
   return (
     <div className="flex w-full flex-col gap-6 py-6 px-8">
       <Tabs defaultValue="info">
@@ -42,7 +50,35 @@ function RouteComponent() {
           className="flex flex-col lg:flex-row my-4 bg-card border py-6 px-8 rounded-md"
         >
           <div className="flex-1 flex flex-col gap-2 pr-28">
-            <h1 className="text-4xl font-bold">{game?.title}</h1>
+            <div className="flex flex-row">
+              <h1 className="text-4xl font-bold">{game?.title}</h1>
+              <div className="flex flex-row ml-auto gap-x-4">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button>
+                      <Plus />
+                      <Library />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Add to Library</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline">
+                      <Heart color="var(--heart)" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    className="bg-background border"
+                    arrowClassName="bg-background fill-background border-b-1 border-r-1"
+                  >
+                    <p>Mark as favourite</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </div>
             <h3 className="text-xl font-semibold text-muted-foreground">
               About
             </h3>

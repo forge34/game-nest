@@ -35,7 +35,7 @@ function GenreFilter({
   }
 
   return (
-    <div className="flex flex-row w-full gap-x-8">
+    <div className="flex flex-row w-full gap-x-8 mt-4">
       <Popover>
         <PopoverTrigger>
           <Button variant="outline" className="text-md">
