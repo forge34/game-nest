@@ -19,5 +19,6 @@ router.get("/library",UsersRoute.findFavourties)
 router.get("/me" ,UsersRoute.getMe)
 
 router.post("/library" , UsersRoute.addTolibrary)
+router.post("/library/:gameId" , UsersRoute.markAsFavourite)
 
 export default router;

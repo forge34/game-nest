@@ -26,3 +26,9 @@ export type User = Prisma.UserGetPayload<{
     library: true;
   };
 }>;
+
+export type Library = Prisma.UserGameGetPayload<{
+  include: {
+    game: true;
+  };
+}>[];

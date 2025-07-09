@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/carousel";
 import { useAuthStore } from "@/store/auth";
 import { useQuery } from "@tanstack/react-query";
-import { getAllGames, useAddToLibrary } from "@/api/games";
+import { getAllGames, useAddToLibrary, useMarkAsFavourite } from "@/api/games";
 import { format } from "date-fns";
 
 export const Route = createFileRoute("/")({
@@ -37,6 +37,7 @@ function RouteComponent() {
     ? format(featured.releaseDate, "dd MMM yyyy")
     : "Unkown";
   const addFn = useAddToLibrary();
+  const favouriteFn = useMarkAsFavourite();
 
   return (
     <div className="flex flex-col gap-4 mt-4 mx-4 lg:mx-10 py-3 px-6">
@@ -101,7 +102,10 @@ function RouteComponent() {
                   Add to library
                 </Button>
 
-                <Button variant="outline">
+                <Button
+                  variant="outline"
+                  onClick={() => favouriteFn.mutate(`${featured.igdbId}`)}
+                >
                   <Heart color="var(--heart)" />
                 </Button>
               </>

@@ -45,10 +45,31 @@ const addToLibrary = (gameId: string) => {
   });
 };
 
+const markAsFavourite = (gameId: string) => {
+  return safeFetch(`library/${gameId}`, {
+    method: "post",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+  });
+};
+
+const useMarkAsFavourite = () => {
+  return useMutation({
+    mutationFn: (id: string) => markAsFavourite(id),
+  });
+};
+
 const useAddToLibrary = () => {
   return useMutation({
     mutationFn: (id: string) => addToLibrary(id),
   });
 };
 
-export { getAllGames, getGameById, getAllGenres, useAddToLibrary, getLibrary };
+export {
+  getAllGames,
+  getGameById,
+  getAllGenres,
+  useAddToLibrary,
+  getLibrary,
+  useMarkAsFavourite,
+};
