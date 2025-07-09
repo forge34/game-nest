@@ -18,4 +18,6 @@ router.get("/genres" , GamesRoute.genresFindMany)
 router.get("/library",UsersRoute.findFavourties)
 router.get("/me" ,UsersRoute.getMe)
 
+router.post("/library" , UsersRoute.addTolibrary)
+
 export default router;
