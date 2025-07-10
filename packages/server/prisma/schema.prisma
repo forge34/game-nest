@@ -125,7 +125,7 @@ model UserGame {
   gameId       Int
   status       GameStatus
   hoursPlayed  Int        @default(0)
-  rating       Float?
+  rating       Float?     @default(0)
   favorite     Boolean    @default(false)
   addedAt      DateTime   @default(now())
   lastPlayedAt DateTime?

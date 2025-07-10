@@ -34,7 +34,7 @@ export const Route = createFileRoute("/discover/$gameId")({
 function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
-  const { isFavourite, isInLibrary } = useLibrary();
+  const { isFavourite, isInLibrary, addToLibrary } = useLibrary();
 
   if (!game) {
     return <p>Game data not available</p>;
@@ -56,7 +56,12 @@ function RouteComponent() {
             <div className="flex flex-row">
               <h1 className="text-4xl font-bold">{game.title}</h1>
               <div className="flex flex-row ml-auto gap-x-4">
-                <AddToLibraryButton disabled inLibrary={isInLibrary(game)} display="icon" />
+                <AddToLibraryButton
+                  disabled={isInLibrary(game)}
+                  inLibrary={isInLibrary(game)}
+                  onClick={() => addToLibrary(game.igdbId)}
+                  display="icon"
+                />
                 <HeartBtn isFavourite={isFavourite(game)} id={game.igdbId} />
               </div>
             </div>

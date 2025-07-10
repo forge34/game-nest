@@ -72,9 +72,9 @@ function RouteComponent() {
               ))}
             </div>
           </div>
-          <div className="flex flex-col gap-4 my-4 flex-wrap">
+          <div className="flex flex-col gap-4 my-4 ">
             <h3 className="text-muted-foreground">Platforms </h3>
-            <div className="flex flex-row gap-x-2">
+            <div className="flex flex-row gap-x-2 flex-wrap gap-y-2">
               {featured.platforms.map((platform) => (
                 <Badge
                   variant="secondary"

@@ -54,12 +54,15 @@ function useLibrary() {
   const isInLibrary = (game: GamesAllIncluded) =>
     library.some((g) => g.gameId === game.id);
 
+  const countFavourites = () => library.filter((game) => game.favorite).length;
+
   return {
     library,
     isFavourite,
     toggleFavourite,
     isInLibrary,
     addToLibrary,
+    countFavourites,
   };
 }
 

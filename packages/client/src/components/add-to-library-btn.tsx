@@ -22,7 +22,7 @@ function AddToLibraryButton({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button  variant="outline" onClick={onClick} {...props}>
+        <Button variant="outline" onClick={onClick} {...props}>
           {display === "icon" ? (
             <>
               {inLibrary ? <Check /> : <Plus />}
@@ -33,7 +33,10 @@ function AddToLibraryButton({
           )}
         </Button>
       </TooltipTrigger>
-      <TooltipContent>
+      <TooltipContent
+        className="bg-background border"
+        arrowClassName="bg-background fill-background border-b-1 border-r-1"
+      >
         <p>{inLibrary ? "In library" : "Add to library"}</p>
       </TooltipContent>
     </Tooltip>

@@ -108,6 +108,10 @@ html {
   box-sizing: border-box;
 }
 
+#root {
+  height: 100dvh;
+}
+
 *,
 *:before,
 *:after {
