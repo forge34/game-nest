@@ -13,12 +13,13 @@ router.post("/signup", AuthRoute.signup);
 router.post("/login", AuthRoute.login);
 
 router.get("/games", GamesRoute.findMany);
-router.get("/games/:id", GamesRoute.findOneById)
-router.get("/genres" , GamesRoute.genresFindMany)
-router.get("/library",UsersRoute.findFavourties)
-router.get("/me" ,UsersRoute.getMe)
+router.get("/games/:id", GamesRoute.findOneById);
+router.get("/genres", GamesRoute.genresFindMany);
+router.get("/platforms", GamesRoute.platformFindMany);
+router.get("/library", UsersRoute.findFavourties);
+router.get("/me", UsersRoute.getMe);
 
-router.post("/library" , UsersRoute.addTolibrary)
-router.post("/library/:gameId" , UsersRoute.markAsFavourite)
+router.post("/library", UsersRoute.addTolibrary);
+router.post("/library/:gameId", UsersRoute.markAsFavourite);
 
 export default router;

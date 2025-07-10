@@ -23,3 +23,9 @@ export type Library = Prisma.UserGameGetPayload<{
     game: { include: typeof gameIncludes };
   };
 }>[];
+
+export type PlatformWithGames = Prisma.PlatformGetPayload<{
+  include: {
+    games: true;
+  };
+}>;

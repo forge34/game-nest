@@ -32,6 +32,13 @@ const GamesRoute = {
 
     res.status(200).json(genres);
   },
+
+  platformFindMany: async (req: Request, res: Response) => {
+    const platforms = await prisma.platform.findMany({
+      include: { games: true },
+    });
+    res.status(200).json(platforms)
+  },
 };
 
 export default GamesRoute;

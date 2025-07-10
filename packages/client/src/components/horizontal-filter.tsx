@@ -1,4 +1,4 @@
-import type { GenresWithGames } from "@game-forge/shared";
+import type { GenresWithGames, PlatformWithGames } from "@game-forge/shared";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Checkbox } from "./ui/checkbox";
@@ -15,23 +15,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Filter, ListFilter } from "lucide-react";
 
-interface GenreFilterProps {
-  filters: GenresWithGames[];
-  selectedGenres: string[];
-  onChangeChecked: (selectedGenres: string[]) => void;
+export interface FilterState {
+  genres: string[];
+  platforms: string[];
 }
 
-function GenreFilter({
-  filters,
-  selectedGenres,
-  onChangeChecked,
-}: GenreFilterProps) {
-  function togglefilter(genre: string) {
-    if (selectedGenres.includes(genre)) {
-      onChangeChecked(selectedGenres.filter((g) => g !== genre));
-    } else {
-      onChangeChecked([...selectedGenres, genre]);
-    }
+interface GenreFilterProps {
+  filters: { genres: GenresWithGames[]; platforms: PlatformWithGames[] };
+  state: FilterState;
+  onChangeChecked: (fs: FilterState) => void;
+}
+
+function GenreFilter({ filters, state, onChangeChecked }: GenreFilterProps) {
+  function togglefilter(type: keyof FilterState, value: string) {
+    const currentFilters = state[type] as string[];
+    const newFilters = currentFilters.includes(value)
+      ? currentFilters.filter((v) => v !== value)
+      : [...currentFilters, value];
+
+    onChangeChecked({ ...state, [type]: newFilters });
   }
 
   return (
@@ -44,8 +46,8 @@ function GenreFilter({
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          {filters.map((genre) => (
-            <div className="flex flex-row my-3">
+          {filters.genres.map((genre) => (
+            <div className="flex flex-row my-3" key={genre.igdbId}>
               <p>{genre.name}</p>
 
               <Badge
@@ -55,9 +57,36 @@ function GenreFilter({
                 {genre.games.length}
               </Badge>
               <Checkbox
-                checked={selectedGenres.includes(genre.name)}
+                checked={state.genres.includes(genre.name)}
                 value={genre.name}
-                onCheckedChange={() => togglefilter(genre.name)}
+                onCheckedChange={() => togglefilter("genres", genre.name)}
+              />
+            </div>
+          ))}
+        </PopoverContent>
+      </Popover>
+      <Popover>
+        <PopoverTrigger>
+          <Button variant="outline" className="text-md">
+            <Filter />
+            Platforms
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          {filters.platforms.map((platform) => (
+            <div className="flex flex-row my-3" key={platform.igdbId}>
+              <p>{platform.name}</p>
+
+              <Badge
+                variant="outline"
+                className="ml-auto mr-2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
+              >
+                {platform.games.length}
+              </Badge>
+              <Checkbox
+                checked={state.platforms.includes(platform.name)}
+                value={platform.name}
+                onCheckedChange={() => togglefilter("platforms", platform.name)}
               />
             </div>
           ))}

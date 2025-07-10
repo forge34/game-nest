@@ -1,9 +1,5 @@
 import { safeFetch } from "@/utils";
-import type {
-  Game,
-  GenresWithGames,
-  Library,
-} from "@game-forge/shared";
+import type { Game, GenresWithGames, Library } from "@game-forge/shared";
 import { queryOptions } from "@tanstack/react-query";
 
 const getAllGames = () =>
@@ -24,6 +20,12 @@ const getAllGenres = () =>
     queryFn: () => safeFetch<GenresWithGames[]>("genres", {}),
   });
 
+const getAllPlatforms = () =>
+  queryOptions({
+    queryKey: ["platform"],
+    queryFn: () => safeFetch<GenresWithGames[]>("platforms", {}),
+  });
+
 const getLibrary = () =>
   queryOptions({
     queryKey: ["library"],
@@ -33,4 +35,4 @@ const getLibrary = () =>
       }),
   });
 
-export { getAllGames, getGameById, getAllGenres, getLibrary };
+export { getAllGames, getGameById, getAllGenres, getLibrary, getAllPlatforms };
