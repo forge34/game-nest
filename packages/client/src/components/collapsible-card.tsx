@@ -7,18 +7,18 @@ import GameRating from "@/components/game-rating";
 import { Badge } from "@/components/ui/badge";
 import type { GamesAllIncluded } from "@game-forge/shared";
 import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
 import HeartBtn from "./heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
+import AddToLibraryButton from "./add-to-library-btn";
 
 function CollapsibleCard({ game }: { game: GamesAllIncluded }) {
   const releaseDate = game.releaseDate
     ? format(game.releaseDate, "dd MMM yyyy")
     : "Unknown";
 
-  const { isFavourite } = useLibrary();
+  const { isFavourite, isInLibrary, addToLibrary } = useLibrary();
 
   return (
     <Collapsible className="bg-card py-2 px-4 rounded-md border">
@@ -78,7 +78,12 @@ function CollapsibleCard({ game }: { game: GamesAllIncluded }) {
           </p>
 
           <div className="flex justify-between mt-3">
-            <Button>Add to library</Button>
+            <AddToLibraryButton
+              inLibrary={isInLibrary(game)}
+              onClick={() => {
+                addToLibrary(game.igdbId.toString());
+              }}
+            />
             <HeartBtn id={game.igdbId} isFavourite={isFavourite(game)} />
           </div>
         </CollapsibleContent>

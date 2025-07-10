@@ -1,3 +1,4 @@
+import { queryClient } from "@/api";
 import { getLibrary } from "@/api/games";
 import { safeFetch } from "@/utils";
 import type { GamesAllIncluded } from "@game-forge/shared";
@@ -12,7 +13,6 @@ const markAsFavouriteFn = (gameId: string) => {
 };
 
 const addToLibraryFn = (gameId: string) => {
-  console.log(gameId);
   return safeFetch("library", {
     method: "post",
     credentials: "include",
@@ -28,10 +28,16 @@ function useLibrary() {
 
   const favouriteMutation = useMutation({
     mutationFn: (id: string) => markAsFavouriteFn(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
   });
 
   const addToLibraryMutation = useMutation({
     mutationFn: (id: string) => addToLibraryFn(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
   });
 
   const isFavourite = (game: GamesAllIncluded) =>
@@ -45,10 +51,14 @@ function useLibrary() {
     addToLibraryMutation.mutate(id);
   };
 
+  const isInLibrary = (game: GamesAllIncluded) =>
+    library.some((g) => g.gameId === game.id);
+
   return {
     library,
     isFavourite,
     toggleFavourite,
+    isInLibrary,
     addToLibrary,
   };
 }

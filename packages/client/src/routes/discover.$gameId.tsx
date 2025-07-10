@@ -15,15 +15,10 @@ import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { ratingCategories, ratingOrganizations } from "@/utils";
 import GameRating from "@/components/game-rating";
-import { Button } from "@/components/ui/button";
-import { Library, Plus } from "lucide-react";
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@/components/ui/tooltip";
+
 import HeartBtn from "@/components/heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
+import AddToLibraryButton from "@/components/add-to-library-btn";
 
 export const Route = createFileRoute("/discover/$gameId")({
   component: RouteComponent,
@@ -39,7 +34,7 @@ export const Route = createFileRoute("/discover/$gameId")({
 function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
-  const { isFavourite } = useLibrary();
+  const { isFavourite, isInLibrary } = useLibrary();
 
   if (!game) {
     return <p>Game data not available</p>;
@@ -61,17 +56,7 @@ function RouteComponent() {
             <div className="flex flex-row">
               <h1 className="text-4xl font-bold">{game.title}</h1>
               <div className="flex flex-row ml-auto gap-x-4">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button>
-                      <Plus />
-                      <Library />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Add to Library</p>
-                  </TooltipContent>
-                </Tooltip>
+                <AddToLibraryButton disabled inLibrary={isInLibrary(game)} display="icon" />
                 <HeartBtn isFavourite={isFavourite(game)} id={game.igdbId} />
               </div>
             </div>

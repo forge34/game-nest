@@ -23,6 +23,7 @@ import { getAllGames } from "@/api/games";
 import { format } from "date-fns";
 import HeartBtn from "@/components/heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
+import AddToLibraryButton from "@/components/add-to-library-btn";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -39,9 +40,7 @@ function RouteComponent() {
     ? format(featured.releaseDate, "dd MMM yyyy")
     : "Unkown";
 
-  const { addToLibrary } = useLibrary();
-
-  const { isFavourite } = useLibrary();
+  const { isFavourite, isInLibrary, addToLibrary } = useLibrary();
 
   return (
     <div className="flex flex-col gap-4 mt-4 mx-4 lg:mx-10 py-3 px-6">
@@ -99,13 +98,10 @@ function RouteComponent() {
             </Button>
             {user && (
               <>
-                <Button
-                  variant="outline"
-                  type="button"
-                  onClick={() => addToLibrary(`${featured.igdbId}`)}
-                >
-                  Add to library
-                </Button>
+                <AddToLibraryButton
+                  inLibrary={isInLibrary(featured)}
+                  onClick={() => addToLibrary(featured.igdbId.toString())}
+                />
                 <HeartBtn
                   id={featured.igdbId}
                   isFavourite={isFavourite(featured)}
