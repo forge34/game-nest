@@ -1,20 +1,11 @@
 import prisma from "../config/prisma";
 import { Response, Request } from "express";
+import { gameIncludes } from "../types";
 
 const GamesRoute = {
   findMany: async (req: Request, res: Response) => {
     const games = await prisma.game.findMany({
-      include: {
-        coverImage: true,
-        reviews: true,
-        genres: true,
-        screenshots: true,
-        platforms: true,
-        parent_game: true,
-        developer: true,
-        publisher: true,
-        ageRating: true,
-      },
+      include: gameIncludes,
     });
 
     res.status(200).json(games);
@@ -26,17 +17,7 @@ const GamesRoute = {
       where: {
         igdbId: id,
       },
-      include: {
-        coverImage: true,
-        reviews: true,
-        genres: true,
-        screenshots: true,
-        platforms: true,
-        parent_game: true,
-        developer: true,
-        publisher: true,
-        ageRating: true,
-      },
+      include: gameIncludes,
     });
 
     res.status(200).json(game);

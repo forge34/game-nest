@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import passport from "passport";
 import prisma from "../config/prisma";
 import { User } from "../../generated/prisma";
+import { gameIncludes } from "../types";
 
 const UsersRoute = {
   findFavourties: [
@@ -14,7 +15,9 @@ const UsersRoute = {
           userId: id,
         },
         include: {
-          game: true,
+          game: {
+            include: gameIncludes,
+          },
         },
       });
 

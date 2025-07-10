@@ -1,17 +1,8 @@
 import { Prisma } from "../../server/generated/prisma";
+import { gameIncludes } from "../../server/src/types";
 
-export type GamesAllIncluded = Prisma.GameGetPayload<{
-  include: {
-    coverImage: true;
-    genres: true;
-    platforms: true;
-    parent_game: true;
-    reviews: true;
-    screenshots: true;
-    ageRating: true;
-    developer: true;
-    publisher: true;
-  };
+export type Game = Prisma.GameGetPayload<{
+  include: typeof gameIncludes;
 }>;
 
 export type GenresWithGames = Prisma.GenreGetPayload<{
@@ -29,6 +20,6 @@ export type User = Prisma.UserGetPayload<{
 
 export type Library = Prisma.UserGameGetPayload<{
   include: {
-    game: true;
+    game: { include: typeof gameIncludes };
   };
 }>[];
