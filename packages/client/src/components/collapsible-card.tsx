@@ -8,14 +8,17 @@ import { Badge } from "@/components/ui/badge";
 import type { GamesAllIncluded } from "@game-forge/shared";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
+import HeartBtn from "./heart-btn";
+import useIsFavourite from "@/lib/hooks/use-is-favourite";
 
 function CollapsibleCard({ game }: { game: GamesAllIncluded }) {
   const releaseDate = game.releaseDate
     ? format(game.releaseDate, "dd MMM yyyy")
     : "Unknown";
+
+  const isFavourite = useIsFavourite(game);
 
   return (
     <Collapsible className="bg-card py-2 px-4 rounded-md border">
@@ -75,10 +78,8 @@ function CollapsibleCard({ game }: { game: GamesAllIncluded }) {
           </p>
 
           <div className="flex justify-between mt-3">
-            <Button >Add to library</Button>
-            <Button size="icon" variant="outline">
-              <Heart className="w-4 h-4" />
-            </Button>
+            <Button>Add to library</Button>
+            <HeartBtn id={game.igdbId} isFavourite={isFavourite} />
           </div>
         </CollapsibleContent>
       </div>

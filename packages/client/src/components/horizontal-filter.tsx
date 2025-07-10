@@ -40,7 +40,7 @@ function GenreFilter({
         <PopoverTrigger>
           <Button variant="outline" className="text-md">
             <Filter />
-            Categories
+            Genres
           </Button>
         </PopoverTrigger>
         <PopoverContent>

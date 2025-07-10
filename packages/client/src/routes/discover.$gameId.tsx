@@ -16,12 +16,14 @@ import { useState } from "react";
 import { ratingCategories, ratingOrganizations } from "@/utils";
 import GameRating from "@/components/game-rating";
 import { Button } from "@/components/ui/button";
-import { Heart, Library, Plus } from "lucide-react";
+import { Library, Plus } from "lucide-react";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
+import useIsFavourite from "@/lib/hooks/use-is-favourite";
+import HeartBtn from "@/components/heart-btn";
 
 export const Route = createFileRoute("/discover/$gameId")({
   component: RouteComponent,
@@ -37,6 +39,11 @@ export const Route = createFileRoute("/discover/$gameId")({
 function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
+  const isFavourite = useIsFavourite(game);
+  if (!game) {
+    return <p>Game data not available</p>;
+  }
+
   return (
     <div className="flex w-full flex-col gap-6 py-6 px-8">
       <Tabs defaultValue="info">
@@ -51,7 +58,7 @@ function RouteComponent() {
         >
           <div className="flex-1 flex flex-col gap-2 pr-28">
             <div className="flex flex-row">
-              <h1 className="text-4xl font-bold">{game?.title}</h1>
+              <h1 className="text-4xl font-bold">{game.title}</h1>
               <div className="flex flex-row ml-auto gap-x-4">
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -66,9 +73,7 @@ function RouteComponent() {
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline">
-                      <Heart color="var(--heart)" />
-                    </Button>
+                    <HeartBtn id={game.igdbId} isFavourite={isFavourite} />
                   </TooltipTrigger>
                   <TooltipContent
                     className="bg-background border"
@@ -99,7 +104,7 @@ function RouteComponent() {
             <div className="flex flex-col gap-y-2 gap-x-4 my-4 flex-wrap">
               <h3 className="text-lg font-semibold">Platforms</h3>
               <div className="flex flex-row gap-y-2 gap-x-4">
-                {game?.platforms.map((platform) => (
+                {game.platforms.map((platform) => (
                   <Badge
                     variant="secondary"
                     className="bg-foreground text-muted"
@@ -114,14 +119,14 @@ function RouteComponent() {
               <div className="flex flex-col">
                 <h3 className="text-lg font-semibold">Release Date</h3>
                 <p className="text-muted-foreground text-sm">
-                  {game?.releaseDate
+                  {game.releaseDate
                     ? format(game.releaseDate, "dd MMM yyyy")
                     : "Unknown"}
                 </p>
               </div>
               <div className="flex flex-col gap-y-1">
                 <h3 className="text-lg font-semibold">Age Rating</h3>
-                {Array.isArray(game?.ageRating) && game.ageRating.length > 0 ? (
+                {Array.isArray(game.ageRating) && game.ageRating.length > 0 ? (
                   <div className="flex flex-col gap-y-2 text-muted-foreground text-sm">
                     {game.ageRating.map((r) => (
                       <div key={r.id}>
@@ -136,13 +141,13 @@ function RouteComponent() {
               </div>
               <div className="flex flex-col gap-y-2">
                 <h3>User rating</h3>
-                <GameRating rating={game?.rating || null} />
+                <GameRating rating={game.rating || null} />
               </div>
             </div>
             <div className="flex gap-x-12 flex-row">
               <div className="flex flex-col gap-1 my-4 flex-wrap">
                 <h3 className="text-lg font-semibold">Developers</h3>
-                {game?.developer.map((developer) => {
+                {game.developer.map((developer) => {
                   return (
                     <p
                       className="text-muted-foreground text-sm"
@@ -155,7 +160,7 @@ function RouteComponent() {
               </div>
               <div className="flex flex-col gap-1 my-4 flex-wrap">
                 <h3 className="text-lg font-semibold">Publishers</h3>
-                {game?.publisher.map((publisher) => {
+                {game.publisher.map((publisher) => {
                   return (
                     <p
                       className="text-muted-foreground text-sm"
@@ -172,7 +177,7 @@ function RouteComponent() {
           <div className="w-full lg:w-[350px] flex flex-col gap-4">
             <img
               className="rounded-lg object-cover w-full h-auto"
-              src={game?.coverImage?.url.replace("t_thumb", "t_original")}
+              src={game.coverImage?.url.replace("t_thumb", "t_original")}
               alt="Game Cover"
             />
           </div>
@@ -184,7 +189,7 @@ function RouteComponent() {
           <h3 className="mx-10 text-3xl font-semibold">Screenshots </h3>
           <Carousel className="mx-10" opts={{ loop: true }}>
             <CarouselContent>
-              {game?.screenshots.map((screenshot) => (
+              {game.screenshots.map((screenshot) => (
                 <CarouselItem
                   className="basis-full sm:basis-1/2 lg:basis-1/3 pl-4"
                   key={screenshot.id}

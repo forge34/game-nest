@@ -7,7 +7,7 @@ import {
   useMatchRoute,
 } from "@tanstack/react-router";
 import { useState } from "react";
-import { getAllGames, getAllGenres } from "@/api/games";
+import { getAllGames, getAllGenres} from "@/api/games";
 import { useQuery } from "@tanstack/react-query";
 import CollapsibleCard from "@/components/collapsible-card";
 

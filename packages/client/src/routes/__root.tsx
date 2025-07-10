@@ -1,5 +1,6 @@
 import { queryClient } from "@/api";
 import { getMe } from "@/api/auth";
+import { getLibrary } from "@/api/games";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import {  Home, Info, Library, LogInIcon, Search } from "lucide-react";
+import { Home, Info, Library, LogInIcon, Search } from "lucide-react";
 import { useEffect } from "react";
 
 interface MyRouterContext {
@@ -23,6 +24,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent,
   loader: async ({ context }) => {
     const data = await context.queryClient.ensureQueryData(getMe());
+    if (data) {
+      await context.queryClient.ensureQueryData(getLibrary());
+    }
 
     return data;
   },
