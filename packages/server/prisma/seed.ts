@@ -21,6 +21,15 @@ type FetchedPlatforms = {
   platform_logo?: number;
 };
 
+type FetchedArtwork = {
+  id: number;
+  url: string;
+  game: number;
+  image_id?: string;
+  width?: number;
+  height?: number;
+};
+
 type FetchedCover = {
   id: number;
   url: string;
@@ -63,6 +72,7 @@ type FetchedGame = {
   platforms: number[];
   involved_companies?: number[];
   age_ratings: number[];
+  artworks: number[];
 };
 
 type FetchedAgeRating = {
@@ -99,6 +109,7 @@ async function getAccessToken() {
   }
 }
 
+
 async function seed() {
   const token = (await getAccessToken())?.access_token || "";
   const prisma = new PrismaClient();
@@ -119,6 +130,7 @@ async function seed() {
         "platforms",
         "involved_companies",
         "age_ratings",
+        "artworks",
       ])
       .where(["rating != null", "cover != null", "total_rating_count > 50"])
       .limit(50)
@@ -145,15 +157,6 @@ async function seed() {
       }
 
       coverData = cover;
-
-      await prisma.cover.upsert({
-        where: { igdbId: cover.id },
-        update: {},
-        create: {
-          igdbId: cover.id,
-          url: cover.url,
-        },
-      });
     } else {
       console.log(`Skipping ${game.name} — no cover ID`);
       continue;
@@ -167,18 +170,6 @@ async function seed() {
           .where(`id = (${game.genres.join(",")})`)
           .request("/genres")
       ).data as FetchedGenres[];
-
-      for (const genre of genres) {
-        await prisma.genre.upsert({
-          where: { igdbId: genre.id },
-          update: {},
-          create: {
-            igdbId: genre.id,
-            name: genre.name,
-            slug: genre.slug,
-          },
-        });
-      }
     }
 
     let platforms: FetchedPlatforms[] = [];
@@ -189,19 +180,6 @@ async function seed() {
           .where(`id = (${game.platforms.join(",")})`)
           .request("/platforms")
       ).data as FetchedPlatforms[];
-
-      for (const platform of platforms) {
-        await prisma.platform.upsert({
-          where: { igdbId: platform.id },
-          update: {},
-          create: {
-            igdbId: platform.id,
-            name: platform.name,
-            slug: platform.slug,
-            abbreviation: platform.abbreviation,
-          },
-        });
-      }
     }
 
     const screenshots = (
@@ -211,6 +189,17 @@ async function seed() {
         .limit(10)
         .request("/screenshots")
     ).data as FetchedScreenshot[];
+
+    let artworks: FetchedArtwork[] = [];
+    if (game.artworks?.length) {
+      artworks = (
+        await client
+          .fields(["id", "url", "game", "image_id"])
+          .where(`id = (${game.artworks.join(",")})`)
+          .limit(10)
+          .request("/artworks")
+      ).data as FetchedArtwork[];
+    }
 
     const involvedCompanies = (
       await client
@@ -238,6 +227,26 @@ async function seed() {
       });
     }
 
+    await prisma.img.upsert({
+      where: { igdbId: coverData.id },
+      update: {},
+      create: {
+        igdbId: coverData.id,
+        url: coverData.url,
+      },
+    });
+
+    for (const artwork of artworks) {
+      await prisma.img.upsert({
+        where: { igdbId: artwork.id },
+        update: {},
+        create: {
+          igdbId: artwork.id,
+          url: artwork.url,
+        },
+      });
+    }
+
     await prisma.game.upsert({
       where: { igdbId: game.id },
       update: {},
@@ -249,12 +258,35 @@ async function seed() {
         storyline: game.storyline,
         rating: game.rating,
         releaseDate: new Date(game.first_release_date * 1000),
-        coverImage: { connect: { igdbId: coverData.id } },
+        coverImage: {
+          connectOrCreate: {
+            where: { igdbId: coverData.id },
+            create: {
+              igdbId: coverData.id,
+              url: coverData.url,
+            },
+          },
+        },
         genres: {
-          connect: genres.map((g) => ({ igdbId: g.id })),
+          connectOrCreate: genres.map((g) => ({
+            where: { igdbId: g.id },
+            create: {
+              igdbId: g.id,
+              name: g.name,
+              slug: g.slug,
+            },
+          })),
         },
         platforms: {
-          connect: platforms.map((p) => ({ igdbId: p.id })),
+          connectOrCreate: platforms.map((p) => ({
+            where: { igdbId: p.id },
+            create: {
+              igdbId: p.id,
+              name: p.name,
+              slug: p.slug,
+              abbreviation: p.abbreviation,
+            },
+          })),
         },
         screenshots: {
           create: screenshots.map((s) => ({
@@ -264,14 +296,35 @@ async function seed() {
           })),
         },
         developer: {
-          connect: involvedCompanies
+          connectOrCreate: involvedCompanies
             .filter((i) => i.developer)
-            .map((i) => ({ igdbId: i.company })),
+            .map((i) => ({
+              where: { igdbId: i.company },
+              create: {
+                igdbId: i.company,
+                name: "", 
+              },
+            })),
         },
         publisher: {
-          connect: involvedCompanies
+          connectOrCreate: involvedCompanies
             .filter((i) => i.publisher)
-            .map((i) => ({ igdbId: i.company })),
+            .map((i) => ({
+              where: { igdbId: i.company },
+              create: {
+                igdbId: i.company,
+                name: "", // already upserted above
+              },
+            })),
+        },
+        artworks: {
+          connectOrCreate: artworks.map((a) => ({
+            where: { igdbId: a.id },
+            create: {
+              igdbId: a.id,
+              url: a.url,
+            },
+          })),
         },
       },
     });
@@ -305,12 +358,14 @@ async function seed() {
         });
       }
     }
+
     console.log(`Inserted: ${game.name}`);
   }
 
   console.log("Finished seeding.");
   await prisma.$disconnect();
 }
+
 
 seed().catch((e) => {
   console.error(e);
