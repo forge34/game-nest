@@ -22,8 +22,8 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import useIsFavourite from "@/lib/hooks/use-is-favourite";
 import HeartBtn from "@/components/heart-btn";
+import useLibrary from "@/lib/hooks/use-library";
 
 export const Route = createFileRoute("/discover/$gameId")({
   component: RouteComponent,
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/discover/$gameId")({
 function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
-  const isFavourite = useIsFavourite(game);
+  const { isFavourite } = useLibrary();
 
   if (!game) {
     return <p>Game data not available</p>;
@@ -72,7 +72,7 @@ function RouteComponent() {
                     <p>Add to Library</p>
                   </TooltipContent>
                 </Tooltip>
-                <HeartBtn isFavourite={isFavourite} id={game.igdbId} />
+                <HeartBtn isFavourite={isFavourite(game)} id={game.igdbId} />
               </div>
             </div>
             <h3 className="text-xl font-semibold text-muted-foreground">

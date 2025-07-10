@@ -19,10 +19,10 @@ import {
 } from "@/components/ui/carousel";
 import { useAuthStore } from "@/store/auth";
 import { useQuery } from "@tanstack/react-query";
-import { getAllGames, useAddToLibrary } from "@/api/games";
+import { getAllGames } from "@/api/games";
 import { format } from "date-fns";
 import HeartBtn from "@/components/heart-btn";
-import useIsFavourite from "@/lib/hooks/use-is-favourite";
+import useLibrary from "@/lib/hooks/use-library";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -38,9 +38,10 @@ function RouteComponent() {
   const releaseDate = featured.releaseDate
     ? format(featured.releaseDate, "dd MMM yyyy")
     : "Unkown";
-  const addFn = useAddToLibrary();
 
-  const isFavourite = useIsFavourite(featured);
+  const { addToLibrary } = useLibrary();
+
+  const { isFavourite } = useLibrary();
 
   return (
     <div className="flex flex-col gap-4 mt-4 mx-4 lg:mx-10 py-3 px-6">
@@ -101,11 +102,14 @@ function RouteComponent() {
                 <Button
                   variant="outline"
                   type="button"
-                  onClick={() => addFn.mutate(`${featured.igdbId}`)}
+                  onClick={() => addToLibrary(`${featured.igdbId}`)}
                 >
                   Add to library
                 </Button>
-                <HeartBtn id={featured.igdbId} isFavourite={isFavourite} />
+                <HeartBtn
+                  id={featured.igdbId}
+                  isFavourite={isFavourite(featured)}
+                />
               </>
             )}
           </CardAction>

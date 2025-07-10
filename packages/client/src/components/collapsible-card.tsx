@@ -11,14 +11,14 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
 import HeartBtn from "./heart-btn";
-import useIsFavourite from "@/lib/hooks/use-is-favourite";
+import useLibrary from "@/lib/hooks/use-library";
 
 function CollapsibleCard({ game }: { game: GamesAllIncluded }) {
   const releaseDate = game.releaseDate
     ? format(game.releaseDate, "dd MMM yyyy")
     : "Unknown";
 
-  const isFavourite = useIsFavourite(game);
+  const { isFavourite } = useLibrary();
 
   return (
     <Collapsible className="bg-card py-2 px-4 rounded-md border">
@@ -79,7 +79,7 @@ function CollapsibleCard({ game }: { game: GamesAllIncluded }) {
 
           <div className="flex justify-between mt-3">
             <Button>Add to library</Button>
-            <HeartBtn id={game.igdbId} isFavourite={isFavourite} />
+            <HeartBtn id={game.igdbId} isFavourite={isFavourite(game)} />
           </div>
         </CollapsibleContent>
       </div>

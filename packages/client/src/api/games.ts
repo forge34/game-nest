@@ -4,7 +4,7 @@ import type {
   GenresWithGames,
   Library,
 } from "@game-forge/shared";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 
 const getAllGames = () =>
   queryOptions({
@@ -33,43 +33,4 @@ const getLibrary = () =>
       }),
   });
 
-const addToLibrary = (gameId: string) => {
-  console.log(gameId);
-  return safeFetch("library", {
-    method: "post",
-    credentials: "include",
-    body: JSON.stringify({
-      gameId,
-    }),
-    headers: { "Content-Type": "application/json" },
-  });
-};
-
-const markAsFavourite = (gameId: string) => {
-  return safeFetch(`library/${gameId}`, {
-    method: "post",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-  });
-};
-
-const useMarkAsFavourite = () => {
-  return useMutation({
-    mutationFn: (id: string) => markAsFavourite(id),
-  });
-};
-
-const useAddToLibrary = () => {
-  return useMutation({
-    mutationFn: (id: string) => addToLibrary(id),
-  });
-};
-
-export {
-  getAllGames,
-  getGameById,
-  getAllGenres,
-  useAddToLibrary,
-  getLibrary,
-  useMarkAsFavourite,
-};
+export { getAllGames, getGameById, getAllGenres, getLibrary };
