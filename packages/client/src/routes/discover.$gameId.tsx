@@ -59,7 +59,7 @@ function RouteComponent() {
                 <AddToLibraryButton
                   disabled={isInLibrary(game)}
                   inLibrary={isInLibrary(game)}
-                  onClick={() => addToLibrary(game.igdbId)}
+                  onClick={() => addToLibrary(game.igdbId.toString())}
                   display="icon"
                 />
                 <HeartBtn isFavourite={isFavourite(game)} id={game.igdbId} />

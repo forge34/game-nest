@@ -1,6 +1,6 @@
 import { safeFetch } from "@/utils";
 import type {
-  GamesAllIncluded,
+  Game,
   GenresWithGames,
   Library,
 } from "@game-forge/shared";
@@ -9,13 +9,13 @@ import { queryOptions } from "@tanstack/react-query";
 const getAllGames = () =>
   queryOptions({
     queryKey: ["game"],
-    queryFn: () => safeFetch<GamesAllIncluded[]>("games", {}),
+    queryFn: () => safeFetch<Game[]>("games", {}),
   });
 
 const getGameById = (id: string) =>
   queryOptions({
     queryKey: ["game", id],
-    queryFn: () => safeFetch<GamesAllIncluded>(`games/${id}`, {}),
+    queryFn: () => safeFetch<Game>(`games/${id}`, {}),
   });
 
 const getAllGenres = () =>

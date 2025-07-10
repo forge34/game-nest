@@ -123,8 +123,6 @@ function GameDetails({ game }: { game: Library[number] }) {
         <img src={gameCover} className="w-[14rem] rounded-md" />
         <div className="flex flex-col">
           <h3 className="text-4xl font-semibold">{game.game.title}</h3>
-          <h3 className="text-lg text-muted-foreground font-semibold">About</h3>
-          <GameSummary summary={game.game.summary || ""} />
         </div>
       </div>
       <div className="flex flex-col mt-4">
@@ -152,24 +150,4 @@ function GameDetails({ game }: { game: Library[number] }) {
   );
 }
 
-function GameSummary({ summary }: { summary: string }) {
-  const [expanded, setExpanded] = useState(false);
-  const limit = 300;
-  const isLong = summary.length > limit;
 
-  const toggleExpanded = () => setExpanded((prev) => !prev);
-
-  return (
-    <div className="relative text-muted-foreground">
-      <p>{expanded || !isLong ? summary : summary.slice(0, limit) + "..."}</p>
-      {isLong && (
-        <button
-          onClick={toggleExpanded}
-          className="mt-2 text-primary font-semibold hover:underline"
-        >
-          {expanded ? "Show less" : "Read more"}
-        </button>
-      )}
-    </div>
-  );
-}

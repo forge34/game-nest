@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/collapsible";
 import GameRating from "@/components/game-rating";
 import { Badge } from "@/components/ui/badge";
-import type { GamesAllIncluded } from "@game-forge/shared";
+import type { Game } from "@game-forge/shared";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
@@ -13,7 +13,7 @@ import HeartBtn from "./heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "./add-to-library-btn";
 
-function CollapsibleCard({ game }: { game: GamesAllIncluded }) {
+function CollapsibleCard({ game }: { game: Game }) {
   const releaseDate = game.releaseDate
     ? format(game.releaseDate, "dd MMM yyyy")
     : "Unknown";

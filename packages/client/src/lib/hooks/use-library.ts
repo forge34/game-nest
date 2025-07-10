@@ -1,7 +1,7 @@
 import { queryClient } from "@/api";
 import { getLibrary } from "@/api/games";
 import { safeFetch } from "@/utils";
-import type { GamesAllIncluded } from "@game-forge/shared";
+import type { Game } from "@game-forge/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const markAsFavouriteFn = (gameId: string) => {
@@ -40,7 +40,7 @@ function useLibrary() {
     },
   });
 
-  const isFavourite = (game: GamesAllIncluded) =>
+  const isFavourite = (game: Game) =>
     library.some((g) => g.gameId === game.id && g.favorite);
 
   const toggleFavourite = (gameId: string) => {
@@ -51,7 +51,7 @@ function useLibrary() {
     addToLibraryMutation.mutate(id);
   };
 
-  const isInLibrary = (game: GamesAllIncluded) =>
+  const isInLibrary = (game: Game) =>
     library.some((g) => g.gameId === game.id);
 
   const countFavourites = () => library.filter((game) => game.favorite).length;

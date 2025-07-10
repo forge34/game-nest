@@ -1,5 +1,5 @@
 import GenreFilter from "@/components/horizontal-filter";
-import type { GamesAllIncluded, GenresWithGames } from "@game-forge/shared";
+import type { Game, GenresWithGames } from "@game-forge/shared";
 import {
   createFileRoute,
   Link,
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/discover")({
     context,
   }): Promise<{
     genres: GenresWithGames[];
-    games: GamesAllIncluded[];
+    games: Game[];
   }> => {
     const genres = await context.queryClient.ensureQueryData(getAllGenres());
     const games = await context.queryClient.ensureQueryData(getAllGames());
