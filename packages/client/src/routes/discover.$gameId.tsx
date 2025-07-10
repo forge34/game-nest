@@ -40,6 +40,7 @@ function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
   const isFavourite = useIsFavourite(game);
+
   if (!game) {
     return <p>Game data not available</p>;
   }
@@ -71,17 +72,7 @@ function RouteComponent() {
                     <p>Add to Library</p>
                   </TooltipContent>
                 </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HeartBtn id={game.igdbId} isFavourite={isFavourite} />
-                  </TooltipTrigger>
-                  <TooltipContent
-                    className="bg-background border"
-                    arrowClassName="bg-background fill-background border-b-1 border-r-1"
-                  >
-                    <p>Mark as favourite</p>
-                  </TooltipContent>
-                </Tooltip>
+                <HeartBtn isFavourite={isFavourite} id={game.igdbId} />
               </div>
             </div>
             <h3 className="text-xl font-semibold text-muted-foreground">
