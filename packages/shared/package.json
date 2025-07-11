@@ -3,19 +3,11 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "files": [
     "dist"
   ],
-  "devDependencies": {
-    "@game-forge/server": "*"
-  },
   "scripts": {
     "build": "tsc -p tsconfig.json"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
   }
 }

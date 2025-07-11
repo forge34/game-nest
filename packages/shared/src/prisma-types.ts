@@ -1,3 +1,4 @@
+import { gameIncludes } from ".";
 import { Prisma } from "../../server/generated/prisma";
 
 export type Game = Prisma.GameGetPayload<{
@@ -28,17 +29,3 @@ export type PlatformWithGames = Prisma.PlatformGetPayload<{
     games: true;
   };
 }>;
-
-
-export const gameIncludes = {
-  coverImage: true,
-  genres: true,
-  platforms: true,
-  parent_game: true,
-  reviews: true,
-  screenshots: true,
-  ageRating: true,
-  developer: true,
-  publisher: true,
-  artworks: true,
-} as const;
