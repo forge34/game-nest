@@ -15,9 +15,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Filter, ListFilter } from "lucide-react";
 
+const sortOptions = [
+  { label: "A - Z", value: "az" },
+  { label: "Z - A", value: "za" },
+  { label: "Release date", value: "rel_date" },
+  { label: "Rating", value: "rating" },
+] as const;
+
+export type SortOptions = (typeof sortOptions)[number]["value"];
+
 export interface FilterState {
   genres: string[];
   platforms: string[];
+  sort: string;
 }
 
 interface GenreFilterProps {
@@ -28,6 +38,11 @@ interface GenreFilterProps {
 
 function GenreFilter({ filters, state, onChangeChecked }: GenreFilterProps) {
   function togglefilter(type: keyof FilterState, value: string) {
+    if (type === "sort") {
+      onChangeChecked({ ...state, sort: value });
+      return;
+    }
+
     const currentFilters = state[type] as string[];
     const newFilters = currentFilters.includes(value)
       ? currentFilters.filter((v) => v !== value)
@@ -103,12 +118,16 @@ function GenreFilter({ filters, state, onChangeChecked }: GenreFilterProps) {
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>Sort filters</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuRadioGroup>
-              <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="bottom">
-                Bottom
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+            <DropdownMenuRadioGroup
+              onValueChange={(v) => togglefilter("sort", v)}
+            >
+              {sortOptions.map((t) => {
+                return (
+                  <DropdownMenuRadioItem value={t.value} key={t.value}>
+                    {t.label}
+                  </DropdownMenuRadioItem>
+                );
+              })}
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>

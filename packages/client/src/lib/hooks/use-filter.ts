@@ -6,6 +6,7 @@ function useFilter() {
   const [filter, setfilters] = useState<FilterState>({
     genres: [],
     platforms: [],
+    sort: "",
   });
 
   const matchesGenre = (game: Game) =>
