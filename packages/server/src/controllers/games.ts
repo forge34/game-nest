@@ -1,6 +1,6 @@
+import { gameIncludes } from "@game-forge/shared";
 import prisma from "../config/prisma";
 import { Response, Request } from "express";
-import { gameIncludes } from "../types";
 
 const GamesRoute = {
   findMany: async (req: Request, res: Response) => {
@@ -37,7 +37,7 @@ const GamesRoute = {
     const platforms = await prisma.platform.findMany({
       include: { games: true },
     });
-    res.status(200).json(platforms)
+    res.status(200).json(platforms);
   },
 };
 

@@ -9,6 +9,7 @@
   },
   "private": true,
   "dependencies": {
+    "@game-forge/shared": "1.0.0",
     "@prisma/client": "^6.4.1",
     "apicalypse": "^1.0.5",
     "bcryptjs": "^3.0.2",

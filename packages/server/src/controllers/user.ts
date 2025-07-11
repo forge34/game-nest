@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import passport from "passport";
 import prisma from "../config/prisma";
 import { User } from "../../generated/prisma";
-import { gameIncludes } from "../types";
+import { gameIncludes } from "@game-forge/shared";
 
 const UsersRoute = {
   findFavourties: [

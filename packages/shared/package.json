@@ -6,6 +6,9 @@
   "files": [
     "dist"
   ],
+  "devDependencies": {
+    "@game-forge/server": "*"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
