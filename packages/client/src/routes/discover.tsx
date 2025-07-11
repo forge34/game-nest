@@ -1,7 +1,4 @@
-import GenreFilter, {
-  type FilterState,
-  type SortOptions,
-} from "@/components/horizontal-filter";
+import GenreFilter, { type FilterState } from "@/components/horizontal-filter";
 import type { Game, GenresWithGames } from "@game-forge/shared";
 import {
   createFileRoute,
@@ -35,7 +32,8 @@ function RouteComponent() {
   const { data: genres = [] } = useQuery(getAllGenres());
   const { data: platforms = [] } = useQuery(getAllPlatforms());
   const { data: games = [] } = useQuery(getAllGames());
-  const { filter, setfilters, matchesGenre, matchesPlatform } = useFilter();
+  const { compare, filter, setfilters, matchesGenre, matchesPlatform } =
+    useFilter();
 
   function onFilter(fs: FilterState) {
     setfilters({
@@ -44,22 +42,18 @@ function RouteComponent() {
       sort: fs.sort,
     });
   }
-  console.log(filter);
+
+  function clearFitlers() {
+    console.log("clearing")
+    setfilters({
+      genres: [],
+      platforms: [],
+      sort: "az",
+    });
+  }
   const filteredGames = games
     .filter((g) => matchesGenre(g) && matchesPlatform(g))
-    .sort((a, b) => {
-      const sortType = filter.sort as SortOptions;
-      switch (sortType) {
-        case "az":
-          return a.title.localeCompare(b.title); // A → Z
-        case "za":
-          return b.title.localeCompare(a.title); // Z → A
-        case "rating":
-          return (b.rating ?? 0) - (a.rating ?? 0); // high → low
-        default:
-          return 0;
-      }
-    });
+    .sort(compare);
 
   return (
     <>
@@ -68,11 +62,8 @@ function RouteComponent() {
       ) : (
         <div className="flex flex-col mx-6 mask-y-from-04 gap-4">
           <GenreFilter
-            state={{
-              genres: filter.genres,
-              platforms: filter.platforms,
-              sort: filter.sort,
-            }}
+            onClear={clearFitlers}
+            state={filter}
             filters={{ genres, platforms }}
             onChangeChecked={onFilter}
           />
