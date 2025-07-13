@@ -16,7 +16,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Home, Info, Library, LogInIcon, Search } from "lucide-react";
 import { useEffect } from "react";
 
-interface MyRouterContext {
+type MyRouterContext = {
   queryClient: QueryClient;
 }
 

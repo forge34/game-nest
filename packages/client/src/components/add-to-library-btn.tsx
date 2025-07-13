@@ -6,11 +6,11 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 
-interface props extends React.ComponentProps<"button"> {
+type props = React.ComponentProps<"button"> & {
   display?: "icon" | "button";
   inLibrary: boolean;
   onClick?: () => void;
-}
+};
 
 function AddToLibraryButton({
   display = "button",

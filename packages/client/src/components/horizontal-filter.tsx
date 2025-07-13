@@ -24,13 +24,13 @@ const sortOptions = [
 
 export type SortOptions = (typeof sortOptions)[number]["value"];
 
-export interface FilterState {
+export type FilterState = {
   genres: string[];
   platforms: string[];
   sort: string;
 }
 
-interface GenreFilterProps {
+type GenreFilterProps = {
   filters: { genres: GenresWithGames[]; platforms: PlatformWithGames[] };
   state: FilterState;
   onChangeChecked: (fs: FilterState) => void;
