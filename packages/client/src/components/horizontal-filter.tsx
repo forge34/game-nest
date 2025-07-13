@@ -1,4 +1,9 @@
-import type { GenresWithGames, PlatformWithGames } from "@game-forge/shared";
+import {
+  sortOptions,
+  type FilterState,
+  type GenresWithGames,
+  type PlatformWithGames,
+} from "@game-forge/shared";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Checkbox } from "./ui/checkbox";
@@ -15,27 +20,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Filter, ListFilter } from "lucide-react";
 
-const sortOptions = [
-  { label: "A - Z", value: "az" },
-  { label: "Z - A", value: "za" },
-  { label: "Release date", value: "rel_date" },
-  { label: "Rating", value: "rating" },
-] as const;
-
-export type SortOptions = (typeof sortOptions)[number]["value"];
-
-export type FilterState = {
-  genres: string[];
-  platforms: string[];
-  sort: string;
-}
-
 type GenreFilterProps = {
   filters: { genres: GenresWithGames[]; platforms: PlatformWithGames[] };
   state: FilterState;
   onChangeChecked: (fs: FilterState) => void;
   onClear: () => void;
-}
+};
 
 function GenreFilter({
   filters,

@@ -1,5 +1,6 @@
 import { safeFetch, type RouteError } from "@/utils";
 import type {
+  FilterState,
   Game,
   GenresWithGames,
   Library,
@@ -7,10 +8,19 @@ import type {
 } from "@game-forge/shared";
 import { queryOptions } from "@tanstack/react-query";
 
-const getAllGames = () =>
+const getAllGames = (page?: number, filters?: FilterState) =>
   queryOptions({
-    queryKey: ["game"],
-    queryFn: () => safeFetch<Game[]>("games", {}),
+    queryKey: ["game", { page, ...filters }],
+    queryFn: () => {
+      const params = new URLSearchParams();
+      if (filters) {
+        filters.genres.forEach((g) => params.append("genre", g));
+        filters.platforms.forEach((p) => params.append("platform", p));
+        params.set("sort", filters.sort);
+        params.set("page", page?.toString() || "1");
+      }
+      return safeFetch<Game[]>(`games?${params.toString()}`, {});
+    },
   });
 
 const getGameById = (id: string) =>

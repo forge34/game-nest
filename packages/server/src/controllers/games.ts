@@ -1,11 +1,30 @@
-import { gameIncludes } from "@game-forge/shared";
+import { gameIncludes, mappedSort, SortOptions } from "@game-forge/shared";
 import prisma from "../config/prisma";
 import { Response, Request } from "express";
+import { toArray } from "../utils";
 
 const GamesRoute = {
   findMany: async (req: Request, res: Response) => {
+    const page = Number(req.query.page) || 1;
+    const genre = toArray<string>(req.query.genre as string[]);
+    const platform = toArray<string>(req.query.platform as string[]);
+    const sort = (req.query.sort as SortOptions) || ("az" as const);
+    const limit = 12;
+    const offset = (page - 1) * limit;
+
     const games = await prisma.game.findMany({
       include: gameIncludes,
+      skip: offset,
+      take: limit,
+      where: {
+        genres:
+          genre.length > 0 ? { some: { name: { in: genre } } } : undefined,
+        platforms:
+          platform.length > 0
+            ? { some: { name: { in: platform } } }
+            : undefined,
+      },
+      orderBy: mappedSort[sort],
     });
 
     res.status(200).json(games);

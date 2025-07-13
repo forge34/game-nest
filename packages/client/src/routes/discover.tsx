@@ -1,5 +1,5 @@
-import GenreFilter, { type FilterState } from "@/components/horizontal-filter";
-import type { Game, GenresWithGames } from "@game-forge/shared";
+import GenreFilter from "@/components/horizontal-filter";
+import type { FilterState, Game, GenresWithGames } from "@game-forge/shared";
 import {
   createFileRoute,
   Link,
@@ -9,7 +9,7 @@ import {
 import { getAllGames, getAllGenres, getAllPlatforms } from "@/api/games";
 import { useQuery } from "@tanstack/react-query";
 import CollapsibleCard from "@/components/collapsible-card";
-import useFilter from "@/lib/hooks/use-filter";
+import { useState } from "react";
 
 export const Route = createFileRoute("/discover")({
   component: RouteComponent,
@@ -31,10 +31,12 @@ function RouteComponent() {
   const isMatched = match({ to: "/discover" });
   const { data: genres = [] } = useQuery(getAllGenres());
   const { data: platforms = [] } = useQuery(getAllPlatforms());
-  const { data: games = [] } = useQuery(getAllGames());
-  const { compare, filter, setfilters, matchesGenre, matchesPlatform } =
-    useFilter();
-
+  const [filter, setfilters] = useState<FilterState>({
+    genres: [],
+    platforms: [],
+    sort: "az",
+  });
+  const { data: games = [] } = useQuery(getAllGames(0, filter));
   function onFilter(fs: FilterState) {
     setfilters({
       genres: fs.genres,
@@ -50,9 +52,6 @@ function RouteComponent() {
       sort: "az",
     });
   }
-  const filteredGames = games
-    .filter((g) => matchesGenre(g) && matchesPlatform(g))
-    .sort(compare);
 
   return (
     <>
@@ -67,7 +66,7 @@ function RouteComponent() {
             onChangeChecked={onFilter}
           />
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredGames.map((game) => {
+            {games.map((game) => {
               return (
                 <Link
                   to="/discover/$gameId"

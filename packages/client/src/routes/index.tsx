@@ -118,7 +118,7 @@ function RouteComponent() {
         <Carousel className="mt-6 mx-6" opts={{ loop: true }}>
           <CarouselContent>
             {data.map((game) => (
-              <CarouselItem key={game.igdbId} className="basis-1/5">
+              <CarouselItem key={game.igdbId} className="basis-1/5 ml-2">
                 <HoverCard game={game} />
               </CarouselItem>
             ))}

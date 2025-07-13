@@ -1,4 +1,4 @@
-import { gameIncludes } from ".";
+import { gameIncludes, SortOptions } from ".";
 import { Prisma } from "../../server/generated/prisma";
 
 export type Game = Prisma.GameGetPayload<{
@@ -29,3 +29,13 @@ export type PlatformWithGames = Prisma.PlatformGetPayload<{
     games: true;
   };
 }>;
+
+export const mappedSort: Record<
+  SortOptions,
+  Prisma.GameFindManyArgs["orderBy"]
+> = {
+  za: { title: "desc" },
+  az: { title: "asc" },
+  rel_date: { title: "desc" },
+  rating: { rating: "desc" },
+};
