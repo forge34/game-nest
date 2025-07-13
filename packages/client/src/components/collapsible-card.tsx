@@ -12,6 +12,7 @@ import { Separator } from "./ui/separator";
 import HeartBtn from "./heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "./add-to-library-btn";
+import { useAuthStore } from "@/store/auth";
 
 function CollapsibleCard({ game }: { game: Game }) {
   const releaseDate = game.releaseDate
@@ -19,6 +20,7 @@ function CollapsibleCard({ game }: { game: Game }) {
     : "Unknown";
 
   const { isFavourite, isInLibrary, addToLibrary } = useLibrary();
+  const user = useAuthStore((s) => s.user);
 
   return (
     <Collapsible className="bg-card py-2 px-4 rounded-md border">
@@ -77,15 +79,17 @@ function CollapsibleCard({ game }: { game: Game }) {
             {game.reviews.length} User Reviews
           </p>
 
-          <div className="flex justify-between mt-3">
-            <AddToLibraryButton
-              inLibrary={isInLibrary(game)}
-              onClick={() => {
-                addToLibrary(game.igdbId.toString());
-              }}
-            />
-            <HeartBtn id={game.igdbId} isFavourite={isFavourite(game)} />
-          </div>
+          {user && (
+            <div className="flex justify-between mt-3">
+              <AddToLibraryButton
+                inLibrary={isInLibrary(game)}
+                onClick={() => {
+                  addToLibrary(game.igdbId.toString());
+                }}
+              />
+              <HeartBtn id={game.igdbId} isFavourite={isFavourite(game)} />
+            </div>
+          )}
         </CollapsibleContent>
       </div>
     </Collapsible>
