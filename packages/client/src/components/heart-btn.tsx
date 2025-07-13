@@ -17,7 +17,11 @@ function HeartBtn({ id, isFavourite }: { isFavourite: boolean; id: number }) {
           type="button"
           variant="outline"
           aria-label={isFavourite ? "Unmark favourite" : "Mark favourite"}
-          onClick={() => toggleFavourite(`${id}`)}
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation();
+            toggleFavourite(`${id}`);
+          }}
         >
           <Heart
             color="var(--heart)"

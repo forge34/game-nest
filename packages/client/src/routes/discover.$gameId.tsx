@@ -35,7 +35,7 @@ export const Route = createFileRoute("/discover/$gameId")({
 function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
-  const { isFavourite, isInLibrary, addToLibrary } = useLibrary();
+  const { isFavourite, isInLibrary } = useLibrary();
   const user = useAuthStore(s => s.user)
 
   if (!game) {
@@ -61,8 +61,8 @@ function RouteComponent() {
                 <AddToLibraryButton
                   disabled={isInLibrary(game)}
                   inLibrary={isInLibrary(game)}
-                  onClick={() => addToLibrary(game.igdbId.toString())}
                   display="icon"
+                  game={game}
                 />
                 <HeartBtn isFavourite={isFavourite(game)} id={game.igdbId} />
               </div> }

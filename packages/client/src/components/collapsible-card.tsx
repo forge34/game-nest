@@ -19,7 +19,7 @@ function CollapsibleCard({ game }: { game: Game }) {
     ? format(game.releaseDate, "dd MMM yyyy")
     : "Unknown";
 
-  const { isFavourite, isInLibrary, addToLibrary } = useLibrary();
+  const { isFavourite, isInLibrary } = useLibrary();
   const user = useAuthStore((s) => s.user);
 
   return (
@@ -83,9 +83,7 @@ function CollapsibleCard({ game }: { game: Game }) {
             <div className="flex justify-between mt-3">
               <AddToLibraryButton
                 inLibrary={isInLibrary(game)}
-                onClick={() => {
-                  addToLibrary(game.igdbId.toString());
-                }}
+                game={game}
               />
               <HeartBtn id={game.igdbId} isFavourite={isFavourite(game)} />
             </div>

@@ -41,7 +41,7 @@ function RouteComponent() {
     ? format(featured.releaseDate, "dd MMM yyyy")
     : "Unkown";
 
-  const { isFavourite, isInLibrary, addToLibrary } = useLibrary();
+  const { isFavourite, isInLibrary } = useLibrary();
 
   return (
     <div className="flex flex-col gap-4 mt-4 mx-4 lg:mx-10 py-3 px-6">
@@ -101,7 +101,7 @@ function RouteComponent() {
               <>
                 <AddToLibraryButton
                   inLibrary={isInLibrary(featured)}
-                  onClick={() => addToLibrary(featured.igdbId.toString())}
+                  game={featured}
                 />
                 <HeartBtn
                   id={featured.igdbId}

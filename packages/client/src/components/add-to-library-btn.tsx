@@ -5,24 +5,35 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
+import useLibrary from "@/lib/hooks/use-library";
+import type { Game } from "@game-forge/shared";
 
 type props = React.ComponentProps<"button"> & {
   display?: "icon" | "button";
   inLibrary: boolean;
-  onClick?: () => void;
+  game: Game;
 };
 
 function AddToLibraryButton({
   display = "button",
   inLibrary,
-  onClick,
+  game,
   ...props
 }: props) {
+  const { addToLibrary } = useLibrary();
   const btnText = inLibrary ? "Show in library" : "Add to library";
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant="outline" onClick={onClick} {...props}>
+        <Button
+          variant="outline"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            addToLibrary(game.igdbId.toString());
+          }}
+          {...props}
+        >
           {display === "icon" ? (
             <>
               {inLibrary ? <Check /> : <Plus />}
