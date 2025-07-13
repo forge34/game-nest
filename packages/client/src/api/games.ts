@@ -1,5 +1,10 @@
-import { safeFetch } from "@/utils";
-import type { Game, GenresWithGames, Library, PlatformWithGames } from "@game-forge/shared";
+import { safeFetch, type RouteError } from "@/utils";
+import type {
+  Game,
+  GenresWithGames,
+  Library,
+  PlatformWithGames,
+} from "@game-forge/shared";
 import { queryOptions } from "@tanstack/react-query";
 
 const getAllGames = () =>
@@ -33,6 +38,10 @@ const getLibrary = () =>
       safeFetch<Library>("library", {
         credentials: "include",
       }),
+    retry(failureCount, error: RouteError) {
+      if (error.status === 401) return false;
+      return failureCount < 3;
+    },
   });
 
 export { getAllGames, getGameById, getAllGenres, getLibrary, getAllPlatforms };

@@ -44,7 +44,6 @@ function RouteComponent() {
   }
 
   function clearFitlers() {
-    console.log("clearing")
     setfilters({
       genres: [],
       platforms: [],

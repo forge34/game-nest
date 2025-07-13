@@ -1,5 +1,6 @@
 import { queryClient } from "@/api";
 import { getLibrary } from "@/api/games";
+import { useAuthStore } from "@/store/auth";
 import { safeFetch } from "@/utils";
 import type { Game } from "@game-forge/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -24,7 +25,8 @@ const addToLibraryFn = (gameId: string) => {
 };
 
 function useLibrary() {
-  const { data: library = [] } = useQuery(getLibrary());
+  const user = useAuthStore((s) => s.user);
+  const { data: library = [] } = useQuery({ ...getLibrary(), enabled: !!user });
 
   const favouriteMutation = useMutation({
     mutationFn: (id: string) => markAsFavouriteFn(id),
@@ -51,8 +53,7 @@ function useLibrary() {
     addToLibraryMutation.mutate(id);
   };
 
-  const isInLibrary = (game: Game) =>
-    library.some((g) => g.gameId === game.id);
+  const isInLibrary = (game: Game) => library.some((g) => g.gameId === game.id);
 
   const countFavourites = () => library.filter((game) => game.favorite).length;
 
