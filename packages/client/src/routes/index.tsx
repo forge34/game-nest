@@ -24,6 +24,7 @@ import { format } from "date-fns";
 import HeartBtn from "@/components/heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "@/components/add-to-library-btn";
+import HoverCard from "@/components/hover-card";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -118,22 +119,7 @@ function RouteComponent() {
           <CarouselContent>
             {data.map((game) => (
               <CarouselItem key={game.igdbId} className="basis-1/5">
-                <Link
-                  to={`/discover/$gameId`}
-                  params={{ gameId: `${game.igdbId}` }}
-                >
-                  <div className="flex flex-col items-center gap-2 hover:bg-muted/10 transition-colors rounded-md">
-                    <img
-                      src={game.coverImage?.url.replace(
-                        "t_thumb",
-                        "t_cover_big",
-                      )}
-                      className="w-[10rem] rounded-md object-cover"
-                      alt={game.title}
-                    />
-                    <span className="text-sm">{game.title}</span>
-                  </div>
-                </Link>
+                <HoverCard game={game} />
               </CarouselItem>
             ))}
           </CarouselContent>
