@@ -19,6 +19,7 @@ import GameRating from "@/components/game-rating";
 import HeartBtn from "@/components/heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "@/components/add-to-library-btn";
+import { useAuthStore } from "@/store/auth";
 
 export const Route = createFileRoute("/discover/$gameId")({
   component: RouteComponent,
@@ -35,6 +36,7 @@ function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
   const { isFavourite, isInLibrary, addToLibrary } = useLibrary();
+  const user = useAuthStore(s => s.user)
 
   if (!game) {
     return <p>Game data not available</p>;
@@ -55,7 +57,7 @@ function RouteComponent() {
           <div className="flex-1 flex flex-col gap-2 pr-28">
             <div className="flex flex-row">
               <h1 className="text-4xl font-bold">{game.title}</h1>
-              <div className="flex flex-row ml-auto gap-x-4">
+              {user && <div className="flex flex-row ml-auto gap-x-4">
                 <AddToLibraryButton
                   disabled={isInLibrary(game)}
                   inLibrary={isInLibrary(game)}
@@ -63,7 +65,7 @@ function RouteComponent() {
                   display="icon"
                 />
                 <HeartBtn isFavourite={isFavourite(game)} id={game.igdbId} />
-              </div>
+              </div> }
             </div>
             <h3 className="text-xl font-semibold text-muted-foreground">
               About
