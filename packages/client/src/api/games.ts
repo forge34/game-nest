@@ -1,25 +1,28 @@
 import { safeFetch, type RouteError } from "@/utils";
-import type {
-  FilterState,
-  Game,
-  GenresWithGames,
-  Library,
-  PlatformWithGames,
+import {
+  filterStateSchema,
+  type FilterState,
+  type Game,
+  type GenresWithGames,
+  type Library,
+  type PlatformWithGames,
 } from "@game-forge/shared";
 import { queryOptions } from "@tanstack/react-query";
 
-const getAllGames = (page?: number, filters?: FilterState) =>
+const getAllGames = (filters?: Partial<FilterState>) =>
   queryOptions({
-    queryKey: ["game", { page, ...filters }],
+    queryKey: ["game", filters],
     queryFn: () => {
       const params = new URLSearchParams();
-      if (filters) {
-        filters.genres.forEach((g) => params.append("genre", g));
-        filters.platforms.forEach((p) => params.append("platform", p));
-        params.set("sort", filters.sort);
-        params.set("page", page?.toString() || "1");
-      }
-      return safeFetch<Game[]>(`games?${params.toString()}`, {});
+      const parsed = filterStateSchema.parse(filters ?? {});
+      parsed.genres.forEach((g) => params.append("genre", g));
+      parsed.platforms.forEach((p) => params.append("platform", p));
+      params.set("sort", parsed.sort);
+      params.set("page", parsed.page.toString());
+      return safeFetch<{ games: Game[]; total: number }>(
+        `games?${params.toString()}`,
+        {},
+      );
     },
   });
 

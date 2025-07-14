@@ -17,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import CollapsibleCard from "@/components/collapsible-card";
 import { zodValidator } from "@tanstack/zod-adapter";
 import useGames from "@/lib/hooks/use-games";
+import GamePagination from "@/components/game-pagination";
 
 export const Route = createFileRoute("/discover")({
   component: RouteComponent,
@@ -41,7 +42,7 @@ function RouteComponent() {
   const { data: genres = [] } = useQuery(getAllGenres());
   const { data: platforms = [] } = useQuery(getAllPlatforms());
   const filter = Route.useSearch();
-  const { games } = useGames(filter);
+  const { games, total } = useGames(filter);
   const navigate = useNavigate({ from: Route.fullPath });
 
   function onFilter(fs: FilterState) {
@@ -81,6 +82,11 @@ function RouteComponent() {
               );
             })}
           </div>
+          <GamePagination
+            currentPage={filter.page}
+            totalItems={total}
+            onPageChange={(page) => navigate({ search : () => ({ page }) })}
+          />
         </div>
       )}
     </>
