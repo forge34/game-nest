@@ -11,23 +11,24 @@ const GamesRoute = {
     const sort = (req.query.sort as SortOptions) || ("az" as const);
     const limit = 12;
     const offset = (page - 1) * limit;
+    const where = {
+      genres: genre.length > 0 ? { some: { name: { in: genre } } } : undefined,
+      platforms:
+        platform.length > 0 ? { some: { name: { in: platform } } } : undefined,
+    };
 
-    const games = await prisma.game.findMany({
-      include: gameIncludes,
-      skip: offset,
-      take: limit,
-      where: {
-        genres:
-          genre.length > 0 ? { some: { name: { in: genre } } } : undefined,
-        platforms:
-          platform.length > 0
-            ? { some: { name: { in: platform } } }
-            : undefined,
-      },
-      orderBy: mappedSort[sort],
-    });
+    const [games, total] = await Promise.all([
+      prisma.game.findMany({
+        include: gameIncludes,
+        skip: offset,
+        take: limit,
+        where,
+        orderBy: mappedSort[sort],
+      }),
+      prisma.game.count({ where }),
+    ]);
 
-    res.status(200).json(games);
+    res.status(200).json({ games, total });
   },
 
   findOneById: async (req: Request, res: Response) => {
