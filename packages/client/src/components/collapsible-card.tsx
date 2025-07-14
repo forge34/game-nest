@@ -14,7 +14,7 @@ import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "./add-to-library-btn";
 import { useAuthStore } from "@/store/auth";
 
-function CollapsibleCard({ game }: { game: Game }) {
+function CollapsibleCard({ game ,alwaysOpen}: { game: Game ,alwaysOpen?:boolean}) {
   const releaseDate = game.releaseDate
     ? format(game.releaseDate, "dd MMM yyyy")
     : "Unknown";
@@ -23,7 +23,7 @@ function CollapsibleCard({ game }: { game: Game }) {
   const user = useAuthStore((s) => s.user);
 
   return (
-    <Collapsible className="bg-card py-2 px-4 rounded-md border">
+    <Collapsible alwaysOpen={alwaysOpen} className="bg-card py-2 px-4 rounded-md border">
       <div className="relative">
         <CollapsibleTrigger asChild>
           <div className="flex flex-col w-full">

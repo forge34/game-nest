@@ -2,22 +2,25 @@ import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
 import { useState } from "react";
 
 function Collapsible({
+  alwaysOpen,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {
+}: React.ComponentProps<typeof CollapsiblePrimitive.Root> & {
+  alwaysOpen?: boolean;
+}) {
   const [open, setOpen] = useState(false);
 
   return (
     <div
       onMouseEnter={() => {
-        setOpen(true);
+        if (!alwaysOpen) setOpen(true);
       }}
       onMouseLeave={() => {
-        setOpen(false);
+        if (!alwaysOpen) setOpen(false);
       }}
     >
       <CollapsiblePrimitive.Root
         data-slot="collapsible"
-        open={open}
+        open={alwaysOpen ? true : open}
         onOpenChange={setOpen}
         {...props}
       />
