@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/tooltip";
 import useLibrary from "@/lib/hooks/use-library";
 import type { Game } from "@game-forge/shared";
+import { useNavigate } from "@tanstack/react-router";
 
 type props = React.ComponentProps<"button"> & {
   display?: "icon" | "button";
@@ -21,6 +22,7 @@ function AddToLibraryButton({
   ...props
 }: props) {
   const { addToLibrary } = useLibrary();
+  const navigate = useNavigate();
   const btnText = inLibrary ? "Show in library" : "Add to library";
   return (
     <Tooltip>
@@ -30,7 +32,12 @@ function AddToLibraryButton({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            addToLibrary(game.igdbId.toString());
+            if (!inLibrary) addToLibrary(game.igdbId.toString());
+            else
+              navigate({
+                to: "/discover/$gameId",
+                params: { gameId: game.igdbId.toString() },
+              });
           }}
           {...props}
         >
