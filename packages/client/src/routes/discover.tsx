@@ -1,15 +1,22 @@
 import GenreFilter from "@/components/horizontal-filter";
-import type { FilterState, Game, GenresWithGames } from "@game-forge/shared";
+import {
+  filterStateSchema,
+  type FilterState,
+  type Game,
+  type GenresWithGames,
+} from "@game-forge/shared";
 import {
   createFileRoute,
   Link,
   Outlet,
   useMatchRoute,
+  useNavigate,
 } from "@tanstack/react-router";
 import { getAllGames, getAllGenres, getAllPlatforms } from "@/api/games";
 import { useQuery } from "@tanstack/react-query";
 import CollapsibleCard from "@/components/collapsible-card";
-import { useState } from "react";
+import { zodValidator } from "@tanstack/zod-adapter";
+import useGames from "@/lib/hooks/use-games";
 
 export const Route = createFileRoute("/discover")({
   component: RouteComponent,
@@ -20,10 +27,12 @@ export const Route = createFileRoute("/discover")({
     games: Game[];
   }> => {
     const genres = await context.queryClient.ensureQueryData(getAllGenres());
-    const games = await context.queryClient.ensureQueryData(getAllGames());
+    const games = (await context.queryClient.ensureQueryData(getAllGames()))
+      .games;
 
     return { games, genres };
   },
+  validateSearch: zodValidator(filterStateSchema),
 });
 
 function RouteComponent() {
@@ -31,25 +40,19 @@ function RouteComponent() {
   const isMatched = match({ to: "/discover" });
   const { data: genres = [] } = useQuery(getAllGenres());
   const { data: platforms = [] } = useQuery(getAllPlatforms());
-  const [filter, setfilters] = useState<FilterState>({
-    genres: [],
-    platforms: [],
-    sort: "az",
-  });
-  const { data: games = [] } = useQuery(getAllGames(0, filter));
+  const filter = Route.useSearch();
+  const { games } = useGames(filter);
+  const navigate = useNavigate({ from: Route.fullPath });
+
   function onFilter(fs: FilterState) {
-    setfilters({
-      genres: fs.genres,
-      platforms: fs.platforms,
-      sort: fs.sort,
+    navigate({
+      search: fs,
     });
   }
 
   function clearFitlers() {
-    setfilters({
-      genres: [],
-      platforms: [],
-      sort: "az",
+    navigate({
+      search: filterStateSchema.parse({}),
     });
   }
 
@@ -65,7 +68,7 @@ function RouteComponent() {
             filters={{ genres, platforms }}
             onChangeChecked={onFilter}
           />
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
             {games.map((game) => {
               return (
                 <Link

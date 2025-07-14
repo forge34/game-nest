@@ -3,6 +3,7 @@ import {
   type FilterState,
   type GenresWithGames,
   type PlatformWithGames,
+  type SortOptions,
 } from "@game-forge/shared";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -35,7 +36,8 @@ function GenreFilter({
 }: GenreFilterProps) {
   function togglefilter(type: keyof FilterState, value: string) {
     if (type === "sort") {
-      onChangeChecked({ ...state, sort: value });
+      const sortValue = value as SortOptions;
+      onChangeChecked({ ...state, sort: sortValue });
       return;
     }
 

@@ -18,13 +18,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useAuthStore } from "@/store/auth";
-import { useQuery } from "@tanstack/react-query";
 import { getAllGames } from "@/api/games";
 import { format } from "date-fns";
 import HeartBtn from "@/components/heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "@/components/add-to-library-btn";
 import HoverCard from "@/components/hover-card";
+import useGames from "@/lib/hooks/use-games";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -34,9 +34,9 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
-  const { data = [] } = useQuery(getAllGames());
   const user = useAuthStore((s) => s.user);
-  const featured = data[Math.floor(Math.random() * data.length)];
+  const { games  } = useGames()
+  const featured = games[Math.floor(Math.random() * games.length)];
   const releaseDate = featured.releaseDate
     ? format(featured.releaseDate, "dd MMM yyyy")
     : "Unkown";
@@ -117,7 +117,7 @@ function RouteComponent() {
         <h3 className="text-2xl font-semibold">Popular games</h3>
         <Carousel className="mt-6 mx-6" opts={{ loop: true }}>
           <CarouselContent>
-            {data.map((game) => (
+            {games.map((game) => (
               <CarouselItem key={game.igdbId} className="basis-1/5 ml-2">
                 <HoverCard game={game} />
               </CarouselItem>

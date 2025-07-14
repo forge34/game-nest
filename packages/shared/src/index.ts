@@ -1,3 +1,4 @@
+import { z } from "zod";
 export * from "./prisma-types.js";
 
 export const gameIncludes = {
@@ -22,9 +23,11 @@ export const sortOptions = [
 
 export type SortOptions = (typeof sortOptions)[number]["value"];
 
-export type FilterState = {
-  genres: string[];
-  platforms: string[];
-  sort: string;
-};
+export const filterStateSchema = z.object({
+  page: z.number().default(1),
+  genres: z.array(z.string()).default([]),
+  platforms: z.array(z.string()).default([]),
+  sort: z.enum(["az", "za", "rel_date", "rating"]).default("az"),
+});
 
+export type FilterState = z.infer<typeof filterStateSchema>;
