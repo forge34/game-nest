@@ -3,7 +3,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 
-function HoverCard({ game }: { game: Game }) {
+type HoverCardProps = {
+  game: Game;
+  children: React.ReactNode;
+};
+
+function HoverCard({ game, children }: HoverCardProps) {
   const [show, setShow] = useState(false);
 
   return (
@@ -27,9 +32,7 @@ function HoverCard({ game }: { game: Game }) {
         {show && (
           <>
             <div className="absolute inset-0 bg-muted/70 z-10 rounded-md" />
-            <span className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center text-lg font-semibold text-white">
-              {game.title}
-            </span>
+            {children}
           </>
         )}
       </Link>
