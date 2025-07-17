@@ -119,11 +119,16 @@ function RouteComponent() {
           <CarouselContent>
             {games.map((game) => (
               <CarouselItem key={game.igdbId} className="basis-1/5 ml-2">
-                <HoverCard game={game}>
-                  <span className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center text-lg font-semibold text-white">
-                    {game.title}
-                  </span>
-                </HoverCard>
+                <Link
+                  to="/discover/$gameId"
+                  params={{ gameId: game.igdbId.toString() }}
+                >
+                  <HoverCard game={game}>
+                    <span className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center text-lg font-semibold text-white">
+                      {game.title}
+                    </span>
+                  </HoverCard>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>
