@@ -109,7 +109,6 @@ async function getAccessToken() {
   }
 }
 
-
 async function seed() {
   const token = (await getAccessToken())?.access_token || "";
   const prisma = new PrismaClient();
@@ -133,7 +132,7 @@ async function seed() {
         "artworks",
       ])
       .where(["rating != null", "cover != null", "total_rating_count > 50"])
-      .limit(50)
+      .limit(500)
       .request("/games")
   ).data as FetchedGame[];
 
@@ -302,7 +301,7 @@ async function seed() {
               where: { igdbId: i.company },
               create: {
                 igdbId: i.company,
-                name: "", 
+                name: "",
               },
             })),
         },
@@ -328,7 +327,7 @@ async function seed() {
         },
       },
     });
-
+    await new Promise((res) => setTimeout(res, 150));
     if (game.age_ratings?.length) {
       const ratings = (
         await client
@@ -365,7 +364,6 @@ async function seed() {
   console.log("Finished seeding.");
   await prisma.$disconnect();
 }
-
 
 seed().catch((e) => {
   console.error(e);
