@@ -7,17 +7,23 @@ import router from "./routes/index";
 import { configJwt, configLocal } from "./config/passport";
 import passport from "passport";
 import { Prisma } from "../generated/prisma";
+import compression from "compression";
 
 const app: Express = express();
 
 export const corsOptions: CorsOptions = {
-  origin: ["http://localhost:5173", process.env.CLIENT_URL],
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:4173",
+    process.env.CLIENT_URL,
+  ],
   credentials: true,
   allowedHeaders: ["Content-type"],
 };
 
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -35,7 +41,7 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   }
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === "P2002") {
-      console.log("handling")
+      console.log("handling");
       const target = err.meta?.target;
 
       const fields =
