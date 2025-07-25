@@ -24,6 +24,7 @@
     "igdb-api-node": "^6.0.5",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "p-limit": "^3.1.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0"
@@ -47,6 +48,6 @@
     "vitest": "^3.0.7"
   },
   "prisma": {
-    "seed": "ts-node ./prisma/seed.ts"
+    "seed": "ts-node ./src/lib/seed.ts"
   }
 }
