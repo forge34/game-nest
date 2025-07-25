@@ -30,9 +30,9 @@ model Game {
   igdbId       Int           @unique
   title        String
   slug         String?       @unique
+  rating       Float?
   summary      String?
   storyline    String?
-  rating       Float?
   releaseDate  DateTime?
   coverImage   Img?          @relation("cover", fields: [coverImageId], references: [id])
   coverImageId Int?          @unique
@@ -50,6 +50,9 @@ model Game {
   ageRating    AgeRating[]
   library      UserGame[]
   artworks     Img[]         @relation("artworks")
+  gameModes    GameMode[]
+  similarGames Game[]        @relation("SimilarGames")
+  similarTo    Game[]        @relation("SimilarGames")
 }
 
 model Review {
@@ -61,6 +64,8 @@ model Review {
   game      Game     @relation(fields: [gameId], references: [id])
   gameId    Int
   createdAt DateTime @default(now())
+
+  @@unique([userId, gameId])
 }
 
 model Img {
@@ -101,7 +106,7 @@ model Company {
 
 model Screenshots {
   id      Int    @id @default(autoincrement())
-  igbdId  Int    @unique
+  igdbId  Int    @unique
   game    Game   @relation(fields: [gameId], references: [id])
   gameId  Int
   imageId String
@@ -136,6 +141,14 @@ model UserGame {
   game Game @relation(fields: [gameId], references: [id])
 
   @@id([userId, gameId])
+}
+
+model GameMode {
+  id     Int    @id @default(autoincrement())
+  igdbId Int    @unique
+  game   Game[]
+  name   String
+  slug   String
 }
 
 enum GameStatus {
