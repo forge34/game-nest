@@ -48,26 +48,24 @@ export async function fetchIGDB<T>(
   const IGDB_MAX_LIMIT = 500;
   const results: T[] = [];
   const { delayMs = 350, where = [], customLimit = 500, ids, fields } = opt;
-  const totalLimit = customLimit;
-  console.log("Fetching " + fields);
-
+  console.log(`Fetching ${fields} (total - ${ids ? ids.length : 0})`  );
   if (ids && ids.length > 0) {
-    const cappedIds = ids.slice(0, totalLimit); // cap total
-    for (let i = 0; i < cappedIds.length; i += IGDB_MAX_LIMIT) {
-      const chunk = cappedIds.slice(i, i + IGDB_MAX_LIMIT);
+    for (let i = 0; i < ids.length; i += IGDB_MAX_LIMIT) {
+      const chunk = ids.slice(i, i + IGDB_MAX_LIMIT);
       const req = client.fields(IGDB_FIELDS[fields]);
       req.where([`id = (${chunk.join(",")})`, ...where]).limit(chunk.length);
 
       const response = await req.request(endpoint);
       results.push(...(response.data as T[]));
 
-      if (results.length >= totalLimit) break;
-      if (i + IGDB_MAX_LIMIT < cappedIds.length) {
-        await delay(delayMs);
-      }
+      console.log(
+        `Fetched ${response.data.length} of ${ids.length} from chunk`,
+      );
+      await delay(delayMs);
     }
   } else {
     let offset = 0;
+    const totalLimit = customLimit;
     while (results.length < totalLimit) {
       const remaining = totalLimit - results.length;
       const chunkSize = Math.min(IGDB_MAX_LIMIT, remaining);
@@ -84,11 +82,12 @@ export async function fetchIGDB<T>(
       if (data.length < chunkSize) break;
 
       offset += chunkSize;
+      console.log(`Fetched ${data.length} of ${chunkSize} from chunk`);
       await delay(delayMs);
     }
   }
 
-  return results.slice(0, totalLimit);
+  return results;
 }
 
 export const getClient = async () => {
