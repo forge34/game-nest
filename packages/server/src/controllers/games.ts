@@ -2,6 +2,7 @@ import { gameIncludes, mappedSort, SortOptions } from "@game-forge/shared";
 import prisma from "../config/prisma";
 import { Response, Request } from "express";
 import { toArray } from "../utils";
+import { Prisma } from "../../generated/prisma";
 
 const GamesRoute = {
   findMany: async (req: Request, res: Response) => {
@@ -11,7 +12,8 @@ const GamesRoute = {
     const sort = (req.query.sort as SortOptions) || ("az" as const);
     const limit = 12;
     const offset = (page - 1) * limit;
-    const where = {
+    const where: Prisma.GameWhereInput = {
+      parent_game: null,
       genres: genre.length > 0 ? { some: { name: { in: genre } } } : undefined,
       platforms:
         platform.length > 0 ? { some: { name: { in: platform } } } : undefined,
