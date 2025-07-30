@@ -4,11 +4,29 @@ import { useState } from "react";
 
 type HoverCardProps = {
   game: Game;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  showOverlay?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 } & React.ComponentProps<"div">;
 
-function HoverCard({ game, children, className, ...props }: HoverCardProps) {
+function HoverCard({
+  game,
+  showOverlay,
+  children,
+  className,
+  ...props
+}: HoverCardProps) {
   const [show, setShow] = useState(false);
+
+  function handleEnter() {
+    setShow(true);
+  }
+
+  function handleLeave() {
+    setShow(false);
+  }
+  const overlayVisible = showOverlay ?? show;
 
   return (
     <div
@@ -16,18 +34,19 @@ function HoverCard({ game, children, className, ...props }: HoverCardProps) {
         "relative flex flex-col items-center gap-2 p-0 hover:bg-muted/10 transition-colors rounded-md overflow-hidden w-[150px] sm:w-[180px] md:w-[200px]",
         className,
       )}
-      onMouseEnter={() => setShow(true)}
-      onMouseLeave={() => setShow(false)}
+      onPointerEnter={handleEnter}
+      onPointerLeave={handleLeave}
+    
       {...props}
     >
       <img
         src={game.coverImage?.url.replace("t_thumb", "t_cover_big")}
-        className="w-full h-auto rounded-md object-cover"
+        className="w-full h-full rounded-md "
         alt={game.title}
       />
-      {show && (
+      {overlayVisible && (
         <>
-          <div className="absolute inset-0 bg-muted/70 z-10 rounded-md" />
+          <div className="absolute inset-0 bg-muted/50 z-10 rounded-md" />
           {children}
         </>
       )}

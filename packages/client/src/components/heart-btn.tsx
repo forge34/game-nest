@@ -6,8 +6,19 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import useLibrary from "@/lib/hooks/use-library";
+import { cn } from "@/lib/utils";
 
-function HeartBtn({ id, isFavourite }: { isFavourite: boolean; id: number }) {
+function HeartBtn({
+  id,
+  isFavourite,
+  btnClassName,
+  iconSize,
+}: {
+  btnClassName?: string;
+  iconSize?: number;
+  isFavourite: boolean;
+  id: number;
+}) {
   const { toggleFavourite } = useLibrary();
 
   return (
@@ -17,14 +28,16 @@ function HeartBtn({ id, isFavourite }: { isFavourite: boolean; id: number }) {
           type="button"
           variant="outline"
           aria-label={isFavourite ? "Unmark favourite" : "Mark favourite"}
+          className={cn(btnClassName)}
           onClick={(e) => {
-            e.preventDefault()
+            e.preventDefault();
             e.stopPropagation();
             toggleFavourite(`${id}`);
           }}
         >
           <Heart
             color="var(--heart)"
+            size={iconSize}
             fill={isFavourite ? "var(--heart)" : "transparent"}
           />
         </Button>

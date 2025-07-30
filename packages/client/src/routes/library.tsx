@@ -1,15 +1,24 @@
 import { getLibrary } from "@/api/games";
+import HoverCard from "@/components/hover-card";
+import useLibrary from "@/lib/hooks/use-library";
+import type { Library } from "@game-forge/shared";
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import useLibrary from "@/lib/hooks/use-library";
-import { Badge } from "@/components/ui/badge";
-import type { Game, Library } from "@game-forge/shared";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import GameRating from "@/components/game-rating";
+import { Separator } from "@/components/ui/separator";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import HeartBtn from "@/components/heart-btn";
+
 export const Route = createFileRoute("/library")({
   component: RouteComponent,
   loader: async ({ context }) => {
@@ -20,134 +29,115 @@ export const Route = createFileRoute("/library")({
 });
 
 function RouteComponent() {
-  const { library, countFavourites } = useLibrary();
-  const [selectedGameId, setSelectedGameId] = useState<number>(
-    library[0].gameId,
-  );
-
-  console.log(library);
-  const selectedGame = library.find((g) => g.gameId === selectedGameId);
-
-  if (!selectedGame) return <p>Invalid selected game</p>;
-
+  const { library, isFavourite } = useLibrary();
   return (
-    <div className="relative w-full h-full overflow-hidden rounded-xl py-3 px-5">
-      <div className=" flex flex-row w-full gap-4">
-        <div>
-          <Accordion
-            className="bg-card border rounded-md py-2 px-4"
-            type="multiple"
-          >
-            <AccordionItem value="item-1">
-              <AccordionTrigger>
-                <div className="flex flex-row justify-between items-center">
-                  <h3 className="text-lg font-semibold">Favourites</h3>
-                  <Badge
-                    variant="outline"
-                    className="ml-auto mr-2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
-                  >
-                    {countFavourites()}
-                  </Badge>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent>Test</AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-2">
-              <AccordionTrigger>
-                <div className="flex flex-row justify-between items-center">
-                  <h3 className="text-lg font-semibold">All games</h3>
-                  <Badge
-                    variant="outline"
-                    className="ml-auto mr-2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
-                  >
-                    {library.length}
-                  </Badge>
-                </div>
-              </AccordionTrigger>
-
-              <AccordionContent className="flex flex-col max-h-[600px]">
-                {library.map((game) => (
-                  <Item
-                    key={game.gameId}
-                    game={game.game}
-                    selected={selectedGameId === game.game.id}
-                    onSelect={() => setSelectedGameId(game.game.id)}
-                  />
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-        <GameDetails game={selectedGame} />
+    <div className="relative flex flex-col w-full h-full overflow-hidden rounded-xl py-3 px-5 gap-4">
+      <h3 className="text-2xl font-semibold">My library</h3>
+      <div className=" flex flex-row flex-wrap justify-center w-full gap-6">
+        {library.map((g) => {
+          return (
+            <DetailsHoverCard
+              g={g}
+              key={g.game.igdbId.toString()}
+              isFavourite={isFavourite(g.game)}
+            />
+          );
+        })}
       </div>
     </div>
   );
 }
 
-function Item({
-  game,
-  selected,
-  onSelect,
+function DetailsHoverCard({
+  g,
+  isFavourite,
 }: {
-  game: Game;
-  selected: boolean;
-  onSelect: () => void;
+  g: Library[number];
+  isFavourite: boolean;
 }) {
+  const [open, setOpen] = useState(false);
+  if (!g) return null;
+  const game = g.game;
+  const releaseDate = game.releaseDate
+    ? format(game.releaseDate, "dd MMM yyyy")
+    : "Unknown";
+  const lastPlayedAt = g.lastPlayedAt
+    ? format(g.lastPlayedAt || new Date(), "dd MMM yyyy")
+    : "Unknown";
+
   return (
-    <button
-      onClick={onSelect}
-      className={`flex flex-row items-center space-x-3 px-2 py-1 rounded-md transition-colors ${
-        selected
-          ? "bg-card-foreground/5 text-accent-foreground"
-          : "hover:bg-card-foreground/5"
-      }`}
-    >
-      <img
-        src={game.coverImage?.url.replace("t_thumb", "t_cover_small")}
-        alt={game.title}
-        className="w-[40px] h-[60px] object-cover rounded-md shadow-sm"
-      />
-      <h3 className="text-sm font-medium truncate w-[140px] text-left">
-        {game.title}
-      </h3>
-    </button>
+    <Dialog onOpenChange={setOpen} open={open} modal>
+      <HoverCard game={game} className="flex-none basis-[13%]">
+        <div className="flex flex-col absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
+          <span className="text-sm text-center  font-semibold text-white">
+            {game.title}
+          </span>
+
+          <DialogTrigger asChild>
+            <Button variant="secondary" className="self-center" size="sm">
+              View details
+            </Button>
+          </DialogTrigger>
+        </div>
+      </HoverCard>
+      <DialogContent>
+        <DialogHeader className="flex flex-row justify-between p-2">
+          <DialogTitle>Game Details</DialogTitle>
+
+          <HeartBtn
+            iconSize={6}
+            id={game.id}
+            isFavourite={isFavourite}
+            btnClassName="self-start"
+          />
+        </DialogHeader>
+        <Separator />
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row justify-between">
+            <h3 className="text-xl font-semibold">{game.title}</h3>
+            <GameRating className="text-xs self-start" rating={game.rating} />
+          </div>
+          <div className="flex flex-row gap-2">
+            {game?.genres.map((genre) => (
+              <Badge className="text-foreground bg-accent-green" key={genre.id}>
+                {genre.name}
+              </Badge>
+            ))}
+          </div>
+          <Separator />
+          <div className="grid grid-cols-2 grid-rows-2">
+            <p className="flex flex-col">
+              <span className="text-muted-foreground"> Release date: </span>
+              {releaseDate}
+            </p>
+            <p className="flex flex-col">
+              <span className="text-muted-foreground">Hours played: </span>
+              {g.hoursPlayed} hours
+            </p>
+            <p className="flex flex-col">
+              <span className="text-muted-foreground">Progress: </span>
+              {g.completion} %
+            </p>
+            <p className="flex flex-col">
+              <span className="text-muted-foreground">Last played at: </span>
+              {lastPlayedAt}
+            </p>
+          </div>
+          <div className="flex flex-row gap-3">
+            <h3 className="font-semibold text-md">Current Status</h3>
+            <Badge>{g.status}</Badge>
+          </div>
+          <h3 className="font-semibold text-md">Review</h3>
+          <Textarea
+            placeholder="No review added..."
+            className="lg:max-h-[150px]"
+          />
+          <p className="text-muted-foreground mt-2">
+            {game.reviews.length} User Reviews
+          </p>
+          <Button>check game</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
-
-function GameDetails({ game }: { game: Library[number] }) {
-  const gameCover = game.game.coverImage?.url.replace("t_thumb", "t_original");
-  return (
-    <div className="flex flex-col bg-card/90 border py-3 px-6 rounded-md gap-2 backdrop-blur-lg">
-      <div className="flex flex-row gap-4">
-        <img src={gameCover} className="w-[14rem] rounded-md" />
-        <div className="flex flex-col">
-          <h3 className="text-4xl font-semibold">{game.game.title}</h3>
-        </div>
-      </div>
-      <div className="flex flex-col mt-4">
-        <h3 className="text-4xl font-semibold">Stats </h3>
-        <div className="flex flex-row gap-6 mt-4">
-          <div className="flex flex-col">
-            <h3 className="text-xl font-semibold">Hours played</h3>
-            <p>{game.hoursPlayed}</p>
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-xl font-semibold">Completion</h3>
-            <p>{game.completion}%</p>
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-xl font-semibold">Rating</h3>
-            <p>{game.rating}</p>
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-xl font-semibold">Hours played</h3>
-            <p>{game.hoursPlayed}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
