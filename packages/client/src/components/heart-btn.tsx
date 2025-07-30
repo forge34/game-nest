@@ -22,8 +22,8 @@ function HeartBtn({
   const { toggleFavourite } = useLibrary();
 
   return (
-    <Tooltip>
-      <TooltipTrigger>
+    <Tooltip >
+      <TooltipTrigger asChild>
         <Button
           type="button"
           variant="outline"

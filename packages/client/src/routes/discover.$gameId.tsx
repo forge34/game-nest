@@ -36,7 +36,7 @@ function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
   const { isFavourite, isInLibrary } = useLibrary();
-  const user = useAuthStore(s => s.user)
+  const user = useAuthStore((s) => s.user);
 
   if (!game) {
     return <p>Game data not available</p>;
@@ -57,15 +57,20 @@ function RouteComponent() {
           <div className="flex-1 flex flex-col gap-2 pr-28">
             <div className="flex flex-row">
               <h1 className="text-4xl font-bold">{game.title}</h1>
-              {user && <div className="flex flex-row ml-auto gap-x-4">
-                <AddToLibraryButton
-                  disabled={isInLibrary(game)}
-                  inLibrary={isInLibrary(game)}
-                  display="icon"
-                  game={game}
-                />
-                <HeartBtn isFavourite={isFavourite(game)} id={game.igdbId} />
-              </div> }
+              {user && (
+                <div className="flex flex-row ml-auto gap-x-4">
+                  <AddToLibraryButton
+                    disabled={isInLibrary(game)}
+                    inLibrary={isInLibrary(game)}
+                    display="icon"
+                    game={game}
+                  />
+                  <HeartBtn
+                    isFavourite={isFavourite(game)}
+                    id={game.igdbId}
+                  />
+                </div>
+              )}
             </div>
             <h3 className="text-xl font-semibold text-muted-foreground">
               About

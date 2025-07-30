@@ -88,7 +88,6 @@ function DetailsHoverCard({
             iconSize={6}
             id={game.id}
             isFavourite={isFavourite}
-            btnClassName="self-start"
           />
         </DialogHeader>
         <Separator />
