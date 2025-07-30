@@ -16,6 +16,7 @@ async function seed() {
       "total_rating_count > 50",
       "parent_game = null",
     ],
+    customLimit:3000,
     delayMs: 350,
   });
 
