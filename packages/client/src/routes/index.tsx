@@ -118,7 +118,7 @@ function RouteComponent() {
         <Carousel className="mt-6 mx-6" opts={{ loop: true }}>
           <CarouselContent>
             {games.map((game) => (
-              <CarouselItem key={game.igdbId} className="basis-1/5 ml-2">
+              <CarouselItem key={game.igdbId} className="flex-none basis-[17%]">
                 <Link
                   to="/discover/$gameId"
                   params={{ gameId: game.igdbId.toString() }}

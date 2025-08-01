@@ -19,10 +19,10 @@ function HeartBtn({
   isFavourite: boolean;
   id: number;
 }) {
-  const { toggleFavourite } = useLibrary();
+  const { updateGame } = useLibrary();
 
   return (
-    <Tooltip >
+    <Tooltip>
       <TooltipTrigger asChild>
         <Button
           type="button"
@@ -32,7 +32,7 @@ function HeartBtn({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            toggleFavourite(`${id}`);
+            updateGame(id.toString(), { favorite: !isFavourite });
           }}
         >
           <Heart

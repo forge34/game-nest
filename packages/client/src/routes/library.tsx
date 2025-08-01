@@ -1,7 +1,7 @@
 import { getLibrary } from "@/api/games";
 import HoverCard from "@/components/hover-card";
-import useLibrary from "@/lib/hooks/use-library";
-import type { Library } from "@game-forge/shared";
+import useLibrary, { GameStatus } from "@/lib/hooks/use-library";
+import { type Library } from "@game-forge/shared";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Dialog,
@@ -18,6 +18,15 @@ import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import HeartBtn from "@/components/heart-btn";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { EditIcon } from "lucide-react";
+import StarRating from "@/components/star-rating";
 
 export const Route = createFileRoute("/library")({
   component: RouteComponent,
@@ -47,6 +56,13 @@ function RouteComponent() {
     </div>
   );
 }
+const gameStatusOptions = [
+  { value: "Wishlist", label: "Wishlist" },
+  { value: "Playing", label: "Playing" },
+  { value: "Completed", label: "Completed" },
+  { value: "Backlog", label: "Backlog" },
+  { value: "Dropped", label: "Dropped" },
+];
 
 function DetailsHoverCard({
   g,
@@ -55,8 +71,14 @@ function DetailsHoverCard({
   g: Library[number];
   isFavourite: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [status, setStatus] = useState<string | null>(null);
+  const { updateGame } = useLibrary();
+
   if (!g) return null;
+
   const game = g.game;
   const releaseDate = game.releaseDate
     ? format(game.releaseDate, "dd MMM yyyy")
@@ -65,8 +87,23 @@ function DetailsHoverCard({
     ? format(g.lastPlayedAt || new Date(), "dd MMM yyyy")
     : "Unknown";
 
+  function handleOpenChange(open: boolean) {
+    setIsOpen(open);
+
+    if (!open) setEditMode(false);
+  }
+
+  function handleFinishEdit() {
+    setEditMode(false);
+
+    updateGame(g.game.igdbId.toString(), {
+      status: (status as GameStatus) ?? "Backlog",
+      rating,
+    });
+  }
+
   return (
-    <Dialog onOpenChange={setOpen} open={open} modal>
+    <Dialog onOpenChange={handleOpenChange} open={isOpen} modal>
       <HoverCard game={game} className="flex-none basis-[13%]">
         <div className="flex flex-col absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
           <span className="text-sm text-center  font-semibold text-white">
@@ -84,11 +121,15 @@ function DetailsHoverCard({
         <DialogHeader className="flex flex-row justify-between p-2">
           <DialogTitle>Game Details</DialogTitle>
 
-          <HeartBtn
-            iconSize={6}
-            id={game.id}
-            isFavourite={isFavourite}
-          />
+          <div className="flex flex-row gap-x-2">
+            <Button
+              variant="outline"
+              onClick={() => setEditMode((prev) => !prev)}
+            >
+              {editMode ? "Cancel" : <EditIcon />}
+            </Button>
+            <HeartBtn iconSize={6} id={game.id} isFavourite={isFavourite} />
+          </div>
         </DialogHeader>
         <Separator />
         <div className="flex flex-col gap-2">
@@ -122,19 +163,51 @@ function DetailsHoverCard({
               {lastPlayedAt}
             </p>
           </div>
-          <div className="flex flex-row gap-3">
+          <div className="flex flex-row gap-3 items-center">
             <h3 className="font-semibold text-md">Current Status</h3>
-            <Badge>{g.status}</Badge>
+            {editMode ? (
+              <>
+                <Select onValueChange={setStatus}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Status" defaultValue={g.status} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {gameStatusOptions.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </>
+            ) : (
+              <Badge>{g.status}</Badge>
+            )}
+          </div>
+          <div className="flex flex-row gap-2">
+            <h3 className="font-semibold text-md py-1">Rating</h3>
+            <StarRating
+              onRatingChange={setRating}
+              initialRating={g.rating || 0}
+              disabled={!editMode}
+            ></StarRating>
           </div>
           <h3 className="font-semibold text-md">Review</h3>
           <Textarea
             placeholder="No review added..."
             className="lg:max-h-[150px]"
+            disabled={!editMode}
           />
           <p className="text-muted-foreground mt-2">
             {game.reviews.length} User Reviews
           </p>
-          <Button>check game</Button>
+          {editMode ? (
+            <Button variant="outline" onClick={handleFinishEdit}>
+              Finish editing
+            </Button>
+          ) : (
+            <Button>check game</Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>

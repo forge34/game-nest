@@ -5,11 +5,25 @@ import { safeFetch } from "@/utils";
 import type { Game } from "@game-forge/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-const markAsFavouriteFn = (gameId: string) => {
+export enum GameStatus {
+  Wishlist = "Wishlist",
+  Playing = "Playing",
+  Completed = "Completed",
+  Backlog = "Backlog",
+  Dropped = "Dropped",
+}
+type GameUpdateOptions = {
+  status?: GameStatus;
+  favorite?: boolean;
+  rating?: number;
+};
+
+const updateGameFn = (gameId: string, opts?: GameUpdateOptions) => {
   return safeFetch(`library/${gameId}`, {
-    method: "post",
+    method: "put",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(opts),
   });
 };
 
@@ -28,8 +42,9 @@ function useLibrary() {
   const user = useAuthStore((s) => s.user);
   const { data: library = [] } = useQuery({ ...getLibrary(), enabled: !!user });
 
-  const favouriteMutation = useMutation({
-    mutationFn: (id: string) => markAsFavouriteFn(id),
+  const updateMutation = useMutation({
+    mutationFn: ({ id, opts }: { id: string; opts?: GameUpdateOptions }) =>
+      updateGameFn(id, opts),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
@@ -45,8 +60,8 @@ function useLibrary() {
   const isFavourite = (game: Game) =>
     library.some((g) => g.gameId === game.id && g.favorite);
 
-  const toggleFavourite = (gameId: string) => {
-    favouriteMutation.mutate(gameId);
+  const updateGame = (gameId: string, opts?: GameUpdateOptions) => {
+    updateMutation.mutate({ id: gameId, opts });
   };
 
   const addToLibrary = (id: string) => {
@@ -60,7 +75,7 @@ function useLibrary() {
   return {
     library,
     isFavourite,
-    toggleFavourite,
+    updateGame,
     isInLibrary,
     addToLibrary,
     countFavourites,

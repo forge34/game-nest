@@ -47,7 +47,7 @@ function RootComponent() {
     <ThemeProvider>
       <nav className="flex flex-row py-2 border  px-4 items-center">
         <span className="flex flex-row justify-around w-full self-stretch">
-          <h3 className="text-2xl font-logo">GameForge</h3>
+          <h3 className="text-2xl font-logo">GameNest</h3>
           <span className="flex flex-row self-center ">
             <Button variant="link" asChild>
               <Link to="/">

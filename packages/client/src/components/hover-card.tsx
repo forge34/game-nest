@@ -31,12 +31,11 @@ function HoverCard({
   return (
     <div
       className={cn(
-        "relative flex flex-col items-center gap-2 p-0 hover:bg-muted/10 transition-colors rounded-md overflow-hidden w-[150px] sm:w-[180px] md:w-[200px]",
+        "relative flex flex-col items-center gap-2 p-0 hover:bg-muted/10 transition-colors rounded-md overflow-hidden ",
         className,
       )}
       onPointerEnter={handleEnter}
       onPointerLeave={handleLeave}
-    
       {...props}
     >
       <img
