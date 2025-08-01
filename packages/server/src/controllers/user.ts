@@ -3,6 +3,7 @@ import passport from "passport";
 import prisma from "../config/prisma";
 import { User } from "../../generated/prisma";
 import { gameIncludes } from "@game-forge/shared";
+import { body, validationResult } from "express-validator";
 
 const UsersRoute = {
   findFavourties: [
@@ -71,10 +72,24 @@ const UsersRoute = {
       res.status(200).json({ message: "Game added to library" });
     },
   ],
-  markAsFavourite: [
+  updateLibraryGame: [
     passport.authenticate("jwt", { session: false }),
+    body("status")
+      .optional()
+      .isIn(["Wishlist", "Playing", "Completed", "Backlog", "Dropped"]),
+    body("rating").optional().isFloat({ min: 0, max: 10 }).toFloat(),
+    body("favorite").optional().isBoolean().toBoolean(),
     async (req: Request, res: Response) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res
+          .status(400)
+          .json({ errors: errors.array(), message: "Failed to update game" });
+        return;
+      }
+
       const gameId = Number(req.params.gameId);
+      const { status, rating, favorite } = req.body;
       const user = req.user as User;
 
       if (!gameId) {
@@ -97,17 +112,16 @@ const UsersRoute = {
             gameId: game.id,
           },
         },
-        update: {
-          favorite: true,
-        },
+        update: { status, rating, favorite },
         create: {
           userId: user.id,
           gameId: game.id,
-          favorite: true,
-          status: "Backlog",
+          status: status ?? "Backlog",
+          rating: rating ?? 0.0,
+          favorite: favorite ?? false,
         },
       });
-      res.status(200).json({ message: "Game marked as favourite" });
+      res.status(200).json({ message: "Library game info saved" });
     },
   ],
 };

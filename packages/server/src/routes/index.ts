@@ -20,6 +20,6 @@ router.get("/library", UsersRoute.findFavourties);
 router.get("/me", UsersRoute.getMe);
 
 router.post("/library", UsersRoute.addTolibrary);
-router.post("/library/:gameId", UsersRoute.markAsFavourite);
+router.put("/library/:gameId", UsersRoute.updateLibraryGame);
 
 export default router;
