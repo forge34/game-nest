@@ -11,15 +11,17 @@ router.get("/", (_, res) => {
 
 router.post("/signup", AuthRoute.signup);
 router.post("/login", AuthRoute.login);
+router.get("/me", UsersRoute.getMe);
 
 router.get("/games", GamesRoute.findMany);
 router.get("/games/:id", GamesRoute.findOneById);
 router.get("/genres", GamesRoute.genresFindMany);
 router.get("/platforms", GamesRoute.platformFindMany);
-router.get("/library", UsersRoute.findFavourties);
-router.get("/me", UsersRoute.getMe);
 
+router.get("/library", UsersRoute.findFavourties);
 router.post("/library", UsersRoute.addTolibrary);
 router.put("/library/:gameId", UsersRoute.updateLibraryGame);
 
+
+router.post("/reviews/:gameId",UsersRoute.reviewGame)
 export default router;

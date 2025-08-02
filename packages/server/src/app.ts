@@ -35,6 +35,7 @@ app.use(passport.initialize());
 app.use(router);
 
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+  console.log(err)
   if (err.name === "AuthenticationError") {
     res.status(401).json({ message: "Unauthorized" });
     return;

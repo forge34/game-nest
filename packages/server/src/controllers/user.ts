@@ -7,6 +7,8 @@ import { body, validationResult } from "express-validator";
 
 const maximumHours = 16000;
 
+() => {};
+
 const UsersRoute = {
   findFavourties: [
     passport.authenticate("jwt", { session: false }),
@@ -69,7 +71,7 @@ const UsersRoute = {
           userId: user.id,
           gameId: game.id,
           status: "Backlog",
-          hoursPlayed: Math.round(Math.pow(Math.random(), 3) * 16000),
+          hoursPlayed: Math.round(Math.pow(Math.random(), 3) * maximumHours),
           completion: Math.floor(Math.random() * 101),
         },
       });
@@ -123,11 +125,92 @@ const UsersRoute = {
           status: status ?? "Backlog",
           rating: rating ?? 0.0,
           favorite: favorite ?? false,
-          hoursPlayed: Math.round(Math.pow(Math.random(), 3) * 16000),
+          hoursPlayed: Math.round(Math.pow(Math.random(), 3) * maximumHours),
           completion: Math.floor(Math.random() * 101),
         },
       });
       res.status(200).json({ message: "Library game info saved" });
+    },
+  ],
+  reviewGame: [
+    passport.authenticate("jwt", { session: false }),
+    body("comment").trim().isLength({ min: 1 }).escape(),
+    body("rating").optional().isFloat({ min: 0, max: 5 }).toFloat(),
+    async (req: Request, res: Response) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res
+          .status(400)
+          .json({ errors: errors.array(), message: "Failed to add review" });
+        return;
+      }
+
+      const gameId = Number(req.params.gameId);
+      const { rating, comment } = req.body;
+      console.log(rating, comment);
+      const user = req.user as User;
+
+      if (!gameId) {
+        res.status(400).json({ message: "Missing or invalid gameId" });
+        return;
+      }
+
+      const game = await prisma.game.findFirst({
+        where: { igdbId: gameId },
+      });
+
+      if (!game) {
+        res.status(404).json({ message: "Game not found" });
+        return;
+      }
+
+      const review = await prisma.review.create({
+        data: {
+          userId: user.id,
+          gameId: game.id,
+          comment: comment,
+        },
+      });
+
+      await prisma.game.update({
+        where: {
+          id: game.id,
+        },
+        data: {
+          reviews: {
+            connect: [
+              {
+                id: review.id,
+                userId_gameId: {
+                  gameId: game.id,
+                  userId: user.id,
+                },
+              },
+            ],
+          },
+        },
+      });
+
+      await prisma.userGame.upsert({
+        where: {
+          userId_gameId: {
+            userId: user.id,
+            gameId: game.id,
+          },
+        },
+
+        update: {},
+        create: {
+          userId: user.id,
+          gameId: game.id,
+          status: "Completed",
+          rating: rating ?? 0.0,
+          hoursPlayed: Math.round(Math.pow(Math.random(), 3) * maximumHours),
+          completion: Math.floor(Math.random() * 101),
+        },
+      });
+
+      res.status(200).json({ message: "Review added successfully" });
     },
   ],
 };

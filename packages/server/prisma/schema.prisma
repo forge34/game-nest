@@ -57,8 +57,7 @@ model Game {
 
 model Review {
   id        Int      @id @default(autoincrement())
-  rating    Float
-  comment   String?
+  comment   String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   game      Game     @relation(fields: [gameId], references: [id])
@@ -134,7 +133,6 @@ model UserGame {
   favorite     Boolean    @default(false)
   addedAt      DateTime   @default(now())
   lastPlayedAt DateTime?
-  reviewed     Boolean    @default(false)
   completion   Float      @default(0)
 
   user User @relation(fields: [userId], references: [id])
