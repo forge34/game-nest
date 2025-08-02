@@ -5,6 +5,8 @@ import { User } from "../../generated/prisma";
 import { gameIncludes } from "@game-forge/shared";
 import { body, validationResult } from "express-validator";
 
+const maximumHours = 16000;
+
 const UsersRoute = {
   findFavourties: [
     passport.authenticate("jwt", { session: false }),
@@ -67,6 +69,8 @@ const UsersRoute = {
           userId: user.id,
           gameId: game.id,
           status: "Backlog",
+          hoursPlayed: Math.round(Math.pow(Math.random(), 3) * 16000),
+          completion: Math.floor(Math.random() * 101),
         },
       });
       res.status(200).json({ message: "Game added to library" });
@@ -119,6 +123,8 @@ const UsersRoute = {
           status: status ?? "Backlog",
           rating: rating ?? 0.0,
           favorite: favorite ?? false,
+          hoursPlayed: Math.round(Math.pow(Math.random(), 3) * 16000),
+          completion: Math.floor(Math.random() * 101),
         },
       });
       res.status(200).json({ message: "Library game info saved" });
