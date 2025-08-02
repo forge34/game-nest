@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 import { useState } from "react";
 
@@ -49,7 +50,13 @@ function StarRating({
       {[0, 1, 2, 3, 4].map((i) => {
         const fillPercent = Math.max(0, Math.min(1, displayRating - i)) * 100;
         return (
-          <div key={i} className="relative w-6 h-6">
+          <div
+            key={i}
+            className={cn(
+              "relative w-6 h-6",
+              disabled && "pointer-events-none",
+            )}
+          >
             <Star className="text-gray-300" strokeWidth={1.25} size={24} />
             <Star
               className="absolute top-0 left-0 text-yellow-400 fill-current pointer-events-none"

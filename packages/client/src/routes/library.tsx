@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/select";
 import { EditIcon } from "lucide-react";
 import StarRating from "@/components/star-rating";
+import { useAuthStore } from "@/store/auth";
+import useReviews from "@/lib/hooks/use-reviews";
 
 export const Route = createFileRoute("/library")({
   component: RouteComponent,
@@ -74,8 +76,15 @@ function DetailsHoverCard({
   const [isOpen, setIsOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [rating, setRating] = useState(0);
+  const user = useAuthStore((s) => s.user);
+  const ownReview =
+    g.game.reviews.find((r) => r.userId === user?.id)?.comment ||
+    "No review added yet";
+
   const [status, setStatus] = useState<string | null>(null);
+  const [review, setReview] = useState<string | null>(ownReview);
   const { updateGame } = useLibrary();
+  const { addReview } = useReviews();
 
   if (!g) return null;
 
@@ -100,8 +109,13 @@ function DetailsHoverCard({
       status: (status as GameStatus) ?? "Backlog",
       rating,
     });
-  }
 
+    if (typeof review === "string" && review.trim() !== "") {
+      addReview(g.game.igdbId.toString(), review, {
+        showToast: false,
+      });
+    }
+  }
   return (
     <Dialog onOpenChange={handleOpenChange} open={isOpen} modal>
       <HoverCard game={game} className="flex-none basis-[13%]">
@@ -185,7 +199,7 @@ function DetailsHoverCard({
             )}
           </div>
           <div className="flex flex-row gap-2">
-            <h3 className="font-semibold text-md py-1">Rating</h3>
+            <h3 className="font-semibold text-md py-1">Your review Rating</h3>
             <StarRating
               onRatingChange={setRating}
               initialRating={g.rating || 0}
@@ -193,11 +207,16 @@ function DetailsHoverCard({
             ></StarRating>
           </div>
           <h3 className="font-semibold text-md">Review</h3>
-          <Textarea
-            placeholder="No review added..."
-            className="lg:max-h-[150px]"
-            disabled={!editMode}
-          />
+          {editMode ? (
+            <Textarea
+              onChange={(e) => setReview(e.target.value)}
+              placeholder="No review added..."
+              className="lg:max-h-[150px]"
+              value={}
+            />
+          ) : (
+            <p className="bg-card rounded-md border py-2 px-3">{ownReview}</p>
+          )}
           <p className="text-muted-foreground mt-2">
             {game.reviews.length} User Reviews
           </p>

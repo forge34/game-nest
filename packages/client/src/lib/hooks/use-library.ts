@@ -4,6 +4,7 @@ import { useAuthStore } from "@/store/auth";
 import { safeFetch } from "@/utils";
 import type { Game } from "@game-forge/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export enum GameStatus {
   Wishlist = "Wishlist",
@@ -46,6 +47,7 @@ function useLibrary() {
     mutationFn: ({ id, opts }: { id: string; opts?: GameUpdateOptions }) =>
       updateGameFn(id, opts),
     onSuccess: () => {
+      toast.success("game status updated successfully");
       queryClient.invalidateQueries();
     },
   });
@@ -53,6 +55,8 @@ function useLibrary() {
   const addToLibraryMutation = useMutation({
     mutationFn: (id: string) => addToLibraryFn(id),
     onSuccess: () => {
+      toast.success("game successfully added to library");
+
       queryClient.invalidateQueries();
     },
   });
