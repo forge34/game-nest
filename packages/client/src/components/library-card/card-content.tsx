@@ -1,8 +1,6 @@
 import useLibrary, { GameStatus } from "@/lib/hooks/use-library";
 import { type Library } from "@game-forge/shared";
-import {
-  DialogContent,
-} from "@/components/ui/dialog";
+import { DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
@@ -20,6 +18,8 @@ import StarRating from "@/components/star-rating";
 import { useAuthStore } from "@/store/auth";
 import useReviews from "@/lib/hooks/use-reviews";
 import GameCardHeader from "./card-header";
+
+const reviewPlaceholder = "No review added yet...";
 
 function GameCardContent({
   g,
@@ -42,12 +42,8 @@ function GameCardContent({
   ];
 
   const game = g.game;
-  const ownReview =
-    game.reviews.find((r) => r.userId === user?.id)?.comment ||
-    "No review added yet";
-
   const [status, setStatus] = useState<string | null>(null);
-  const [review, setReview] = useState<string | null>(ownReview);
+  const [review, setReview] = useState<string | null>(null);
   const { updateGame, isFavourite } = useLibrary();
   const { addReview } = useReviews();
 
@@ -72,6 +68,13 @@ function GameCardContent({
   const lastPlayedAt = g.lastPlayedAt
     ? format(g.lastPlayedAt || new Date(), "dd MMM yyyy")
     : "Unknown";
+
+  const userReview =
+    game.reviews.find((r) => r.userId === user?.id)?.comment || "";
+
+  const displayReview = editMode
+    ? (review ?? userReview)
+    : userReview || reviewPlaceholder;
 
   return (
     <DialogContent>
@@ -135,10 +138,11 @@ function GameCardContent({
           <Textarea
             onChange={(e) => setReview(e.target.value)}
             placeholder="No review added..."
+            value={review ?? userReview}
             className="lg:max-h-[150px]"
           />
         ) : (
-          <p className="bg-card rounded-md border py-2 px-3">{ownReview}</p>
+          <p className="bg-card rounded-md border py-2 px-3">{displayReview}</p>
         )}
         <p className="text-muted-foreground mt-2">
           {game.reviews.length} User Reviews
