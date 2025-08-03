@@ -16,7 +16,6 @@ function useMedia(query: MediaQuery) {
   useEffect(() => {
     let mounted = true;
     const mql = window.matchMedia(query);
-    console.log(mql);
     const onChange = () => {
       if (!mounted) {
         return;

@@ -4,6 +4,7 @@ import { getLibrary } from "@/api/games";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Separator } from "@/components/ui/separator";
 import { useAuthStore } from "@/store/auth";
 import type { User } from "@game-forge/shared";
 import { type QueryClient } from "@tanstack/react-query";
@@ -41,6 +42,7 @@ function RootComponent() {
   return (
     <ThemeProvider>
       <Navbar />
+      <Separator/>
       <Outlet />
       <Footer />
       <TanStackRouterDevtools />

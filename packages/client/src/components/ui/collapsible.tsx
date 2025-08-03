@@ -3,19 +3,24 @@ import { useState } from "react";
 
 function Collapsible({
   alwaysOpen,
+  openOnClick = false,
   ...props
 }: React.ComponentProps<typeof CollapsiblePrimitive.Root> & {
   alwaysOpen?: boolean;
+    openOnClick?:boolean
 }) {
   const [open, setOpen] = useState(false);
 
   return (
     <div
       onMouseEnter={() => {
-        if (!alwaysOpen) setOpen(true);
+        if (!alwaysOpen && !openOnClick) setOpen(true);
       }}
       onMouseLeave={() => {
-        if (!alwaysOpen) setOpen(false);
+        if (!alwaysOpen && !openOnClick) setOpen(false);
+      }}
+      onClick={() => {
+        if (!alwaysOpen && openOnClick) setOpen(!open);
       }}
     >
       <CollapsiblePrimitive.Root
