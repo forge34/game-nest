@@ -52,10 +52,10 @@ function HorizontalFilter({
     state.genres.length > 0 || state.platforms.length > 0;
   return (
     <div className="flex flex-col w-full gap-2 mt-4">
-      <div className="flex flex-row gap-x-4">
+      <div className="flex flex-row gap-2 flex-wrap">
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="text-md">
+            <Button variant="outline" className="text-sm">
               <Filter />
               Genres
             </Button>
@@ -82,7 +82,7 @@ function HorizontalFilter({
         </Popover>
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="text-md">
+            <Button variant="outline" className="text-sm">
               <Filter />
               Platforms
             </Button>
@@ -112,7 +112,7 @@ function HorizontalFilter({
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="text-md">
+              <Button variant="outline" className="text-sm">
                 <ListFilter />
                 Sort by
               </Button>

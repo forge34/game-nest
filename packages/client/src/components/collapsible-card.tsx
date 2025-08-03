@@ -37,11 +37,11 @@ function CollapsibleCard({
         <CollapsibleTrigger asChild>
           <div className="flex flex-col w-full">
             <img
-              className="w-full h-[11rem] rounded-md object-cover"
+              className="w-full  rounded-md "
               src={game.coverImage?.url.replace("t_thumb", "t_original")}
             />
             <div className="flex items-start gap-2 mt-2">
-              <h3 className="text-xl font-semibold break-words flex-1 leading-tight">
+              <h3 className="text-sm md:text-md font-semibold break-words flex-1 leading-tight">
                 {game.title}
               </h3>
               <GameRating className="text-xs" rating={game.rating} />

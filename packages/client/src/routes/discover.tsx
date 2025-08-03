@@ -69,7 +69,7 @@ function RouteComponent() {
             filters={{ genres, platforms }}
             onChangeChecked={onFilter}
           />
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
             {games.map((game) => {
               return (
                 <Link

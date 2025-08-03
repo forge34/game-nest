@@ -36,7 +36,7 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   const user = useAuthStore((s) => s.user);
   const { games } = useGames();
-  console.log(games)
+  console.log(games);
   const featured = games[Math.floor(Math.random() * games.length)];
   const releaseDate = featured.releaseDate
     ? format(featured.releaseDate, "dd MMM yyyy")
@@ -119,7 +119,10 @@ function RouteComponent() {
         <Carousel className="mt-6 mx-6" opts={{ loop: true }}>
           <CarouselContent>
             {games.map((game) => (
-              <CarouselItem key={game.igdbId} className="flex-none basis-[17%]">
+              <CarouselItem
+                key={game.igdbId}
+                className="flex-none basis-1/3 md:basis-1/4 lg:basis-[17%]"
+              >
                 <Link
                   to="/discover/$gameId"
                   params={{ gameId: game.igdbId.toString() }}

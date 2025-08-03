@@ -20,7 +20,7 @@ function GameCard({ g }: { g: Library[number] }) {
 
   return (
     <Dialog onOpenChange={handleOpenChange} open={isOpen} modal>
-      <HoverCard game={game} className="flex-none basis-[13%]">
+      <HoverCard game={game} className="flex-none sm:basis-[20%] md:basis-[17%] lg:basis-[13%]">
         <div className="flex flex-col absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
           <span className="text-sm text-center  font-semibold text-white">
             {game.title}
