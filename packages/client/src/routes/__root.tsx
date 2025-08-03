@@ -1,6 +1,7 @@
 import { queryClient } from "@/api";
 import { getMe } from "@/api/auth";
 import { getLibrary } from "@/api/games";
+import Footer from "@/components/footer";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
@@ -13,12 +14,12 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Home, Info, Library, LogInIcon, Search } from "lucide-react";
+import { Home, Library, LogInIcon, Search } from "lucide-react";
 import { useEffect } from "react";
 
 type MyRouterContext = {
   queryClient: QueryClient;
-}
+};
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent,
@@ -74,14 +75,6 @@ function RootComponent() {
               </Button>
             </span>
           )}
-          <span className="flex flex-row self-center">
-            <Button variant="link" asChild>
-              <Link to="/">
-                <Info size={"1rem"} className="mx-2 my-auto" />
-                About
-              </Link>
-            </Button>
-          </span>
         </span>
         <span className="flex flex-row gap-4 ml-auto">
           {!user ? (
@@ -105,6 +98,7 @@ function RootComponent() {
         </span>
       </nav>
       <Outlet />
+      <Footer />
       <TanStackRouterDevtools />
     </ThemeProvider>
   );
