@@ -18,6 +18,7 @@ import CollapsibleCard from "@/components/collapsible-card";
 import { zodValidator } from "@tanstack/zod-adapter";
 import useGames from "@/lib/hooks/use-games";
 import GamePagination from "@/components/game-pagination";
+import useMedia, { media } from "@/lib/hooks/use-media";
 
 export const Route = createFileRoute("/discover")({
   component: RouteComponent,
@@ -44,6 +45,7 @@ function RouteComponent() {
   const filter = Route.useSearch();
   const { games, total } = useGames(filter);
   const navigate = useNavigate({ from: Route.fullPath });
+  const isLarge = useMedia( media.lg)
 
   function onFilter(fs: FilterState) {
     navigate({
@@ -77,7 +79,7 @@ function RouteComponent() {
                   params={{ gameId: game.igdbId.toString() }}
                   key={game.igdbId}
                 >
-                  <CollapsibleCard game={game} />
+                  <CollapsibleCard game={game} alwaysOpen={!isLarge}/>
                 </Link>
               );
             })}
