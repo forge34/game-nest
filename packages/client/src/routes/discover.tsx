@@ -1,4 +1,4 @@
-import GenreFilter from "@/components/horizontal-filter";
+import HorizontalFilter from "@/components/horizontal-filter";
 import {
   filterStateSchema,
   type FilterState,
@@ -63,7 +63,7 @@ function RouteComponent() {
         <Outlet />
       ) : (
         <div className="flex flex-col mx-6 mask-y-from-04 gap-4">
-          <GenreFilter
+          <HorizontalFilter
             onClear={clearFitlers}
             state={filter}
             filters={{ genres, platforms }}

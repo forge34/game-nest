@@ -28,7 +28,7 @@ type GenreFilterProps = {
   onClear: () => void;
 };
 
-function GenreFilter({
+function HorizontalFilter({
   filters,
   state,
   onChangeChecked,
@@ -158,4 +158,4 @@ function GenreFilter({
   );
 }
 
-export default GenreFilter;
+export default HorizontalFilter;
