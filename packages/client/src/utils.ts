@@ -4,7 +4,11 @@ export type RouteError = {
   errors?: unknown[];
 };
 async function safeFetch<TData>(url: string, init: RequestInit): Promise<TData>;
-async function safeFetch<TData>(url: string, init: RequestInit , supressAuthError:boolean): Promise<TData|null>;
+async function safeFetch<TData>(
+  url: string,
+  init: RequestInit,
+  supressAuthError: boolean,
+): Promise<TData | null>;
 async function safeFetch<TData>(
   url: string,
   init: RequestInit,

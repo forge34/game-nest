@@ -27,7 +27,7 @@ const loginFn = ({
   username: string;
   password: string;
 }) => {
-  return safeFetch<{ data:User }>("login", {
+  return safeFetch<{ data: User }>("login", {
     method: "POST",
     body: JSON.stringify({
       username,

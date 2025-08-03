@@ -9,6 +9,4 @@ const addReviewFn = (gameId: string, reviewbody: string) => {
   });
 };
 
-
-
-export {addReviewFn};
+export { addReviewFn };

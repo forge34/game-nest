@@ -65,10 +65,7 @@ function RouteComponent() {
                     display="icon"
                     game={game}
                   />
-                  <HeartBtn
-                    isFavourite={isFavourite(game)}
-                    id={game.igdbId}
-                  />
+                  <HeartBtn isFavourite={isFavourite(game)} id={game.igdbId} />
                 </div>
               )}
             </div>

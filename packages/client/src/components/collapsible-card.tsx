@@ -14,7 +14,13 @@ import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "./add-to-library-btn";
 import { useAuthStore } from "@/store/auth";
 
-function CollapsibleCard({ game ,alwaysOpen}: { game: Game ,alwaysOpen?:boolean}) {
+function CollapsibleCard({
+  game,
+  alwaysOpen,
+}: {
+  game: Game;
+  alwaysOpen?: boolean;
+}) {
   const releaseDate = game.releaseDate
     ? format(game.releaseDate, "dd MMM yyyy")
     : "Unknown";
@@ -23,7 +29,10 @@ function CollapsibleCard({ game ,alwaysOpen}: { game: Game ,alwaysOpen?:boolean}
   const user = useAuthStore((s) => s.user);
 
   return (
-    <Collapsible alwaysOpen={alwaysOpen} className="bg-card py-2 px-4 rounded-md border">
+    <Collapsible
+      alwaysOpen={alwaysOpen}
+      className="bg-card py-2 px-4 rounded-md border"
+    >
       <div className="relative">
         <CollapsibleTrigger asChild>
           <div className="flex flex-col w-full">
@@ -81,10 +90,7 @@ function CollapsibleCard({ game ,alwaysOpen}: { game: Game ,alwaysOpen?:boolean}
 
           {user && (
             <div className="flex justify-between mt-3">
-              <AddToLibraryButton
-                inLibrary={isInLibrary(game)}
-                game={game}
-              />
+              <AddToLibraryButton inLibrary={isInLibrary(game)} game={game} />
               <HeartBtn id={game.igdbId} isFavourite={isFavourite(game)} />
             </div>
           )}

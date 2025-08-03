@@ -38,4 +38,4 @@ function useReviews() {
   return { addReview };
 }
 
-export default useReviews
+export default useReviews;

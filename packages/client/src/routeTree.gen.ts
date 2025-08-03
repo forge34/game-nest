@@ -10,177 +10,177 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as SignupImport } from './routes/signup'
-import { Route as LoginImport } from './routes/login'
-import { Route as LibraryImport } from './routes/library'
-import { Route as DiscoverImport } from './routes/discover'
-import { Route as IndexImport } from './routes/index'
-import { Route as DiscoverGameIdImport } from './routes/discover.$gameId'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as SignupImport } from "./routes/signup";
+import { Route as LoginImport } from "./routes/login";
+import { Route as LibraryImport } from "./routes/library";
+import { Route as DiscoverImport } from "./routes/discover";
+import { Route as IndexImport } from "./routes/index";
+import { Route as DiscoverGameIdImport } from "./routes/discover.$gameId";
 
 // Create/Update Routes
 
 const SignupRoute = SignupImport.update({
-  id: '/signup',
-  path: '/signup',
+  id: "/signup",
+  path: "/signup",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const LoginRoute = LoginImport.update({
-  id: '/login',
-  path: '/login',
+  id: "/login",
+  path: "/login",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const LibraryRoute = LibraryImport.update({
-  id: '/library',
-  path: '/library',
+  id: "/library",
+  path: "/library",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const DiscoverRoute = DiscoverImport.update({
-  id: '/discover',
-  path: '/discover',
+  id: "/discover",
+  path: "/discover",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const DiscoverGameIdRoute = DiscoverGameIdImport.update({
-  id: '/$gameId',
-  path: '/$gameId',
+  id: "/$gameId",
+  path: "/$gameId",
   getParentRoute: () => DiscoverRoute,
-} as any)
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/discover': {
-      id: '/discover'
-      path: '/discover'
-      fullPath: '/discover'
-      preLoaderRoute: typeof DiscoverImport
-      parentRoute: typeof rootRoute
-    }
-    '/library': {
-      id: '/library'
-      path: '/library'
-      fullPath: '/library'
-      preLoaderRoute: typeof LibraryImport
-      parentRoute: typeof rootRoute
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupImport
-      parentRoute: typeof rootRoute
-    }
-    '/discover/$gameId': {
-      id: '/discover/$gameId'
-      path: '/$gameId'
-      fullPath: '/discover/$gameId'
-      preLoaderRoute: typeof DiscoverGameIdImport
-      parentRoute: typeof DiscoverImport
-    }
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/discover": {
+      id: "/discover";
+      path: "/discover";
+      fullPath: "/discover";
+      preLoaderRoute: typeof DiscoverImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/library": {
+      id: "/library";
+      path: "/library";
+      fullPath: "/library";
+      preLoaderRoute: typeof LibraryImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/login": {
+      id: "/login";
+      path: "/login";
+      fullPath: "/login";
+      preLoaderRoute: typeof LoginImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/signup": {
+      id: "/signup";
+      path: "/signup";
+      fullPath: "/signup";
+      preLoaderRoute: typeof SignupImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/discover/$gameId": {
+      id: "/discover/$gameId";
+      path: "/$gameId";
+      fullPath: "/discover/$gameId";
+      preLoaderRoute: typeof DiscoverGameIdImport;
+      parentRoute: typeof DiscoverImport;
+    };
   }
 }
 
 // Create and export the route tree
 
 interface DiscoverRouteChildren {
-  DiscoverGameIdRoute: typeof DiscoverGameIdRoute
+  DiscoverGameIdRoute: typeof DiscoverGameIdRoute;
 }
 
 const DiscoverRouteChildren: DiscoverRouteChildren = {
   DiscoverGameIdRoute: DiscoverGameIdRoute,
-}
+};
 
 const DiscoverRouteWithChildren = DiscoverRoute._addFileChildren(
   DiscoverRouteChildren,
-)
+);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/discover': typeof DiscoverRouteWithChildren
-  '/library': typeof LibraryRoute
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
-  '/discover/$gameId': typeof DiscoverGameIdRoute
+  "/": typeof IndexRoute;
+  "/discover": typeof DiscoverRouteWithChildren;
+  "/library": typeof LibraryRoute;
+  "/login": typeof LoginRoute;
+  "/signup": typeof SignupRoute;
+  "/discover/$gameId": typeof DiscoverGameIdRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/discover': typeof DiscoverRouteWithChildren
-  '/library': typeof LibraryRoute
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
-  '/discover/$gameId': typeof DiscoverGameIdRoute
+  "/": typeof IndexRoute;
+  "/discover": typeof DiscoverRouteWithChildren;
+  "/library": typeof LibraryRoute;
+  "/login": typeof LoginRoute;
+  "/signup": typeof SignupRoute;
+  "/discover/$gameId": typeof DiscoverGameIdRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/discover': typeof DiscoverRouteWithChildren
-  '/library': typeof LibraryRoute
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
-  '/discover/$gameId': typeof DiscoverGameIdRoute
+  __root__: typeof rootRoute;
+  "/": typeof IndexRoute;
+  "/discover": typeof DiscoverRouteWithChildren;
+  "/library": typeof LibraryRoute;
+  "/login": typeof LoginRoute;
+  "/signup": typeof SignupRoute;
+  "/discover/$gameId": typeof DiscoverGameIdRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
-    | '/'
-    | '/discover'
-    | '/library'
-    | '/login'
-    | '/signup'
-    | '/discover/$gameId'
-  fileRoutesByTo: FileRoutesByTo
+    | "/"
+    | "/discover"
+    | "/library"
+    | "/login"
+    | "/signup"
+    | "/discover/$gameId";
+  fileRoutesByTo: FileRoutesByTo;
   to:
-    | '/'
-    | '/discover'
-    | '/library'
-    | '/login'
-    | '/signup'
-    | '/discover/$gameId'
+    | "/"
+    | "/discover"
+    | "/library"
+    | "/login"
+    | "/signup"
+    | "/discover/$gameId";
   id:
-    | '__root__'
-    | '/'
-    | '/discover'
-    | '/library'
-    | '/login'
-    | '/signup'
-    | '/discover/$gameId'
-  fileRoutesById: FileRoutesById
+    | "__root__"
+    | "/"
+    | "/discover"
+    | "/library"
+    | "/login"
+    | "/signup"
+    | "/discover/$gameId";
+  fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  DiscoverRoute: typeof DiscoverRouteWithChildren
-  LibraryRoute: typeof LibraryRoute
-  LoginRoute: typeof LoginRoute
-  SignupRoute: typeof SignupRoute
+  IndexRoute: typeof IndexRoute;
+  DiscoverRoute: typeof DiscoverRouteWithChildren;
+  LibraryRoute: typeof LibraryRoute;
+  LoginRoute: typeof LoginRoute;
+  SignupRoute: typeof SignupRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -189,11 +189,11 @@ const rootRouteChildren: RootRouteChildren = {
   LibraryRoute: LibraryRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
-}
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {

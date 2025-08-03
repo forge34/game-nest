@@ -24,6 +24,7 @@ function AddToLibraryButton({
   const { addToLibrary } = useLibrary();
   const navigate = useNavigate();
   const btnText = inLibrary ? "Show in library" : "Add to library";
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>

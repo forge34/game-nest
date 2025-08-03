@@ -85,7 +85,7 @@ function RouteComponent() {
           <GamePagination
             currentPage={filter.page}
             totalItems={total}
-            onPageChange={(page) => navigate({ search : () => ({ page }) })}
+            onPageChange={(page) => navigate({ search: () => ({ page }) })}
           />
         </div>
       )}
