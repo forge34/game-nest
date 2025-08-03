@@ -54,7 +54,7 @@ function GenreFilter({
     <div className="flex flex-col w-full gap-2 mt-4">
       <div className="flex flex-row gap-x-4">
         <Popover>
-          <PopoverTrigger>
+          <PopoverTrigger asChild>
             <Button variant="outline" className="text-md">
               <Filter />
               Genres
@@ -81,7 +81,7 @@ function GenreFilter({
           </PopoverContent>
         </Popover>
         <Popover>
-          <PopoverTrigger>
+          <PopoverTrigger asChild>
             <Button variant="outline" className="text-md">
               <Filter />
               Platforms

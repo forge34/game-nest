@@ -74,7 +74,7 @@ function RouteComponent() {
               return (
                 <Link
                   to="/discover/$gameId"
-                  params={{ gameId: game.igdbId as unknown as string }}
+                  params={{ gameId: game.igdbId.toString() }}
                   key={game.igdbId}
                 >
                   <CollapsibleCard game={game} />

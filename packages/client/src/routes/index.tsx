@@ -36,6 +36,7 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   const user = useAuthStore((s) => s.user);
   const { games } = useGames();
+  console.log(games)
   const featured = games[Math.floor(Math.random() * games.length)];
   const releaseDate = featured.releaseDate
     ? format(featured.releaseDate, "dd MMM yyyy")
