@@ -48,7 +48,7 @@ model Game {
   reviews      Review[]
   screenshots  Screenshots[]
   ageRating    AgeRating[]
-  library      UserGame[]
+  userGames UserGame[]
   artworks     Img[]         @relation("artworks")
   gameModes    GameMode[]
   similarGames Game[]        @relation("SimilarGames")
@@ -129,7 +129,7 @@ model UserGame {
   gameId       Int
   status       GameStatus
   hoursPlayed  Int        @default(0)
-  rating       Float?     @default(0)
+  rating       Float?
   favorite     Boolean    @default(false)
   addedAt      DateTime   @default(now())
   lastPlayedAt DateTime?
