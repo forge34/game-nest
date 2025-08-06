@@ -40,7 +40,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex flex-col gap-4 fixed w-fit top-[50%] left-[50%] translate-[-50%] bg-card py-4 px-6 rounded-md border">
+    <div className="flex flex-col gap-4 fixed w-fit top-[40%] left-[50%] translate-[-50%] bg-card py-4 px-6 rounded-md border">
       <h3 className="text-lg font-bold ">Login</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">

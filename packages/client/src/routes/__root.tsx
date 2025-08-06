@@ -41,10 +41,14 @@ function RootComponent() {
   }, [user, me, setUser]);
   return (
     <ThemeProvider>
-      <Navbar />
-      <Separator/>
-      <Outlet />
-      <Footer />
+      <div className="flex flex-col min-h-[100dvh]">
+        <Navbar />
+        <Separator />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
       <TanStackRouterDevtools />
     </ThemeProvider>
   );
