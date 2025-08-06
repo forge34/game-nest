@@ -7,7 +7,7 @@ function Collapsible({
   ...props
 }: React.ComponentProps<typeof CollapsiblePrimitive.Root> & {
   alwaysOpen?: boolean;
-    openOnClick?:boolean
+  openOnClick?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -18,9 +18,6 @@ function Collapsible({
       }}
       onMouseLeave={() => {
         if (!alwaysOpen && !openOnClick) setOpen(false);
-      }}
-      onClick={() => {
-        if (!alwaysOpen && openOnClick) setOpen(!open);
       }}
     >
       <CollapsiblePrimitive.Root

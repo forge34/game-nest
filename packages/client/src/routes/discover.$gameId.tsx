@@ -65,16 +65,16 @@ function ReviewTab({ game, user }: { game: Game; user: User | null }) {
   const userData = game.userGames.find((g) => g.userId === user?.id);
 
   return (
-    <TabsContent value="reviews" className="flex flex-col gap-4 p-6">
+    <TabsContent value="reviews" className="flex flex-col gap-4 p-2 md:p-6">
       <h3 className="text-xl font-semibold">Your Review</h3>
-      <Review review={userReview} userGame={userData} />
+      <Reviews review={userReview} userGame={userData} />
       <Separator />
       <h3 className="text-2xl">Other Reviews</h3>
       {game.reviews.map((review) => {
         if (review.userId === user?.id) return null;
 
         return (
-          <Review
+          <Reviews
             key={review.id}
             review={review}
             userGame={game.userGames.find((g) => g.userId === review.userId)}
@@ -85,7 +85,7 @@ function ReviewTab({ game, user }: { game: Game; user: User | null }) {
   );
 }
 
-function Review({
+function Reviews({
   review,
   userGame,
 }: {
@@ -124,9 +124,9 @@ function ScreenshotTab({ game }: { game: Game }) {
   return (
     <TabsContent
       value="screenshots"
-      className="flex flex-col gap-y-5 bg-card py-6 px-7 rounded-md border"
+      className="flex flex-col gap-y-5"
     >
-      <h3 className="mx-10 text-3xl font-semibold">Screenshots </h3>
+      <h3 className="mx-10 text-2xl font-semibold">Screenshots </h3>
       <Carousel className="mx-10" opts={{ loop: true }}>
         <CarouselContent>
           {game.screenshots.map((screenshot) => (
@@ -135,7 +135,7 @@ function ScreenshotTab({ game }: { game: Game }) {
               key={screenshot.id}
             >
               <img
-                className="rounded-md h-full"
+                className="rounded-md h-full border"
                 src={screenshot.url.replace("t_thumb", "t_original")}
               />
             </CarouselItem>
