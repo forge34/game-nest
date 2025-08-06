@@ -115,7 +115,7 @@ function RouteComponent() {
         </CardContent>
       </Card>
       <GameNews className="order-3 row-start-2 " />
-      <div className="order-2 border rounded-md bg-card py-2 px-8 h-full">
+      <div className="order-2   h-full">
         <h3 className="text-2xl font-semibold">Popular games</h3>
         <Carousel className="mt-6 mx-6" opts={{ loop: true }}>
           <CarouselContent>

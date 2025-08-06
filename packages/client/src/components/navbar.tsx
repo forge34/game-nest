@@ -3,7 +3,16 @@ import { Button } from "@/components/ui/button";
 import useMedia, { media } from "@/lib/hooks/use-media";
 import { useAuthStore } from "@/store/auth";
 import { Link } from "@tanstack/react-router";
-import { Home, Library, LogInIcon, Menu, Search } from "lucide-react";
+import {
+  Home,
+  Library,
+  LogInIcon,
+  Menu,
+  Search,
+  User as Avatar,
+  Settings,
+  LogOut,
+} from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -11,64 +20,50 @@ import {
 } from "./ui/collapsible";
 import type { User } from "@game-forge/shared";
 import { cn } from "@/lib/utils";
+import { DropdownMenu, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import {
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 function Navbar() {
   const user = useAuthStore((s) => s.user);
   const isLarge = useMedia(media.lg);
 
   return (
-    <nav>
-      <Collapsible
-        className="flex py-2 border  px-4 items-center justify-between flex-wrap"
-        openOnClick
+    <>
+      {isLarge ? <NavbarDesktop user={user} /> : <NavbarMobile user={user} />}
+    </>
+  );
+}
+
+function UserMenu() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="flex items-center justify-center w-10 h-10 border rounded-full hover:bg-secondary/60 transition-colors shadow-xs">
+          <Avatar className="w-5 h-5" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        side="bottom"
+        align="end"
+        className="bg-card py-2 w-48 rounded-md border shadow-md"
       >
-        <h3 className="text-2xl font-logo">GameNest</h3>
-        {isLarge && (
-          <span className="flex flex-row self-center ">
-            <Button variant="link" asChild>
-              <Link to="/">
-                <Home size={"1rem"} className="mx-2 my-auto" />
-                Home
-              </Link>
-            </Button>
-          </span>
-        )}
-        <span className="flex flex-row self-center">
-          <Button variant="link" asChild>
-            <Link to="/discover">
-              <Search size={"1rem"} className="mx-2 my-auto" />
-              Discover
-            </Link>
-          </Button>
-        </span>
-        {user && isLarge && (
-          <span className="flex flex-row self-center">
-            <Button variant="link" asChild>
-              <Link to="/library">
-                <Library size={"1rem"} className="mx-2 my-auto" />
-                My library
-              </Link>
-            </Button>
-          </span>
-        )}
-
-        {!isLarge && (
-          <CollapsibleTrigger>
-            <Button variant="outline" size="icon">
-              <Menu />
-            </Button>
-          </CollapsibleTrigger>
-        )}
-        <span className=" flex gap-2">
-          {isLarge && <AuthSection user={user} isLarge={isLarge} />}
-          <ModeToggle />
-        </span>
-
-        <CollapsibleContent className="flex flex-col gap-4 mr-auto data-[state=open]:animate-expand data-[state=closed]:animate-collapse">
-          {!isLarge && <AuthSection user={user} isLarge={isLarge} />}
-        </CollapsibleContent>
-      </Collapsible>
-    </nav>
+        <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 text-sm">
+          <Avatar className="w-5 h-5" />
+          <span>Profile</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 text-sm">
+          <Settings className="w-4 h-4" />
+          <span>Settings</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 text-sm">
+          <LogOut className="w-4 h-4" />
+          <span>Logout</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -100,7 +95,6 @@ function AuthSection({
         </div>
       ) : (
         <div className={cn("flex gap-x-2", !isLarge ? "flex-col" : "")}>
-          <Button variant={isLarge ? "default" : "ghost"}>Logout</Button>
           {!isLarge && (
             <Button asChild variant="ghost">
               <Link to="/library">My library</Link>
@@ -109,6 +103,117 @@ function AuthSection({
         </div>
       )}
     </>
+  );
+}
+
+function NavbarDesktop({ user }: { user: User | null }) {
+  return (
+    <nav>
+      <div className="flex py-2 border px-4 gap-2 items-center justify-between flex-wrap">
+        <h3 className="text-2xl font-logo">GameNest</h3>
+
+        <span className="flex flex-row self-center">
+          <Button variant="link" asChild>
+            <Link to="/">
+              <Home size={"1rem"} className="mx-2 my-auto" />
+              Home
+            </Link>
+          </Button>
+        </span>
+
+        <span className="flex flex-row self-center">
+          <Button variant="link" asChild>
+            <Link to="/discover">
+              <Search size={"1rem"} className="mx-2 my-auto" />
+              Discover
+            </Link>
+          </Button>
+        </span>
+
+        {user && (
+          <span className="flex flex-row self-center">
+            <Button variant="link" asChild>
+              <Link to="/library">
+                <Library size={"1rem"} className="mx-2 my-auto" />
+                My library
+              </Link>
+            </Button>
+          </span>
+        )}
+
+        <span className="flex gap-2">
+          <AuthSection user={user} isLarge />
+          {user && <UserMenu />}
+          <ModeToggle />
+        </span>
+      </div>
+    </nav>
+  );
+}
+
+function NavbarMobile({ user }: { user: User | null }) {
+  return (
+    <nav>
+      <Collapsible
+        className="flex py-2 border px-4 items-center gap-2 justify-between flex-wrap"
+        openOnClick
+      >
+        <h3 className="text-2xl font-logo">GameNest</h3>
+
+        <span className="flex flex-row self-center">
+          <Button variant="link" asChild>
+            <Link to="/discover">
+              <Search size={"1rem"} className="mx-2 my-auto" />
+              Discover
+            </Link>
+          </Button>
+        </span>
+
+        <CollapsibleTrigger>
+          <Button variant="outline" size="icon">
+            <Menu />
+          </Button>
+        </CollapsibleTrigger>
+        <ModeToggle />
+
+        <CollapsibleContent className="flex flex-col gap-4 mr-auto data-[state=open]:animate-expand data-[state=closed]:animate-collapse">
+          {!user ? (
+            <div className="flex flex-col gap-2 mt-2">
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Create Account</Link>
+            </div>
+          ) : (
+            <div className="flex gap-2 flex-wrap">
+              <Button asChild variant="outline">
+                <Link to=".">
+                  <Avatar />
+                  Profile
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link to=".">
+                  <Settings />
+                  Settings
+                </Link>
+              </Button>
+
+              <Button asChild variant="outline">
+                <Link to="/library">
+                  <Library />
+                  My library
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link to="/library">
+                  <LogOut />
+                  Logout
+                </Link>
+              </Button>
+            </div>
+          )}
+        </CollapsibleContent>
+      </Collapsible>
+    </nav>
   );
 }
 
