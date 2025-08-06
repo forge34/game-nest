@@ -38,6 +38,7 @@ function RouteComponent() {
   const { games } = useGames();
   console.log(games);
   const featured = games[Math.floor(Math.random() * games.length)];
+  console.log(featured)
   const releaseDate = featured.releaseDate
     ? format(featured.releaseDate, "dd MMM yyyy")
     : "Unkown";

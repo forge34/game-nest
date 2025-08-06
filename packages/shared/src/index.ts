@@ -1,17 +1,27 @@
 import { z } from "zod";
 export * from "./prisma-types.js";
+import { Prisma } from "../../server/generated/prisma";
 
-export const gameIncludes = {
+export const gameIncludes: Prisma.GameInclude = {
   coverImage: true,
   genres: true,
   platforms: true,
   parent_game: true,
-  reviews: true,
+  reviews: {
+    include: {
+      user: true,
+    },
+  },
   screenshots: true,
   ageRating: true,
   developer: true,
   publisher: true,
   artworks: true,
+  userGames: {
+    include: {
+      user: true,
+    },
+  },
 } as const;
 
 export const sortOptions = [

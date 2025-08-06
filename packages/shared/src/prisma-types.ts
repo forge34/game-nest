@@ -24,6 +24,18 @@ export type Library = Prisma.UserGameGetPayload<{
   };
 }>[];
 
+export type Review = Prisma.ReviewGetPayload<{
+  include: {
+    user: true;
+  };
+}>;
+
+export type UserGame = Prisma.UserGameGetPayload<{
+  include: {
+    user: true;
+  };
+}>;
+
 export type PlatformWithGames = Prisma.PlatformGetPayload<{
   include: {
     games: true;
