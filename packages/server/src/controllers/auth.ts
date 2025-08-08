@@ -96,7 +96,7 @@ const AuthRoute = {
               expiresIn: "3d",
             });
             res.cookie("jwt", token, cookieOptions);
-            res.status(200).json({ data: user, message: "login successs" });
+            res.status(200).json({ data: user, message: "login success" });
           }
         },
       )(req, res, next);
