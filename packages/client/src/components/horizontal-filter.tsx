@@ -1,8 +1,8 @@
 import {
   sortOptions,
   type FilterState,
-  type GenresWithGames,
-  type PlatformWithGames,
+  type Genre,
+  type Platform,
   type SortOptions,
 } from "@game-forge/shared";
 import { Button } from "./ui/button";
@@ -22,7 +22,7 @@ import {
 import { Filter, ListFilter } from "lucide-react";
 
 type GenreFilterProps = {
-  filters: { genres: GenresWithGames[]; platforms: PlatformWithGames[] };
+  filters: { genres: Genre[]; platforms: Platform[] };
   state: FilterState;
   onChangeChecked: (fs: FilterState) => void;
   onClear: () => void;
@@ -69,7 +69,7 @@ function HorizontalFilter({
                   variant="outline"
                   className="ml-auto mr-2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
                 >
-                  {genre.games.length}
+                  {genre.gameCount}
                 </Badge>
                 <Checkbox
                   checked={state.genres.includes(genre.name)}
@@ -96,7 +96,7 @@ function HorizontalFilter({
                   variant="outline"
                   className="ml-auto mr-2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
                 >
-                  {platform.games.length}
+                  {platform.gameCount}
                 </Badge>
                 <Checkbox
                   checked={state.platforms.includes(platform.name)}

@@ -5,11 +5,7 @@ export type Game = Prisma.GameGetPayload<{
   include: typeof gameIncludes;
 }>;
 
-export type GenresWithGames = Prisma.GenreGetPayload<{
-  include: {
-    games: true;
-  };
-}>;
+export type Genre = Prisma.GenreGetPayload<{}> & { gameCount: number };
 
 export type User = Prisma.UserGetPayload<{
   include: {
@@ -36,11 +32,7 @@ export type UserGame = Prisma.UserGameGetPayload<{
   };
 }>;
 
-export type PlatformWithGames = Prisma.PlatformGetPayload<{
-  include: {
-    games: true;
-  };
-}>;
+export type Platform = Prisma.PlatformGetPayload<{}> & { gameCount: number };
 
 export const mappedSort: Record<
   SortOptions,

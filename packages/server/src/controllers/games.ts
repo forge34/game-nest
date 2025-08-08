@@ -47,19 +47,50 @@ const GamesRoute = {
 
   genresFindMany: async (req: Request, res: Response) => {
     const genres = await prisma.genre.findMany({
-      include: {
-        games: true,
+      select: {
+        id: true,
+        igdbId: true,
+        name: true,
+        slug: true,
+        _count: {
+          select: { games: true },
+        },
       },
     });
 
-    res.status(200).json(genres);
+    const simplified = genres.map((genre) => ({
+      id: genre.id,
+      igdbId: genre.igdbId,
+      name: genre.name,
+      slug: genre.slug,
+      gameCount: genre._count.games,
+    }));
+
+    res.status(200).json(simplified);
   },
 
   platformFindMany: async (req: Request, res: Response) => {
     const platforms = await prisma.platform.findMany({
-      include: { games: true },
+      select: {
+        id: true,
+        igdbId: true,
+        name: true,
+        slug: true,
+        _count: {
+          select: { games: true },
+        },
+      },
     });
-    res.status(200).json(platforms);
+
+    const simplified = platforms.map((platform) => ({
+      id: platform.id,
+      igdbId: platform.igdbId,
+      name: platform.name,
+      slug: platform.slug,
+      gameCount: platform._count.games,
+    }));
+
+    res.status(200).json(simplified);
   },
 };
 

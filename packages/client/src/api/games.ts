@@ -3,9 +3,9 @@ import {
   filterStateSchema,
   type FilterState,
   type Game,
-  type GenresWithGames,
+  type Genre,
   type Library,
-  type PlatformWithGames,
+  type Platform,
 } from "@game-forge/shared";
 import { queryOptions } from "@tanstack/react-query";
 
@@ -35,13 +35,13 @@ const getGameById = (id: string) =>
 const getAllGenres = () =>
   queryOptions({
     queryKey: ["genre"],
-    queryFn: () => safeFetch<GenresWithGames[]>("genres", {}),
+    queryFn: () => safeFetch<Genre[]>("genres", {}),
   });
 
 const getAllPlatforms = () =>
   queryOptions({
     queryKey: ["platform"],
-    queryFn: () => safeFetch<PlatformWithGames[]>("platforms", {}),
+    queryFn: () => safeFetch<Platform[]>("platforms", {}),
   });
 
 const getLibrary = () =>
