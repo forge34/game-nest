@@ -11,6 +11,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "zod": "^4.0.5"
+    "zod": "^4.0.5",
+    "@game-forge/prisma": "1.0.0"
   }
 }
