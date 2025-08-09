@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, CookieOptions } from "express";
 import { body, oneOf, validationResult } from "express-validator";
 import prisma from "../config/prisma";
 import bcrypt from "bcryptjs";
-import { User } from "../../generated/prisma";
+import { User } from "@game-forge/prisma/generated/prisma";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 

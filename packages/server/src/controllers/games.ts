@@ -2,7 +2,7 @@ import { gameIncludes, mappedSort, SortOptions } from "@game-forge/shared";
 import prisma from "../config/prisma";
 import { Response, Request } from "express";
 import { toArray } from "../utils";
-import { Prisma } from "../../generated/prisma";
+import { Prisma } from "@game-forge/prisma/generated/prisma";
 
 const GamesRoute = {
   findMany: async (req: Request, res: Response) => {

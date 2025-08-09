@@ -6,7 +6,7 @@ import morgan from "morgan";
 import router from "./routes/index";
 import { configJwt, configLocal } from "./config/passport";
 import passport from "passport";
-import { Prisma } from "../generated/prisma";
+import { Prisma } from "@game-forge/prisma/generated/prisma";
 import compression from "compression";
 
 const app: Express = express();
@@ -35,7 +35,7 @@ app.use(passport.initialize());
 app.use(router);
 
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
-  console.log(err)
+  console.log(err);
   if (err.name === "AuthenticationError") {
     res.status(401).json({ message: "Unauthorized" });
     return;

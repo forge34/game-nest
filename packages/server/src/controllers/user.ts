@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import passport from "passport";
 import prisma from "../config/prisma";
-import { User } from "../../generated/prisma";
+import { User } from "@game-forge/prisma/generated/prisma";
 import { gameIncludes } from "@game-forge/shared";
 import { body, validationResult } from "express-validator";
 

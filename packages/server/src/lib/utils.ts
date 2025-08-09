@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../generated/prisma";
+import { PrismaClient } from "@game-forge/prisma/generated/prisma";
 import { fetchIGDB } from "./igdb";
 import {
   AgeRating,
@@ -126,13 +126,7 @@ export async function storeData(
   data: Awaited<ReturnType<typeof fetchData>> & { games: Game[] },
   prisma: PrismaClient,
 ) {
-  const {
-    genres,
-    platforms,
-    artworks,
-    gameModes,
-    companies,
-  } = data;
+  const { genres, platforms, artworks, gameModes, companies } = data;
   await prisma.$transaction([
     ...genres.map((g) => {
       return prisma.genre.upsert({

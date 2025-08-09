@@ -9,8 +9,6 @@
   },
   "private": true,
   "dependencies": {
-    "@game-forge/shared": "1.0.0",
-    "@prisma/client": "^6.13.0",
     "apicalypse": "^1.0.5",
     "bcryptjs": "^3.0.2",
     "compression": "^1.8.1",
@@ -30,6 +28,8 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "@game-forge/prisma": "1.0.0",
+    "@game-forge/shared": "1.0.0",
     "@types/compression": "^1.8.1",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
@@ -41,7 +41,6 @@
     "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.2",
     "nodemon": "^3.1.9",
-    "prisma": "^6.13.0",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
