@@ -2,7 +2,11 @@
   "name": "@game-forge/prisma",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "generate": "npx prisma generate",
+    "db:push": "npx prisma db push",
+    "db:reset": "npx prisma db push --force-reset"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
