@@ -1,37 +1,8 @@
+// @shared/index.ts
+export * from "./prisma-types";
+export * from "./constants";
+
 import { z } from "zod";
-export * from "./prisma-types.js";
-import { Prisma } from "@game-forge/prisma/generated/prisma";
-
-export const gameIncludes: Prisma.GameInclude = {
-  coverImage: true,
-  genres: true,
-  platforms: true,
-  parent_game: true,
-  reviews: {
-    include: {
-      user: true,
-    },
-  },
-  screenshots: true,
-  ageRating: true,
-  developer: true,
-  publisher: true,
-  artworks: true,
-  userGames: {
-    include: {
-      user: true,
-    },
-  },
-} as const;
-
-export const sortOptions = [
-  { label: "A - Z", value: "az" },
-  { label: "Z - A", value: "za" },
-  { label: "Release date", value: "rel_date" },
-  { label: "Rating", value: "rating" },
-] as const;
-
-export type SortOptions = (typeof sortOptions)[number]["value"];
 
 export const filterStateSchema = z.object({
   page: z.coerce.number().default(1),
