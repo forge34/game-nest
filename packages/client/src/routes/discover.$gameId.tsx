@@ -66,10 +66,14 @@ function ReviewTab({ game, user }: { game: Game; user: User | null }) {
 
   return (
     <TabsContent value="reviews" className="flex flex-col gap-4 p-2 md:p-6">
-      <h3 className="text-xl font-semibold">Your Review</h3>
-      <Reviews review={userReview} userGame={userData} />
-      <Separator />
-      <h3 className="text-2xl">Other Reviews</h3>
+      {user && (
+        <>
+          <h3 className="text-xl font-semibold">Your Review</h3>
+          <Reviews review={userReview} userGame={userData} />
+          <Separator />
+        </>
+      )}
+      <h3 className="text-2xl">{user ? "Other" : ""} Reviews</h3>
       {game.reviews.map((review) => {
         if (review.userId === user?.id) return null;
 
@@ -122,10 +126,7 @@ function Reviews({
 
 function ScreenshotTab({ game }: { game: Game }) {
   return (
-    <TabsContent
-      value="screenshots"
-      className="flex flex-col gap-y-5"
-    >
+    <TabsContent value="screenshots" className="flex flex-col gap-y-5">
       <h3 className="mx-10 text-2xl font-semibold">Screenshots </h3>
       <Carousel className="mx-10" opts={{ loop: true }}>
         <CarouselContent>

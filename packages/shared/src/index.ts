@@ -1,6 +1,6 @@
 // @shared/index.ts
-export * from "./prisma-types";
-export * from "./constants";
+export * from "./prisma-types.js";
+export * from "./constants.js";
 
 import { z } from "zod";
 
