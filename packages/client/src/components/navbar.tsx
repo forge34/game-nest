@@ -25,6 +25,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import UserAvatar from "./user-avatar";
 
 function Navbar() {
   const user = useAuthStore((s) => s.user);
@@ -37,12 +38,12 @@ function Navbar() {
   );
 }
 
-function UserMenu() {
+function UserMenu({ user }: { user: User }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex items-center justify-center w-10 h-10 border rounded-full hover:bg-secondary/60 transition-colors shadow-xs">
-          <Avatar className="w-5 h-5" />
+        <div>
+          <UserAvatar user={user} />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -143,7 +144,7 @@ function NavbarDesktop({ user }: { user: User | null }) {
 
         <span className="flex gap-2">
           <AuthSection user={user} isLarge />
-          {user && <UserMenu />}
+          {user && <UserMenu user={user} />}
           <ModeToggle />
         </span>
       </div>
