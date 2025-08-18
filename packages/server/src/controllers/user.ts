@@ -4,12 +4,34 @@ import prisma from "../config/prisma";
 import { User } from "@game-forge/prisma/generated/prisma";
 import { gameIncludes } from "@game-forge/shared";
 import { body, validationResult } from "express-validator";
-
+import multer from "multer";
+import { uploadImage } from "../config/cloudinary";
 const maximumHours = 16000;
 
-() => {};
-
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 const UsersRoute = {
+  updateProfileImg: [
+    upload.single("avatar"),
+    passport.authenticate("jwt", { session: false }),
+    async (req: Request, res: Response) => {
+      const user = req.user as User;
+      const b64 = Buffer.from(req.file.buffer).toString("base64");
+      let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+      const cldRes = await uploadImage(dataURI);
+
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          avatarUrl: cldRes.secure_url,
+        },
+      });
+
+      res.status(200).json({ message: "profile image successfully updated" });
+    },
+  ],
   findFavourties: [
     passport.authenticate("jwt", { session: false }),
     async (req: Request, res: Response) => {
