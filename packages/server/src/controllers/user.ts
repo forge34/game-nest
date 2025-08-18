@@ -140,11 +140,15 @@ const UsersRoute = {
             gameId: game.id,
           },
         },
-        update: { status, rating, favorite },
+        update: {
+          status: status ?? undefined,
+          rating: rating ?? undefined,
+          favorite: favorite ?? undefined,
+        },
         create: {
           userId: user.id,
           gameId: game.id,
-          status: status ?? undefined,
+          status: status ?? "Backlog",
           rating: rating ?? undefined,
           favorite: favorite ?? undefined,
           hoursPlayed: Math.round(Math.pow(Math.random(), 3) * maximumHours),
