@@ -30,7 +30,7 @@ function GameCardHeader({
           >
             {editMode ? "Cancel" : <EditIcon />}
           </Button>
-          <HeartBtn iconSize={6} id={game.id} isFavourite={isFavourite} />
+          <HeartBtn iconSize={6} id={game.igdbId} isFavourite={isFavourite} />
         </div>
       </DialogHeader>
       <Separator />
