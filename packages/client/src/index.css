@@ -130,11 +130,6 @@ html {
   box-sizing: border-box;
 }
 
-#root {
-  height: 100dvh;
-  width: 100dv;
-}
-
 *,
 *:before,
 *:after {
