@@ -10,7 +10,7 @@ const GamesRoute = {
     const genre = toArray<string>(req.query.genre as string[]);
     const platform = toArray<string>(req.query.platform as string[]);
     const sort = (req.query.sort as SortOptions) || ("az" as const);
-    const limit = 15;
+    const limit = Number(req.query.limit) || 15;
     const offset = (page - 1) * limit;
     const where: Prisma.GameWhereInput = {
       parent_game: null,

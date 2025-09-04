@@ -9,6 +9,7 @@ export const filterStateSchema = z.object({
   genres: z.array(z.string()).default([]),
   platforms: z.array(z.string()).default([]),
   sort: z.enum(["az", "za", "rel_date", "rating"]).default("rating"),
+  limit:z.number().default(15)
 });
 
 export type FilterState = z.infer<typeof filterStateSchema>;

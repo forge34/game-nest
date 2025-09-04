@@ -19,6 +19,7 @@ const getAllGames = (filters?: Partial<FilterState>) =>
       parsed.platforms.forEach((p) => params.append("platform", p));
       params.set("sort", parsed.sort);
       params.set("page", parsed.page.toString());
+      params.set("limit",parsed.limit.toString())
       return safeFetch<{ games: Game[]; total: number }>(
         `games?${params.toString()}`,
         {},

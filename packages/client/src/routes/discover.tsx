@@ -45,7 +45,7 @@ function RouteComponent() {
   const filter = Route.useSearch();
   const { games, total } = useGames(filter);
   const navigate = useNavigate({ from: Route.fullPath });
-  const isLarge = useMedia( media.lg)
+  const isLarge = useMedia(media.lg);
 
   function onFilter(fs: FilterState) {
     navigate({
@@ -79,12 +79,13 @@ function RouteComponent() {
                   params={{ gameId: game.igdbId.toString() }}
                   key={game.igdbId}
                 >
-                  <CollapsibleCard game={game} alwaysOpen={!isLarge}/>
+                  <CollapsibleCard game={game} alwaysOpen={!isLarge} />
                 </Link>
               );
             })}
           </div>
           <GamePagination
+            limit={filter.limit}
             currentPage={filter.page}
             totalItems={total}
             onPageChange={(page) => navigate({ search: () => ({ page }) })}

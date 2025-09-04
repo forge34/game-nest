@@ -9,7 +9,6 @@ function useGames(searchParams?: Partial<FilterState>) {
 
   const games = data?.games || [];
   const total = data?.total || 0;
-
   return { games, isError, isLoading, total, isFetching };
 }
 
