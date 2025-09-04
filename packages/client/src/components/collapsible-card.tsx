@@ -12,7 +12,7 @@ import { Separator } from "./ui/separator";
 import HeartBtn from "./heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "./add-to-library-btn";
-import { useAuthStore } from "@/store/auth";
+import useUser from "@/lib/hooks/use-user";
 
 function CollapsibleCard({
   game,
@@ -26,7 +26,7 @@ function CollapsibleCard({
     : "Unknown";
 
   const { isFavourite, isInLibrary } = useLibrary();
-  const user = useAuthStore((s) => s.user);
+  const { user } = useUser()
 
   return (
     <Collapsible

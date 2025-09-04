@@ -17,7 +17,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useAuthStore } from "@/store/auth";
 import { getAllGames } from "@/api/games";
 import { format } from "date-fns";
 import HeartBtn from "@/components/heart-btn";
@@ -25,6 +24,7 @@ import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "@/components/add-to-library-btn";
 import HoverCard from "@/components/hover-card";
 import useGames from "@/lib/hooks/use-games";
+import useUser from "@/lib/hooks/use-user";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -35,9 +35,8 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
-  const user = useAuthStore((s) => s.user);
+  const { user } = useUser()
   const { games } = useGames();
-  console.log(games);
   const featured = games[Math.floor(Math.random() * games.length)];
   console.log(featured)
   const releaseDate = featured.releaseDate

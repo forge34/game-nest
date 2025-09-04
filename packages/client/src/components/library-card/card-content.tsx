@@ -15,9 +15,9 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import StarRating from "@/components/star-rating";
-import { useAuthStore } from "@/store/auth";
 import useReviews from "@/lib/hooks/use-reviews";
 import GameCardHeader from "./card-header";
+import useUser from "@/lib/hooks/use-user";
 
 const reviewPlaceholder = "No review added yet...";
 
@@ -31,7 +31,7 @@ function GameCardContent({
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [rating, setRating] = useState(0);
-  const user = useAuthStore((s) => s.user);
+  const { user } = useUser()
 
   const gameStatusOptions = [
     { value: "Wishlist", label: "Wishlist" },

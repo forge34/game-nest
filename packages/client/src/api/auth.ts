@@ -1,4 +1,3 @@
-import { useAuthStore } from "@/store/auth";
 import { safeFetch, type RouteError } from "@/utils";
 import type { User } from "@game-forge/shared";
 import { queryOptions, useMutation } from "@tanstack/react-query";
@@ -12,7 +11,6 @@ export const getMe = () =>
     staleTime: 1000 * 60 * 5,
     retry: (_: number, error: RouteError) => {
       if (error.status === 401) {
-        useAuthStore.getState().clearUser();
         return false;
       }
 
@@ -39,13 +37,11 @@ const loginFn = ({
 };
 
 export const useLogin = () => {
-  const setUser = useAuthStore((s) => s.setUser);
   const navigate = useNavigate();
 
   return useMutation({
     mutationFn: loginFn,
-    onSuccess: ({ data: user }: { data: User }) => {
-      setUser(user);
+    onSuccess: () => {
       toast.success("Sucessful login");
       navigate({ to: "/" });
     },

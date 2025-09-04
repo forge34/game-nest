@@ -9,4 +9,15 @@ const addReviewFn = (gameId: string, reviewbody: string) => {
   });
 };
 
-export { addReviewFn };
+const uploadProfilePic = (img: File) => {
+  const formData = new FormData();
+  formData.append("avatar", img);
+
+  return safeFetch(`user/update_profile`, {
+    method: "PUT",
+    credentials: "include",
+    body: formData,
+  });
+};
+
+export { addReviewFn, uploadProfilePic };

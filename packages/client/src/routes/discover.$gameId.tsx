@@ -19,11 +19,11 @@ import GameRating from "@/components/game-rating";
 import HeartBtn from "@/components/heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "@/components/add-to-library-btn";
-import { useAuthStore } from "@/store/auth";
 import type { Game, Review, User, UserGame } from "@game-forge/shared";
 import StarRating from "@/components/star-rating";
 import { User as Avatar } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import useUser from "@/lib/hooks/use-user";
 
 export const Route = createFileRoute("/discover/$gameId")({
   component: RouteComponent,
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/discover/$gameId")({
 function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
-  const user = useAuthStore((s) => s.user);
+  const { user } = useUser()
   if (!game) {
     return <p>Game data not available</p>;
   }
@@ -60,7 +60,7 @@ function RouteComponent() {
   );
 }
 
-function ReviewTab({ game, user }: { game: Game; user: User | null }) {
+function ReviewTab({ game, user }: { game: Game; user?: User | null }) {
   const userReview = game.reviews.find((r) => r.userId === user?.id);
   const userData = game.userGames.find((g) => g.userId === user?.id);
 
@@ -149,7 +149,7 @@ function ScreenshotTab({ game }: { game: Game }) {
   );
 }
 
-function InfoTab({ game, user }: { game: Game; user: User | null }) {
+function InfoTab({ game, user }: { game: Game; user?: User | null }) {
   const { isFavourite, isInLibrary } = useLibrary();
 
   return (

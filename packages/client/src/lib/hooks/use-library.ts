@@ -1,10 +1,10 @@
 import { queryClient } from "@/api";
 import { getLibrary } from "@/api/games";
-import { useAuthStore } from "@/store/auth";
 import { safeFetch } from "@/utils";
 import type { Game } from "@game-forge/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import useUser from "./use-user";
 
 export enum GameStatus {
   Wishlist = "Wishlist",
@@ -40,7 +40,7 @@ const addToLibraryFn = (gameId: string) => {
 };
 
 function useLibrary() {
-  const user = useAuthStore((s) => s.user);
+  const { user } = useUser();
   const { data: library = [] } = useQuery({ ...getLibrary(), enabled: !!user });
 
   const updateMutation = useMutation({

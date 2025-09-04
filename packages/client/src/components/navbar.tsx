@@ -1,7 +1,6 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import useMedia, { media } from "@/lib/hooks/use-media";
-import { useAuthStore } from "@/store/auth";
 import { Link } from "@tanstack/react-router";
 import {
   Home,
@@ -26,9 +25,10 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import UserAvatar from "./user-avatar";
+import useUser from "@/lib/hooks/use-user";
 
 function Navbar() {
-  const user = useAuthStore((s) => s.user);
+  const { user } = useUser()
   const isLarge = useMedia(media.lg);
 
   return (
@@ -74,7 +74,7 @@ function AuthSection({
   user,
   isLarge,
 }: {
-  user: User | null;
+  user?: User | null;
   isLarge: boolean;
 }) {
   return (
@@ -109,7 +109,7 @@ function AuthSection({
   );
 }
 
-function NavbarDesktop({ user }: { user: User | null }) {
+function NavbarDesktop({ user }: { user?: User | null }) {
   return (
     <nav>
       <div className="flex py-2 border px-4 gap-2 items-center justify-between flex-wrap">
@@ -154,7 +154,7 @@ function NavbarDesktop({ user }: { user: User | null }) {
   );
 }
 
-function NavbarMobile({ user }: { user: User | null }) {
+function NavbarMobile({ user }: { user?: User | null }) {
   return (
     <nav>
       <Collapsible

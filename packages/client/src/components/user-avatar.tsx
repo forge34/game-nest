@@ -5,10 +5,11 @@ import { User as Avatar } from "lucide-react";
 interface UserAvatarProps {
   user?: User | null;
   size?: number;
+  preview?: string|null;
   className?: string;
 }
 
-function UserAvatar({ user, size = 40, className }: UserAvatarProps) {
+function UserAvatar({ user, size = 40, className, preview }: UserAvatarProps) {
   return (
     <div
       className={cn(
@@ -19,7 +20,7 @@ function UserAvatar({ user, size = 40, className }: UserAvatarProps) {
     >
       {user?.avatarUrl ? (
         <img
-          src={user.avatarUrl}
+          src={preview ? preview : user.avatarUrl}
           alt={user.name || "User Avatar"}
           className="rounded-full object-cover w-full h-full"
         />
