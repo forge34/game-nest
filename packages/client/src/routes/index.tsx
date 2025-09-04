@@ -29,7 +29,8 @@ import useGames from "@/lib/hooks/use-games";
 export const Route = createFileRoute("/")({
   component: RouteComponent,
   loader: async ({ context }) => {
-    return await context.queryClient.ensureQueryData(getAllGames());
+    const data = await context.queryClient.ensureQueryData(getAllGames());
+    return data
   },
 });
 

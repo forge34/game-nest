@@ -3,7 +3,7 @@ import {
   filterStateSchema,
   type FilterState,
   type Game,
-  type GenresWithGames,
+  type Genre,
 } from "@game-forge/shared";
 import {
   createFileRoute,
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/discover")({
   loader: async ({
     context,
   }): Promise<{
-    genres: GenresWithGames[];
+    genres: Genre[];
     games: Game[];
   }> => {
     const genres = await context.queryClient.ensureQueryData(getAllGenres());
