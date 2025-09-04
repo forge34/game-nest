@@ -57,46 +57,68 @@
 }
 
 .dark {
-  --background: oklch(0.17 0 0); /* surface-1 */
-  --foreground: oklch(0.96 0 0);
+  --background: oklch(0.14 0 0); /* Page background */
+  --foreground: oklch(0.97 0 0); /* Main text */
+  --gradient-primary:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.01) 0px,
+      rgba(255, 255, 255, 0.01) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    linear-gradient(135deg, oklch(0.14 0 0) 15%, oklch(0.15 0.05 230) 85%);
+  /* Primary — Neon Blue (links, main CTAs) */
+  --primary: oklch(0.38 0.18 250);
+  --primary-foreground: oklch(0.98 0.02 250);
 
-  --card: oklch(0.21 0 0); /* surface-2 */
+  /* Secondary — Neon Green (success states, highlights) */
+  --secondary: oklch(0.72 0.22 150);
+  --secondary-foreground: oklch(0.08 0 0);
+
+  /* Accent 1 — Purple (special badges, hover states) */
+  --accent: oklch(0.58 0.2 300);
+  --accent-foreground: oklch(0.97 0.01 300);
+
+  /* Accent 2 — Hot Pink (alerts, special actions) */
+  --accent-hot: oklch(0.68 0.28 350);
+  --accent-hot-foreground: oklch(0.98 0.01 350);
+
+  /* Accent 3 — Gold (achievements, premium content) */
+  --accent-gold: oklch(0.8 0.18 85);
+  --accent-gold-foreground: oklch(0.08 0 0);
+
+  /* State colors */
+  --success: var(--secondary);
+  --warning: var(--accent-gold);
+  --error: oklch(0.65 0.25 27); /* warm red */
+
+  /* UI backgrounds */
+  --card: oklch(0.19 0.03 260);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.21 0 0);
+  --popover: oklch(0.21 0.015 250);
   --popover-foreground: var(--foreground);
 
-  --primary: oklch(0.38 0.07 250); /* Deep cool blue */
-  --primary-foreground: oklch(0.96 0.01 250);
+  /* Neutral muted tones */
+  --muted: oklch(0.24 0.01 250);
+  --muted-foreground: oklch(0.65 0.02 250);
 
-  --primary-100: oklch(0.3 0.06 250);
-  --primary-200: oklch(0.34 0.065 250);
-  --primary-300: oklch(0.38 0.07 250); /* main */
-  --primary-400: oklch(0.42 0.075 250);
-  --primary-500: oklch(0.46 0.08 250);
+  /* Borders & effects */
+  --border: oklch(1 0 0 / 15%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.55 0.02 250);
 
-  --secondary: oklch(0.26 0.02 280);
-  --secondary-foreground: var(--foreground);
+  /* Charts (distinct colors for data sets) */
+  --chart-1: var(--primary);
+  --chart-2: var(--secondary);
+  --chart-3: var(--accent);
+  --chart-4: var(--accent-hot);
+  --chart-5: var(--accent-gold);
 
-  --muted: oklch(0.26 0.01 250);
-  --muted-foreground: oklch(0.6 0.02 250);
-
-  --accent: oklch(0.3 0.05 210);
-  --accent-foreground: oklch(0.95 0.01 210);
-
-  --destructive: oklch(0.58 0.25 27.325);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.5 0.01 250);
-
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.626 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-
-  --sidebar: oklch(0.21 0 0);
+  /* Sidebar */
+  --sidebar: oklch(0.18 0 0);
   --sidebar-foreground: var(--foreground);
-  --sidebar-primary: var(--primary-400);
+  --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
   --sidebar-accent: var(--accent);
   --sidebar-accent-foreground: var(--accent-foreground);
@@ -160,6 +182,9 @@ ul {
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  --background-image-gradient: var(--gradient-primary);
+  --color-gradient-primary: var(--gradient-primary);
+  --color-accent-gold: var(--accent-gold);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -199,6 +224,6 @@ ul {
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gradient bg-repeat-round text-foreground;
   }
 }
