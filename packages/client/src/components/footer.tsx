@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-border bg-background  max-h-fit">
+    <footer className="w-full border-t border-border max-h-fit">
       <div className="mx-auto max-w-6xl px-6 py-10 flex flex-col md:flex-row justify-between items-start gap-8 text-sm">
         <div className="space-y-2">
           <h2 className="text-lg font-bold">GameNest</h2>

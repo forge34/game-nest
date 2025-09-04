@@ -51,9 +51,11 @@ function UserMenu({ user }: { user: User }) {
         align="end"
         className="bg-card py-2 w-48 rounded-md border shadow-md"
       >
-        <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 text-sm">
+        <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 text-sm" asChild>
+          <Link to="/profile">
           <Avatar className="w-5 h-5" />
-          <span>Profile</span>
+            Profile
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 text-sm">
           <Settings className="w-4 h-4" />
@@ -186,7 +188,7 @@ function NavbarMobile({ user }: { user: User | null }) {
           ) : (
             <div className="flex gap-2 flex-wrap">
               <Button asChild variant="outline">
-                <Link to=".">
+                <Link to="/profile">
                   <Avatar />
                   Profile
                 </Link>

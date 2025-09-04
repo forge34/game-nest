@@ -1,13 +1,30 @@
+import { cn } from "@/lib/utils";
 import type { User } from "@game-forge/shared";
 import { User as Avatar } from "lucide-react";
 
-function UserAvatar({ user }: { user: User }) {
+interface UserAvatarProps {
+  user?: User | null;
+  size?: number;
+  className?: string;
+}
+
+function UserAvatar({ user, size = 40, className }: UserAvatarProps) {
   return (
-    <div className="flex items-center justify-center w-10 h-10 border rounded-full hover:bg-secondary/60 transition-colors shadow-xs">
-      {user ? (
-        <img src={user.avatarUrl || ""} className="rounded-full w-10 h-10" />
+    <div
+      className={cn(
+        "flex items-center justify-center border rounded-full transition-colors shadow-xs overflow-hidden",
+        className,
+      )}
+      style={{ width: size, height: size }}
+    >
+      {user?.avatarUrl ? (
+        <img
+          src={user.avatarUrl}
+          alt={user.name || "User Avatar"}
+          className="rounded-full object-cover w-full h-full"
+        />
       ) : (
-        <Avatar className="w-5 h-5" />
+        <Avatar style={{ width: size * 0.6, height: size * 0.6 }} />
       )}
     </div>
   );

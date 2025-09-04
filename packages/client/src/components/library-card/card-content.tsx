@@ -77,7 +77,7 @@ function GameCardContent({
     : userReview || reviewPlaceholder;
 
   return (
-    <DialogContent>
+    <DialogContent className="bg-card">
       <div className="flex flex-col gap-2">
         <GameCardHeader
           game={game}
