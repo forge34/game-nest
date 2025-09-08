@@ -5,10 +5,14 @@
     "test": "NODE_ENV=test && vitest",
     "start": "node dist/server.js",
     "build": "tsc && npx prisma db push",
-    "dev": "NODE_ENV=development && nodemon src/server.ts"
+    "dev": "NODE_ENV=development && nodemon src/server.ts",
+    "generate": "npx prisma generate",
+    "db:push": "npx prisma db push",
+    "db:reset": "npx prisma db push --force-reset"
   },
   "private": true,
   "dependencies": {
+    "@prisma/client": "^6.15.0",
     "apicalypse": "^1.0.5",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
@@ -44,6 +48,7 @@
     "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.2",
     "nodemon": "^3.1.9",
+    "prisma": "^6.15.0",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",

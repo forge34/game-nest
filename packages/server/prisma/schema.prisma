@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/prisma"
+  output   = "../../prisma/generated/prisma"
 }
 
 datasource db {
@@ -30,7 +30,7 @@ model Game {
   id             Int              @id @default(autoincrement())
   igdbId         Int              @unique
   title          String
-  slug           String?          
+  slug           String?
   rating         Float?
   summary        String?
   storyline      String?
@@ -152,10 +152,10 @@ model GameMode {
 }
 
 model Collection {
-  id          Int     @id @default(autoincrement())
-  description String?
-  userId      String
-  name String
+  id             Int              @id @default(autoincrement())
+  description    String?
+  userId         String
+  name           String
   user           User             @relation(fields: [userId], references: [id])
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -168,7 +168,7 @@ model CollectionGame {
   position     Int
   gameId       Int
   game         Game       @relation(fields: [gameId], references: [id])
-  createdAt DateTime @default(now())
+  createdAt    DateTime   @default(now())
 
   @@id([collectionId, gameId])
 }
