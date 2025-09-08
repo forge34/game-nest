@@ -40,6 +40,58 @@ const CollectionRoutes = {
       res.status(201).json(collection);
     },
   ],
+  updateCollection: [
+    passport.authenticate("jwt", { session: false }),
+    body("name").optional().trim().isLength({ min: 5 }).escape(),
+    body("description")
+      .optional({ checkFalsy: true })
+      .trim()
+      .isLength({ min: 1 })
+      .escape(),
+
+    async (req: Request, res: Response) => {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        res.status(400).json({
+          errors: errors.array(),
+          message: "Failed to create collection",
+        });
+        return;
+      }
+      const collectionId = Number(req.params.id);
+
+      if (isNaN( collectionId )) {
+        res.status(400).json({ message: "invalid collection id" });
+        return;
+      }
+      const name = req.body.name;
+      const description = req.body.description ? req.body.description : null;
+
+      const collection = await prisma.collection.findFirst({
+        where: {
+          id: collectionId,
+        },
+      });
+
+      if (!collection) {
+        res.status(400).json({ message: "no collection exists with id" });
+        return
+      }
+
+      const updatedCollection = await prisma.collection.update({
+        where: {
+          id: collection.id,
+        },
+        data: {
+          name: name ?? undefined,
+          description: description ?? undefined,
+        },
+      });
+
+      res.status(200).json(updatedCollection);
+    },
+  ],
 };
 
 export default CollectionRoutes;

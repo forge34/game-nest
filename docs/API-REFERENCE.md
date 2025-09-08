@@ -104,6 +104,17 @@ This document describes the API endpoints implemented in the `packages/server/sr
   - name {string} -> name of the collection
   - description {string?} -> optional description of the collection
 
+### PUT /collections/:id
+
+- **Auth Required**: JWT
+- Description: update an existing collection
+- Response: the newly created collection
+  - name stays the same if undefined is passed
+  - description stays the same if undefined is passed
+- Body :
+  - name {string} -> optional new name of the collection
+  - description {string?} -> optional new description of the collection
+
 ---
 
 ## Additional Notes
