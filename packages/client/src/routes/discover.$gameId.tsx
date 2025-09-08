@@ -24,6 +24,7 @@ import StarRating from "@/components/star-rating";
 import { User as Avatar } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import useUser from "@/lib/hooks/use-user";
+import ReviewInput from "@/components/review-input";
 
 export const Route = createFileRoute("/discover/$gameId")({
   component: RouteComponent,
@@ -39,7 +40,7 @@ export const Route = createFileRoute("/discover/$gameId")({
 function RouteComponent() {
   const { data: game } = useQuery(getGameById(Route.useParams().gameId));
 
-  const { user } = useUser()
+  const { user } = useUser();
   if (!game) {
     return <p>Game data not available</p>;
   }
@@ -68,28 +69,41 @@ function ReviewTab({ game, user }: { game: Game; user?: User | null }) {
     <TabsContent value="reviews" className="flex flex-col gap-4 p-2 md:p-6">
       {user && (
         <>
-          <h3 className="text-xl font-semibold">Your Review</h3>
-          <Reviews review={userReview} userGame={userData} />
+          <h3 className="text-xl font-bold">Your Review</h3>
+          {userReview ? (
+            <Review review={userReview} userGame={userData} />
+          ) : (
+            <ReviewInput
+              gameId={game?.igdbId.toString()}
+              rating={userData?.rating}
+              review={userReview}
+              userData={userData}
+            />
+          )}
           <Separator />
         </>
       )}
-      <h3 className="text-2xl">{user ? "Other" : ""} Reviews</h3>
-      {game.reviews.map((review) => {
-        if (review.userId === user?.id) return null;
+      <h3 className="text-xl font-bold">{user ? "Other" : ""} Reviews</h3>
+      {game.reviews.length > 0 ? (
+        game.reviews.map((review) => {
+          if (review.userId === user?.id) return null;
 
-        return (
-          <Reviews
-            key={review.id}
-            review={review}
-            userGame={game.userGames.find((g) => g.userId === review.userId)}
-          />
-        );
-      })}
+          return (
+            <Review
+              key={review.id}
+              review={review}
+              userGame={game.userGames.find((g) => g.userId === review.userId)}
+            />
+          );
+        })
+      ) : (
+        <h3 className="text-md font-light">No reviews yet</h3>
+      )}
     </TabsContent>
   );
 }
 
-function Reviews({
+export function Review({
   review,
   userGame,
 }: {
@@ -97,7 +111,7 @@ function Reviews({
   userGame?: UserGame;
 }) {
   if (!review) {
-    return <p>No review</p>;
+    return <p>no review</p>;
   }
 
   if (!userGame) {
