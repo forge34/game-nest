@@ -75,13 +75,13 @@ const CollectionRoutes = {
       });
 
       if (!collection) {
-        res.status(400).json({ message: "no collection exists with id" });
+        res.status(404).json({ message: "no collection exists with id" });
         return;
       }
 
       const user = req.user as User;
       if (collection.userId !== user.id) {
-        res.status(401).json({ message: "can't edit other users collections" });
+        res.status(403).json({ message: "can't edit other users collections" });
         return;
       }
 
@@ -96,6 +96,35 @@ const CollectionRoutes = {
       });
 
       res.status(200).json(updatedCollection);
+    },
+  ],
+
+  deleteCollection: [
+    passport.authenticate("jwt", { session: false }),
+    async (req: Request, res: Response) => {
+      const collectionId = Number(req.params.id);
+      if (isNaN(collectionId)) {
+        return res.status(400).json({ message: "Invalid collection id" });
+      }
+
+      const user = req.user as User;
+
+      const deletedCollection = await prisma.collection.deleteMany({
+        where: {
+          id: collectionId,
+          userId: user.id,
+        },
+      });
+
+      if (deletedCollection.count === 0) {
+        return res
+          .status(404)
+          .json({ message: "Collection not found or not owned by you" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Collection deleted successfully" });
     },
   ],
 };

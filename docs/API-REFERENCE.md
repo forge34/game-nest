@@ -107,13 +107,26 @@ This document describes the API endpoints implemented in the `packages/server/sr
 ### PUT /collections/:id
 
 - **Auth Required**: JWT
-- Description: update an existing collection
+- Description: update an existing collection owned by the authenticated user
 - Response: the newly created collection
   - name stays the same if undefined is passed
   - description stays the same if undefined is passed
 - Body :
   - name {string} -> optional new name of the collection
   - description {string?} -> optional new description of the collection
+- **URL Params**:
+  - id {number} → the ID of the collection to update
+
+### DELETE /collections/:id
+
+- **Auth Required**: JWT
+- **Description**: delete an existing collection owned by the authenticated user
+- **Response**: confirmation message of successful deletion
+  - If the collection does not exist or is not owned by the user, a `404` is returned
+  - If the `collectionId` is invalid, a `400` is returned
+- **Body**: _none_ (the collection ID is passed via URL parameter)
+- **URL Params**:
+  - id {number} → the ID of the collection to delete
 
 ---
 

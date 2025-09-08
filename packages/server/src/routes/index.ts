@@ -28,4 +28,5 @@ router.post("/reviews/:gameId", UsersRoute.reviewGame);
 
 router.post("/collections", CollectionRoutes.createCollection);
 router.put("/collections/:id", CollectionRoutes.updateCollection);
+router.delete("/collections/:id" , CollectionRoutes.deleteCollection)
 export default router;
