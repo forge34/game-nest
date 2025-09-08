@@ -30,4 +30,5 @@ router.post("/collections", CollectionRoutes.createCollection);
 router.put("/collections/:id", CollectionRoutes.updateCollection);
 router.delete("/collections/:id" , CollectionRoutes.deleteCollection)
 router.post("/collections/:id/games/:gameId" , CollectionRoutes.addGameToCollection)
+router.delete("/collections/:id/games/:gameId" , CollectionRoutes.removeGameFromCollection)
 export default router;

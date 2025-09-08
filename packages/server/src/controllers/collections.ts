@@ -195,6 +195,62 @@ const CollectionRoutes = {
         .json({ message: "game added to collection successfully" });
     },
   ],
+  removeGameFromCollection: [
+    passport.authenticate("jwt", { session: false }),
+    async (req: Request, res: Response) => {
+      const collectionId = Number(req.params.id);
+      const gameId = Number(req.params.gameId);
+      const user = req.user as User;
+
+      if (isNaN(collectionId) || isNaN(gameId)) {
+        return res.status(400).json({ message: "invalid ids" });
+      }
+
+      const collection = await prisma.collection.findUnique({
+        where: { id: collectionId },
+      });
+
+      if (!collection) {
+        res.status(404).json({ message: "collection not found" });
+        return;
+      }
+      if (collection.userId !== user.id) {
+        res.status(403).json({ message: "forbidden" });
+        return;
+      }
+
+      const game = await prisma.game.findUnique({
+        where: { id: gameId },
+      });
+
+      if (!game) {
+        res.status(404).json({ message: "game not found" });
+        return;
+      }
+
+      const collectionGame = await prisma.collectionGame.findUnique({
+        where: {
+          collectionId_gameId: { collectionId, gameId },
+        },
+      });
+
+      if (!collectionGame) {
+        res.status(404).json({ message: "game not in collection" });
+        return;
+      }
+
+      await prisma.collectionGame.delete({
+        where: {
+          collectionId_gameId: {
+            gameId: collectionGame.gameId,
+            collectionId: collectionGame.collectionId,
+          },
+        },
+      });
+
+      return res.status(200).json({ message: "game removed successfully" });
+    },
+  ],
 };
 
 export default CollectionRoutes;

@@ -144,6 +144,20 @@ This document describes the API endpoints implemented in the `packages/server/sr
   - `id {number}` → collection ID
   - `gameId {number}` → game ID
 
+### DELETE /collections/:id/games/:gameId
+
+- **Auth Required**: JWT
+- **Description**: Remove a game from a collection owned by the user.
+- **Response**:
+  - `200` → success
+  - `400` → invalid IDs
+  - `403` → forbidden (not owner)
+  - `404` → collection or game not found in collection
+- **Body**: none
+- **URL Params**:
+  - `id {number}` → collection ID
+  - `gameId {number}` → game ID
+
 ---
 
 ## Additional Notes
