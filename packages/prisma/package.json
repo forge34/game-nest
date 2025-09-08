@@ -1,5 +1,11 @@
 {
   "name": "@game-forge/prisma",
   "version": "1.0.0",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.15.0"
+  },
+  "scripts": {
+    "generate": "prisma generate"
+  }
 }
