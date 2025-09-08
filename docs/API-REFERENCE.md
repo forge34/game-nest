@@ -95,6 +95,8 @@ This document describes the API endpoints implemented in the `packages/server/sr
 - **Description**: Get all available gaming platforms.
 - **Response**: List of platforms with game count per platform.
 
+## Collections
+
 ### POST /collections
 
 - **Auth Required**: JWT
