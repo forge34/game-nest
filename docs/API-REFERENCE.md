@@ -5,6 +5,7 @@ This document describes the API endpoints implemented in the `packages/server/sr
 ## Authentication
 
 ### POST `/signup`
+
 - **Description**: Create a new user account.
 - **Body**:
   - `username`: string (required)
@@ -15,6 +16,7 @@ This document describes the API endpoints implemented in the `packages/server/sr
 - **Validation**: Returns 400 if validation fails.
 
 ### POST `/login`
+
 - **Description**: Authenticate a user.
 - **Body**:
   - Either `username` or `email`
@@ -26,16 +28,19 @@ This document describes the API endpoints implemented in the `packages/server/sr
 ## User
 
 ### GET `/me`
+
 - **Auth Required**: JWT
 - **Description**: Get the current authenticated user's profile.
 - **Response**: User object
 
 ### GET `/library`
+
 - **Auth Required**: JWT
 - **Description**: Get the current user's game library.
 - **Response**: List of games in the user's library.
 
 ### POST `/library`
+
 - **Auth Required**: JWT
 - **Description**: Add a game to the user's library.
 - **Body**:
@@ -43,6 +48,7 @@ This document describes the API endpoints implemented in the `packages/server/sr
 - **Response**: `{ message: "Game added to library" }`
 
 ### PUT `/library/:gameId`
+
 - **Auth Required**: JWT
 - **Description**: Update game status, rating, or favorite in the user's library , passing undefined to any field means it stays as is.
 - **Body**:
@@ -53,6 +59,7 @@ This document describes the API endpoints implemented in the `packages/server/sr
 - **Errors**: 400 if validation fails or gameId is missing/invalid.
 
 ### POST `/reviews/:gameId`
+
 - **Auth Required**: JWT
 - **Description**: Add a review for a game.
 - **Body**:
@@ -64,6 +71,7 @@ This document describes the API endpoints implemented in the `packages/server/sr
 ## Games
 
 ### GET `/games`
+
 - **Query Params**:
   - `page`: integer (default 1)
   - `genre`: genre filter (optional)
@@ -73,16 +81,28 @@ This document describes the API endpoints implemented in the `packages/server/sr
 - **Response**: List of games.
 
 ### GET `/games/:id`
+
 - **Description**: Get details about a specific game by its ID.
 - **Response**: Game object.
 
 ### GET `/genres`
+
 - **Description**: Get all available game genres.
 - **Response**: List of genres with game count per genre.
 
 ### GET `/platforms`
+
 - **Description**: Get all available gaming platforms.
 - **Response**: List of platforms with game count per platform.
+
+### POST /collections
+
+- **Auth Required**: JWT
+- Description: Create a new collection
+- Response: the newly created collection
+- Body :
+  - name {string} -> name of the collection
+  - description {string?} -> optional description of the collection
 
 ---
 

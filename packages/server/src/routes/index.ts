@@ -2,6 +2,7 @@ import { Router } from "express";
 import AuthRoute from "../controllers/auth";
 import GamesRoute from "../controllers/games";
 import UsersRoute from "../controllers/user";
+import CollectionRoutes from "../controllers/collections";
 
 const router = Router();
 
@@ -24,4 +25,6 @@ router.put("/library/:gameId", UsersRoute.updateLibraryGame);
 router.put("/user/update_profile",UsersRoute.updateProfileImg)
 
 router.post("/reviews/:gameId",UsersRoute.reviewGame)
+
+router.post("/collections",CollectionRoutes.createCollection)
 export default router;
