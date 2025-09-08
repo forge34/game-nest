@@ -61,7 +61,7 @@ const CollectionRoutes = {
       }
       const collectionId = Number(req.params.id);
 
-      if (isNaN( collectionId )) {
+      if (isNaN(collectionId)) {
         res.status(400).json({ message: "invalid collection id" });
         return;
       }
@@ -76,7 +76,13 @@ const CollectionRoutes = {
 
       if (!collection) {
         res.status(400).json({ message: "no collection exists with id" });
-        return
+        return;
+      }
+
+      const user = req.user as User;
+      if (collection.userId !== user.id) {
+        res.status(401).json({ message: "can't edit other users collections" });
+        return;
       }
 
       const updatedCollection = await prisma.collection.update({
