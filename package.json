@@ -7,18 +7,18 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:client": "npm run dev -w ./packages/client",
-    "dev:server": "npm run dev -w ./packages/server",
-    "test:server": "npm run test -w ./packages/server",
-    "db:push": "npm run db:push -w ./packages/server",
-    "db:reset": "npm run db:push -w ./packages/server",
-    "db:generate": "npm run generate -w ./packages/server && npm run build:types",
-    "build:types": "npm run build --w ./packages/shared/"
+    "dev:client": "pnpm --filter ./packages/client dev",
+    "dev:server": "pnpm --filter ./packages/server dev",
+    "test:server": "pnpm --filter ./packages/server test",
+    "db:push": "pnpm --filter ./packages/server db:push",
+    "db:reset": "pnpm --filter ./packages/server db:push --force-reset",
+    "db:generate": "pnpm --filter ./packages/server generate && pnpm build:types",
+    "build:types": "pnpm --filter ./packages/shared build"
   },
   "devDependencies": {
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
-    "zod": "^4.0.5"
+    "zod": "^4.1.5"
   }
 }
