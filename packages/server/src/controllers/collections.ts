@@ -127,6 +127,74 @@ const CollectionRoutes = {
         .json({ message: "Collection deleted successfully" });
     },
   ],
+  addGameToCollection: [
+    passport.authenticate("jwt", { session: false }),
+    async (req: Request, res: Response) => {
+      const collectionId = Number(req.params.id);
+
+      if (isNaN(collectionId)) {
+        res.status(400).json({ message: "invalid collection id" });
+        return;
+      }
+
+      const collection = await prisma.collection.findFirst({
+        where: {
+          id: collectionId,
+        },
+      });
+
+      if (!collection) {
+        res.status(404).json({ message: "no collection exists with id" });
+        return;
+      }
+
+      const user = req.user as User;
+      if (collection.userId !== user.id) {
+        res
+          .status(403)
+          .json({ message: "can't add games to other users collections" });
+        return;
+      }
+
+      const gameId = Number(req.params.gameId);
+
+      if (isNaN(gameId)) {
+        res.status(400).json({ message: "invalid game id" });
+        return;
+      }
+
+      const game = await prisma.game.findUnique({
+        where: { id: gameId },
+      });
+      if (!game) {
+        res.status(404).json({ message: "game not found" });
+        return;
+      }
+
+      await prisma.collection.update({
+        where: {
+          id: collectionId,
+          userId: user.id,
+        },
+        data: {
+          games: {
+            connectOrCreate: {
+              where: {
+                collectionId_gameId: { gameId, collectionId },
+              },
+              create: {
+                gameId: gameId,
+              },
+            },
+          },
+        },
+      });
+
+      return res
+        .status(200)
+        .json({ message: "game added to collection successfully" });
+    },
+  ],
 };
 
 export default CollectionRoutes;

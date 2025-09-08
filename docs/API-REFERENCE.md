@@ -130,6 +130,20 @@ This document describes the API endpoints implemented in the `packages/server/sr
 - **URL Params**:
   - id {number} → the ID of the collection to delete
 
+### POST /collections/:id/games/:gameId
+
+- **Auth Required**: JWT
+- **Description**: Add a game to a collection owned by the user.
+- **Response**:
+  - `200` → success
+  - `400` → invalid IDs
+  - `403` → forbidden (not owner)
+  - `404` → collection or game not found
+- **Body**: none
+- **URL Params**:
+  - `id {number}` → collection ID
+  - `gameId {number}` → game ID
+
 ---
 
 ## Additional Notes
