@@ -3,6 +3,7 @@ import type { User } from "@game-forge/shared";
 import { queryOptions, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { queryClient } from ".";
 
 export const getMe = () =>
   queryOptions({
@@ -43,6 +44,7 @@ export const useLogin = () => {
     mutationFn: loginFn,
     onSuccess: () => {
       toast.success("Sucessful login");
+      queryClient.invalidateQueries();
       navigate({ to: "/" });
     },
   });
