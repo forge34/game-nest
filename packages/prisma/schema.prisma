@@ -15,44 +15,46 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  name      String
-  email     String     @unique
-  password  String
-  bio       String?
-  avatarUrl String?
-  reviews   Review[]
-  library   UserGame[]
+  id          String       @id @default(cuid())
+  name        String
+  email       String       @unique
+  password    String
+  bio         String?
+  avatarUrl   String?
+  reviews     Review[]
+  library     UserGame[]
+  collections Collection[]
 }
 
 model Game {
-  id           Int           @id @default(autoincrement())
-  igdbId       Int           @unique
-  title        String
-  slug         String?       @unique
-  rating       Float?
-  summary      String?
-  storyline    String?
-  releaseDate  DateTime?
-  coverImage   Img?          @relation("cover", fields: [coverImageId], references: [id])
-  coverImageId Int?          @unique
-  genres       Genre[]
-  dlcs         Game[]        @relation("gameDlcs")
-  parent_game  Game?         @relation("gameDlcs", fields: [gameId], references: [id])
-  gameId       Int?
-  platforms    Platform[]
-  developer    Company[]     @relation("DevelopedBy")
-  publisher    Company[]     @relation("PublishedBy")
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  reviews      Review[]
-  screenshots  Screenshots[]
-  ageRating    AgeRating[]
-  userGames UserGame[]
-  artworks     Img[]         @relation("artworks")
-  gameModes    GameMode[]
-  similarGames Game[]        @relation("SimilarGames")
-  similarTo    Game[]        @relation("SimilarGames")
+  id             Int              @id @default(autoincrement())
+  igdbId         Int              @unique
+  title          String
+  slug           String?          
+  rating         Float?
+  summary        String?
+  storyline      String?
+  releaseDate    DateTime?
+  coverImage     Img?             @relation("cover", fields: [coverImageId], references: [id])
+  coverImageId   Int?             @unique
+  genres         Genre[]
+  dlcs           Game[]           @relation("gameDlcs")
+  parent_game    Game?            @relation("gameDlcs", fields: [gameId], references: [id])
+  gameId         Int?
+  platforms      Platform[]
+  developer      Company[]        @relation("DevelopedBy")
+  publisher      Company[]        @relation("PublishedBy")
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  reviews        Review[]
+  screenshots    Screenshots[]
+  ageRating      AgeRating[]
+  userGames      UserGame[]
+  artworks       Img[]            @relation("artworks")
+  gameModes      GameMode[]
+  similarGames   Game[]           @relation("SimilarGames")
+  similarTo      Game[]           @relation("SimilarGames")
+  CollectionGame CollectionGame[]
 }
 
 model Review {
@@ -81,7 +83,7 @@ model Genre {
   id     Int     @id @default(autoincrement())
   igdbId Int     @unique
   name   String
-  slug   String? @unique
+  slug   String?
   games  Game[]
 }
 
@@ -147,6 +149,28 @@ model GameMode {
   game   Game[]
   name   String
   slug   String
+}
+
+model Collection {
+  id          Int     @id @default(autoincrement())
+  description String?
+  userId      String
+  name String
+  user           User             @relation(fields: [userId], references: [id])
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  CollectionGame CollectionGame[]
+}
+
+model CollectionGame {
+  collectionId Int
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  position     Int
+  gameId       Int
+  game         Game       @relation(fields: [gameId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@id([collectionId, gameId])
 }
 
 enum GameStatus {
