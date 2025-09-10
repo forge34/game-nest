@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { User } from "@game-forge/shared";
+import { gameIncludes, User } from "@game-forge/shared";
 import prisma from "../config/prisma";
 
 const CollectionRoutes = {
@@ -249,6 +249,37 @@ const CollectionRoutes = {
       });
 
       return res.status(200).json({ message: "game removed successfully" });
+    },
+  ],
+  findCollectionById: [
+    async (req: Request, res: Response) => {
+      const collectionId = Number(req.params.id);
+      if (isNaN(collectionId)) {
+        return res.status(400).json({ message: "Invalid collection id" });
+      }
+
+      const collection = await prisma.collection.findFirst({
+        where: {
+          id: collectionId,
+        },
+        include: {
+          user: true,
+          games: {
+            include: {
+              game: {
+                include: gameIncludes,
+              },
+            },
+          },
+        },
+      });
+
+      if (!collection) {
+        res.status(404).json({ message: "no collection exists with id" });
+        return;
+      }
+
+      res.status(200).json(collection);
     },
   ],
 };

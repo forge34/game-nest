@@ -158,6 +158,17 @@ This document describes the API endpoints implemented in the `packages/server/sr
   - `id {number}` → collection ID
   - `gameId {number}` → game ID
 
+### GET /collections/:id
+
+- **Description**: Return a collection by it's ID
+- **Response**:
+  - `200` → success
+  - `400` → invalid IDs
+  - `404` → collection not found
+- **Body**: none
+- **URL Params**:
+  - `id {number}` → collection ID
+
 ---
 
 ## Additional Notes
