@@ -59,7 +59,7 @@ const CollectionRoutes = {
         });
         return;
       }
-      const collectionId = Number(req.params.id);
+      const collectionId = parseInt(req.params.id);
 
       if (isNaN(collectionId)) {
         res.status(400).json({ message: "invalid collection id" });
@@ -102,7 +102,7 @@ const CollectionRoutes = {
   deleteCollection: [
     passport.authenticate("jwt", { session: false }),
     async (req: Request, res: Response) => {
-      const collectionId = Number(req.params.id);
+      const collectionId = parseInt(req.params.id);
       if (isNaN(collectionId)) {
         return res.status(400).json({ message: "Invalid collection id" });
       }
@@ -130,7 +130,7 @@ const CollectionRoutes = {
   addGameToCollection: [
     passport.authenticate("jwt", { session: false }),
     async (req: Request, res: Response) => {
-      const collectionId = Number(req.params.id);
+      const collectionId = parseInt(req.params.id);
 
       if (isNaN(collectionId)) {
         res.status(400).json({ message: "invalid collection id" });
@@ -156,7 +156,7 @@ const CollectionRoutes = {
         return;
       }
 
-      const gameId = Number(req.params.gameId);
+      const gameId = parseInt(req.params.gameId);
 
       if (isNaN(gameId)) {
         res.status(400).json({ message: "invalid game id" });
@@ -198,8 +198,8 @@ const CollectionRoutes = {
   removeGameFromCollection: [
     passport.authenticate("jwt", { session: false }),
     async (req: Request, res: Response) => {
-      const collectionId = Number(req.params.id);
-      const gameId = Number(req.params.gameId);
+      const collectionId = parseInt(req.params.id);
+      const gameId = parseInt(req.params.gameId);
       const user = req.user as User;
 
       if (isNaN(collectionId) || isNaN(gameId)) {
@@ -253,7 +253,7 @@ const CollectionRoutes = {
   ],
   findCollectionById: [
     async (req: Request, res: Response) => {
-      const collectionId = Number(req.params.id);
+      const collectionId = parseInt(req.params.id);
       if (isNaN(collectionId)) {
         return res.status(400).json({ message: "Invalid collection id" });
       }
