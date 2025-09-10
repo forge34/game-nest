@@ -11,6 +11,45 @@ const maximumHours = 16000;
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 const UsersRoute = {
+  getUserCollections: [
+    async (req: Request, res: Response) => {
+      const userId = req.params.id;
+
+      if (!userId) {
+        return res.status(400).json({ error: "Invalid user ID" });
+      }
+
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const collections = await prisma.collection.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        include: {
+          games: {
+            select: {
+              game: {
+                include: {
+                  genres: true,
+                  platforms: true,
+                  coverImage: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return res.json(
+        collections.map((c) => ({ ...c, games: c.games.map((g) => g.game) })),
+      );
+    },
+  ],
   updateProfileImg: [
     upload.single("avatar"),
     passport.authenticate("jwt", { session: false }),

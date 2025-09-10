@@ -26,6 +26,7 @@ router.put("/user/update_profile", UsersRoute.updateProfileImg);
 
 router.post("/reviews/:gameId", UsersRoute.reviewGame);
 
+router.get("/users/:id/collections" , UsersRoute.getUserCollections);
 router.post("/collections", CollectionRoutes.createCollection);
 router.put("/collections/:id", CollectionRoutes.updateCollection);
 router.delete("/collections/:id", CollectionRoutes.deleteCollection);

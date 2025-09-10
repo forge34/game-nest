@@ -163,11 +163,22 @@ This document describes the API endpoints implemented in the `packages/server/sr
 - **Description**: Return a collection by it's ID
 - **Response**:
   - `200` → success
-  - `400` → invalid IDs
+  - `400` → invalid ID
   - `404` → collection not found
 - **Body**: none
 - **URL Params**:
   - `id {number}` → collection ID
+
+### GET /users/:id/collections
+
+- **Description**: Return a collection by userId
+- **Response**:
+  - `200` → success
+  - `400` → invalid ID
+  - `404` → user not found
+- **Body**: none
+- **URL Params**:
+  - `id {number}` → user ID
 
 ---
 
