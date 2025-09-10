@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import { gameIncludes, User } from "@game-forge/shared";
 import prisma from "../config/prisma";
+import { Prisma } from "@game-forge/prisma/generated/prisma";
 
 const CollectionRoutes = {
   createCollection: [
@@ -280,6 +281,36 @@ const CollectionRoutes = {
       }
 
       res.status(200).json(collection);
+    },
+  ],
+  getAllCollections: [
+    async (req: Request, res: Response) => {
+      const limit = Number(req.query.limit) || 15;
+      const page = Number(req.query.page) || 1;
+
+      const collections = await prisma.collection.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          games: {
+            include: {
+              game: { include: gameIncludes },
+            },
+          },
+          user: true,
+        },
+      });
+
+      const count = await prisma.collection.count();
+
+      const formatted = collections.map((c) => ({
+        ...c,
+        games: c.games.map((g) => g.game),
+      }));
+      res.status(200).json({ collections: formatted, count });
     },
   ],
 };

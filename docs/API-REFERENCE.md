@@ -180,6 +180,19 @@ This document describes the API endpoints implemented in the `packages/server/sr
 - **URL Params**:
   - `id {number}` → user ID
 
+### GET /collections
+
+- **Description**: Return all collections
+- **Response**:
+  - `200` → success
+    - count {number} : total number of collections
+    - collections {Collection[]} : list of collections
+- **Body**: none
+- **URL Params**: none
+- Query Params:
+  - limit {number}: number of collections per page -> { default : 15 }
+  - page {number}: current page number -> { default : 1 }
+
 ---
 
 ## Additional Notes

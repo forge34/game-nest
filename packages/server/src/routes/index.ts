@@ -28,6 +28,7 @@ router.post("/reviews/:gameId", UsersRoute.reviewGame);
 
 router.get("/users/:id/collections" , UsersRoute.getUserCollections);
 router.post("/collections", CollectionRoutes.createCollection);
+router.get("/collections", CollectionRoutes.getAllCollections);
 router.put("/collections/:id", CollectionRoutes.updateCollection);
 router.delete("/collections/:id", CollectionRoutes.deleteCollection);
 router.get("/collections/:id", CollectionRoutes.findCollectionById);
