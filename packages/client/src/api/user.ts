@@ -1,4 +1,4 @@
-import { safeFetch } from "@/utils";
+import { safeFetch } from "@/lib/utils";
 
 const addReviewFn = (gameId: string, reviewbody: string) => {
   return safeFetch(`reviews/${gameId}`, {

@@ -13,7 +13,7 @@ import {
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
-import { ratingCategories, ratingOrganizations } from "@/utils";
+import { ratingCategories, ratingOrganizations } from "@/lib/utils";
 import GameRating from "@/components/game-rating";
 
 import HeartBtn from "@/components/heart-btn";

@@ -1,4 +1,4 @@
-import { safeFetch, type RouteError } from "@/utils";
+import { safeFetch, type RouteError } from "@/lib/utils";
 import type { User } from "@game-forge/shared";
 import { queryOptions, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";

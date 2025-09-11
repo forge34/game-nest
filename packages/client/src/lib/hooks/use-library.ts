@@ -1,6 +1,6 @@
 import { queryClient } from "@/api";
 import { getLibrary } from "@/api/games";
-import { safeFetch } from "@/utils";
+import { safeFetch } from "@/lib/utils";
 import type { Game } from "@game-forge/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";

@@ -1,4 +1,4 @@
-import { safeFetch, type RouteError } from "@/utils";
+import { safeFetch, type RouteError } from "@/lib/utils";
 import {
   filterStateSchema,
   type FilterState,
