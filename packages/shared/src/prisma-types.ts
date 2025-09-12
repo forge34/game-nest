@@ -32,4 +32,10 @@ export type UserGame = Prisma.UserGameGetPayload<{
   };
 }>;
 
+export type CollectionWithGames = Prisma.CollectionGetPayload<{
+  include: {
+    user: true;
+  };
+}> & {games : Game[]};
+
 export type Platform = Prisma.PlatformGetPayload<{}> & { gameCount: number };
