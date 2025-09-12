@@ -17,7 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import CollapsibleCard from "@/components/collapsible-card";
 import { zodValidator } from "@tanstack/zod-adapter";
 import useGames from "@/lib/hooks/use-games";
-import GamePagination from "@/components/game-pagination";
+import Pagination from "@/components/pagination";
 import useMedia, { media } from "@/lib/hooks/use-media";
 
 export const Route = createFileRoute("/discover")({
@@ -84,7 +84,7 @@ function RouteComponent() {
               );
             })}
           </div>
-          <GamePagination
+          <Pagination
             limit={filter.limit}
             currentPage={filter.page}
             totalItems={total}

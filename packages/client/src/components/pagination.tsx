@@ -1,5 +1,5 @@
 import {
-  Pagination,
+  Pagination as Root,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
@@ -33,7 +33,7 @@ function pages(current: number, total: number) {
   return range;
 }
 
-function GamePagination({
+function Pagination({
   currentPage,
   totalItems,
   limit,
@@ -42,7 +42,7 @@ function GamePagination({
   const totalPages = Math.ceil(totalItems / limit) || 1;
   const pageNumbers = pages(currentPage, totalPages);
   return (
-    <Pagination className="my-4">
+    <Root className="my-4">
       <PaginationContent>
         {currentPage > 1 && (
           <PaginationItem>
@@ -71,8 +71,8 @@ function GamePagination({
           </PaginationItem>
         )}
       </PaginationContent>
-    </Pagination>
+    </Root>
   );
 }
 
-export default GamePagination;
+export default Pagination;
