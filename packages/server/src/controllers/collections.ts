@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import { gameIncludes, User } from "@game-forge/shared";
 import prisma from "../config/prisma";
-import { Prisma } from "@game-forge/prisma/generated/prisma";
 
 const CollectionRoutes = {
   createCollection: [

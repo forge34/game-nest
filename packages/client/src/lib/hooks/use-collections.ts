@@ -12,7 +12,7 @@ function useGetCollectionById(id: string) {
   return { data, isPending, isError, isSuccess };
 }
 
-function useGetCollections(filters: Partial<CollectionPagination>) {
+function useGetCollections(filters?: Partial<CollectionPagination>) {
   const { data, isError, isPending, isSuccess } = useQuery(
     CollectionsQueries.getAll(filters),
   );

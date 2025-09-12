@@ -11,6 +11,7 @@ import {
   User as Avatar,
   Settings,
   LogOut,
+  SquareStack,
 } from "lucide-react";
 import {
   Collapsible,
@@ -28,7 +29,7 @@ import UserAvatar from "./user-avatar";
 import useUser from "@/lib/hooks/use-user";
 
 function Navbar() {
-  const { user } = useUser()
+  const { user } = useUser();
   const isLarge = useMedia(media.lg);
 
   return (
@@ -51,9 +52,12 @@ function UserMenu({ user }: { user: User }) {
         align="end"
         className="bg-card py-2 w-48 rounded-md border shadow-md"
       >
-        <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 text-sm" asChild>
+        <DropdownMenuItem
+          className="flex items-center gap-2 px-3 py-2 text-sm"
+          asChild
+        >
           <Link to="/profile">
-          <Avatar className="w-5 h-5" />
+            <Avatar className="w-5 h-5" />
             Profile
           </Link>
         </DropdownMenuItem>
@@ -133,6 +137,15 @@ function NavbarDesktop({ user }: { user?: User | null }) {
           </Button>
         </span>
 
+        <span className="flex flex-row self-center">
+          <Button variant="link" asChild>
+            <Link to="/collections">
+              <SquareStack size={"1rem"} className="mx-2 my-auto" />
+              Collections
+            </Link>
+          </Button>
+        </span>
+
         {user && (
           <span className="flex flex-row self-center">
             <Button variant="link" asChild>
@@ -197,6 +210,12 @@ function NavbarMobile({ user }: { user?: User | null }) {
                 <Link to=".">
                   <Settings />
                   Settings
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link to="/collections">
+                  <SquareStack />
+                 Collections 
                 </Link>
               </Button>
 

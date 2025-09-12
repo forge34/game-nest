@@ -1,5 +1,13 @@
+import type { Game } from "@game-forge/shared";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+
+export function getCoverPreviewLinks(games: Game[]) {
+  return games
+    .map((g) => g.coverImage?.url) 
+    .filter((url): url is string => url !== undefined) 
+    .slice(0, 3); 
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
