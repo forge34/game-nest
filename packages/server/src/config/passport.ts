@@ -75,6 +75,7 @@ const configJwt = () => {
         include: {
           reviews: true,
           library: true,
+          collections: true,
         },
       });
 

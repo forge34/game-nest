@@ -22,11 +22,12 @@ router.get("/platforms", GamesRoute.platformFindMany);
 router.get("/library", UsersRoute.findFavourties);
 router.post("/library", UsersRoute.addTolibrary);
 router.put("/library/:gameId", UsersRoute.updateLibraryGame);
-router.put("/user/update_profile", UsersRoute.updateProfileImg);
+router.put("/users/update_profile", UsersRoute.updateProfileImg);
 
 router.post("/reviews/:gameId", UsersRoute.reviewGame);
 
-router.get("/users/:id/collections" , UsersRoute.getUserCollections);
+router.get("/users/:id/collections", UsersRoute.getUserCollections);
+router.get("/users/:name", UsersRoute.findUserById);
 router.post("/collections", CollectionRoutes.createCollection);
 router.get("/collections", CollectionRoutes.getAllCollections);
 router.put("/collections/:id", CollectionRoutes.updateCollection);

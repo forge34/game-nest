@@ -193,6 +193,17 @@ This document describes the API endpoints implemented in the `packages/server/sr
   - limit {number}: number of collections per page -> { default : 15 }
   - page {number}: current page number -> { default : 1 }
 
+### GET /users/:id
+
+- **Description**: Return a user data by userId
+- **Response**:
+  - `200` → success
+  - `400` → invalid ID
+  - `404` → user not found
+- **Body**: none
+- **URL Params**:
+  - `id {number}` → user ID
+
 ---
 
 ## Additional Notes
