@@ -1,15 +1,19 @@
 import { cn } from "@/lib/utils";
-import type { User } from "@game-forge/shared";
 import { User as Avatar } from "lucide-react";
 
 interface UserAvatarProps {
-  user?: User | null;
+  avatarUrl?: string | null;
   size?: number;
-  preview?: string|null;
+  preview?: string | null;
   className?: string;
 }
 
-function UserAvatar({ user, size = 40, className, preview }: UserAvatarProps) {
+function UserAvatar({
+  avatarUrl,
+  size = 40,
+  className,
+  preview,
+}: UserAvatarProps) {
   return (
     <div
       className={cn(
@@ -18,10 +22,10 @@ function UserAvatar({ user, size = 40, className, preview }: UserAvatarProps) {
       )}
       style={{ width: size, height: size }}
     >
-      {user?.avatarUrl ? (
+      {avatarUrl ? (
         <img
-          src={preview ? preview : user.avatarUrl}
-          alt={user.name || "User Avatar"}
+          src={preview ? preview : avatarUrl}
+          alt={"User Avatar"}
           className="rounded-full object-cover w-full h-full"
         />
       ) : (

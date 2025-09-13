@@ -11,7 +11,7 @@ import { useNavigate } from "@tanstack/react-router";
 
 type props = React.ComponentProps<"button"> & {
   display?: "icon" | "button";
-  inLibrary: boolean;
+  inLibrary?: boolean;
   game: Game;
 };
 
