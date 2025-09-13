@@ -18,7 +18,8 @@ import { Route as DiscoverIndexRouteImport } from './routes/discover/index'
 import { Route as CollectionsIndexRouteImport } from './routes/collections/index'
 import { Route as UserProfileRouteImport } from './routes/user/profile'
 import { Route as DiscoverGameIdRouteImport } from './routes/discover/$gameId'
-import { Route as CollectionsCollectionIdRouteImport } from './routes/collections/$collectionId'
+import { Route as CollectionsCollectionIdRouteRouteImport } from './routes/collections/$collectionId/route'
+import { Route as CollectionsCollectionIdEditRouteImport } from './routes/collections/$collectionId/edit'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -65,35 +66,44 @@ const DiscoverGameIdRoute = DiscoverGameIdRouteImport.update({
   path: '/discover/$gameId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CollectionsCollectionIdRoute = CollectionsCollectionIdRouteImport.update({
-  id: '/collections/$collectionId',
-  path: '/collections/$collectionId',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const CollectionsCollectionIdRouteRoute =
+  CollectionsCollectionIdRouteRouteImport.update({
+    id: '/collections/$collectionId',
+    path: '/collections/$collectionId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CollectionsCollectionIdEditRoute =
+  CollectionsCollectionIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => CollectionsCollectionIdRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/collections/$collectionId': typeof CollectionsCollectionIdRoute
+  '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
   '/discover/$gameId': typeof DiscoverGameIdRoute
   '/user/profile': typeof UserProfileRoute
   '/collections': typeof CollectionsIndexRoute
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
+  '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/collections/$collectionId': typeof CollectionsCollectionIdRoute
+  '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
   '/discover/$gameId': typeof DiscoverGameIdRoute
   '/user/profile': typeof UserProfileRoute
   '/collections': typeof CollectionsIndexRoute
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
+  '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -101,12 +111,13 @@ export interface FileRoutesById {
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/collections/$collectionId': typeof CollectionsCollectionIdRoute
+  '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
   '/discover/$gameId': typeof DiscoverGameIdRoute
   '/user/profile': typeof UserProfileRoute
   '/collections/': typeof CollectionsIndexRoute
   '/discover/': typeof DiscoverIndexRoute
   '/user/': typeof UserIndexRoute
+  '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/discover'
     | '/user'
+    | '/collections/$collectionId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +145,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/discover'
     | '/user'
+    | '/collections/$collectionId/edit'
   id:
     | '__root__'
     | '/'
@@ -145,6 +158,7 @@ export interface FileRouteTypes {
     | '/collections/'
     | '/discover/'
     | '/user/'
+    | '/collections/$collectionId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,7 +166,7 @@ export interface RootRouteChildren {
   LibraryRoute: typeof LibraryRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
-  CollectionsCollectionIdRoute: typeof CollectionsCollectionIdRoute
+  CollectionsCollectionIdRouteRoute: typeof CollectionsCollectionIdRouteRouteWithChildren
   DiscoverGameIdRoute: typeof DiscoverGameIdRoute
   UserProfileRoute: typeof UserProfileRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
@@ -229,18 +243,40 @@ declare module '@tanstack/react-router' {
       id: '/collections/$collectionId'
       path: '/collections/$collectionId'
       fullPath: '/collections/$collectionId'
-      preLoaderRoute: typeof CollectionsCollectionIdRouteImport
+      preLoaderRoute: typeof CollectionsCollectionIdRouteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/collections/$collectionId/edit': {
+      id: '/collections/$collectionId/edit'
+      path: '/edit'
+      fullPath: '/collections/$collectionId/edit'
+      preLoaderRoute: typeof CollectionsCollectionIdEditRouteImport
+      parentRoute: typeof CollectionsCollectionIdRouteRoute
     }
   }
 }
+
+interface CollectionsCollectionIdRouteRouteChildren {
+  CollectionsCollectionIdEditRoute: typeof CollectionsCollectionIdEditRoute
+}
+
+const CollectionsCollectionIdRouteRouteChildren: CollectionsCollectionIdRouteRouteChildren =
+  {
+    CollectionsCollectionIdEditRoute: CollectionsCollectionIdEditRoute,
+  }
+
+const CollectionsCollectionIdRouteRouteWithChildren =
+  CollectionsCollectionIdRouteRoute._addFileChildren(
+    CollectionsCollectionIdRouteRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LibraryRoute: LibraryRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
-  CollectionsCollectionIdRoute: CollectionsCollectionIdRoute,
+  CollectionsCollectionIdRouteRoute:
+    CollectionsCollectionIdRouteRouteWithChildren,
   DiscoverGameIdRoute: DiscoverGameIdRoute,
   UserProfileRoute: UserProfileRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
