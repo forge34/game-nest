@@ -70,12 +70,12 @@ function RouteComponent() {
           <HoverCard
             game={game}
             className="basis-[30%] lg:basis-[12%]"
-            key={game.igdbId}
+            key={game.id}
             onClick={() => {
               if (!mediaMatch) {
                 navigate({
                   to: "/discover/$gameId",
-                  params: { gameId: game.igdbId.toString() },
+                  params: { gameId: game.id.toString() },
                 });
               }
             }}
@@ -85,7 +85,7 @@ function RouteComponent() {
               <Button asChild>
                 <Link
                   to="/discover/$gameId"
-                  params={{ gameId: game.igdbId.toString() }}
+                  params={{ gameId: game.id.toString() }}
                 >
                   Check game
                 </Link>

@@ -166,7 +166,7 @@ const UsersRoute = {
       }
 
       const game = await prisma.game.findFirst({
-        where: { igdbId: gameId },
+        where: { id: gameId },
       });
 
       if (!game) {
@@ -219,7 +219,7 @@ const UsersRoute = {
       }
 
       const game = await prisma.game.findFirst({
-        where: { igdbId: gameId },
+        where: { id: gameId },
       });
 
       if (!game) {
@@ -275,7 +275,7 @@ const UsersRoute = {
       }
 
       const game = await prisma.game.findFirst({
-        where: { igdbId: gameId },
+        where: { id: gameId },
       });
 
       if (!game) {

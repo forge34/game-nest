@@ -73,7 +73,7 @@ function ReviewTab({ game, user }: { game: Game; user?: User | null }) {
             <Review review={userReview} userGame={userData} />
           ) : (
             <ReviewInput
-              gameId={game?.igdbId.toString()}
+              gameId={game?.id.toString()}
               rating={userData?.rating}
               review={userReview}
               userData={userData}
@@ -146,7 +146,7 @@ function InfoTab({ game, user }: { game: Game; user?: User | null }) {
                 display="icon"
                 game={game}
               />
-              <HeartBtn isFavourite={isFavourite(game)} id={game.igdbId} />
+              <HeartBtn isFavourite={isFavourite(game)} id={game.id} />
             </div>
           )}
         </div>

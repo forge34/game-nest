@@ -91,7 +91,7 @@ function CollapsibleCard({
           {user && (
             <div className="flex justify-between mt-3">
               <AddToLibraryButton inLibrary={isInLibrary(game)} game={game} />
-              <HeartBtn id={game.igdbId} isFavourite={isFavourite(game)} />
+              <HeartBtn id={game.id} isFavourite={isFavourite(game)} />
             </div>
           )}
         </CollapsibleContent>

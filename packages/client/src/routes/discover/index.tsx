@@ -76,8 +76,8 @@ function RouteComponent() {
               return (
                 <Link
                   to="/discover/$gameId"
-                  params={{ gameId: game.igdbId.toString() }}
-                  key={game.igdbId}
+                  params={{ gameId: game.id.toString() }}
+                  key={game.id}
                 >
                   <CollapsibleCard game={game} alwaysOpen={!isLarge} />
                 </Link>

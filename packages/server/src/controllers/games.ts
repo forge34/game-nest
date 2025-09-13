@@ -37,7 +37,7 @@ const GamesRoute = {
     const id = parseInt(req.params.id);
     const game = await prisma.game.findFirst({
       where: {
-        igdbId: id,
+        id: id,
       },
       include: gameIncludes,
     });

@@ -62,7 +62,7 @@ function HorizontalFilter({
           </PopoverTrigger>
           <PopoverContent>
             {filters.genres.map((genre) => (
-              <div className="flex flex-row my-3" key={genre.igdbId}>
+              <div className="flex flex-row my-3" key={genre.id}>
                 <p>{genre.name}</p>
 
                 <Badge
@@ -89,7 +89,7 @@ function HorizontalFilter({
           </PopoverTrigger>
           <PopoverContent>
             {filters.platforms.map((platform) => (
-              <div className="flex flex-row my-3" key={platform.igdbId}>
+              <div className="flex flex-row my-3" key={platform.id}>
                 <p>{platform.name}</p>
 
                 <Badge

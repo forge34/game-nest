@@ -33,11 +33,11 @@ function AddToLibraryButton({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            if (!inLibrary) addToLibrary(game.igdbId.toString());
+            if (!inLibrary) addToLibrary(game.id.toString());
             else
               navigate({
-                to: "/discover/$gameId",
-                params: { gameId: game.igdbId.toString() },
+                to: "/library/$gameId/edit",
+                params: { gameId: game.id.toString() },
               });
           }}
           {...props}

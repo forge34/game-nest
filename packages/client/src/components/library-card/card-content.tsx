@@ -52,13 +52,13 @@ function GameCardContent({
   function handleFinishEdit() {
     setEditMode(false);
 
-    updateGame(g.game.igdbId.toString(), {
+    updateGame(g.game.id.toString(), {
       status: (status as GameStatus) ?? "Backlog",
       rating,
     });
 
     if (typeof review === "string" && review.trim() !== "") {
-      addReview(g.game.igdbId.toString(), review, {
+      addReview(g.game.id.toString(), review, {
         showToast: false,
       });
     }
