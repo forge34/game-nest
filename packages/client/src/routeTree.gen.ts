@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as LibraryRouteImport } from './routes/library'
+import { Route as LibraryRouteRouteImport } from './routes/library/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as DiscoverIndexRouteImport } from './routes/discover/index'
@@ -19,6 +19,7 @@ import { Route as CollectionsIndexRouteImport } from './routes/collections/index
 import { Route as UserProfileRouteImport } from './routes/user/profile'
 import { Route as DiscoverGameIdRouteImport } from './routes/discover/$gameId'
 import { Route as CollectionsCollectionIdRouteRouteImport } from './routes/collections/$collectionId/route'
+import { Route as LibraryGameIdEditRouteImport } from './routes/library/$gameId.edit'
 import { Route as CollectionsCollectionIdEditRouteImport } from './routes/collections/$collectionId/edit'
 
 const SignupRoute = SignupRouteImport.update({
@@ -31,7 +32,7 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LibraryRoute = LibraryRouteImport.update({
+const LibraryRouteRoute = LibraryRouteRouteImport.update({
   id: '/library',
   path: '/library',
   getParentRoute: () => rootRouteImport,
@@ -72,6 +73,11 @@ const CollectionsCollectionIdRouteRoute =
     path: '/collections/$collectionId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LibraryGameIdEditRoute = LibraryGameIdEditRouteImport.update({
+  id: '/$gameId/edit',
+  path: '/$gameId/edit',
+  getParentRoute: () => LibraryRouteRoute,
+} as any)
 const CollectionsCollectionIdEditRoute =
   CollectionsCollectionIdEditRouteImport.update({
     id: '/edit',
@@ -81,7 +87,7 @@ const CollectionsCollectionIdEditRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/library': typeof LibraryRoute
+  '/library': typeof LibraryRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
@@ -91,10 +97,11 @@ export interface FileRoutesByFullPath {
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
+  '/library/$gameId/edit': typeof LibraryGameIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/library': typeof LibraryRoute
+  '/library': typeof LibraryRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
@@ -104,11 +111,12 @@ export interface FileRoutesByTo {
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
+  '/library/$gameId/edit': typeof LibraryGameIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/library': typeof LibraryRoute
+  '/library': typeof LibraryRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/discover/': typeof DiscoverIndexRoute
   '/user/': typeof UserIndexRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
+  '/library/$gameId/edit': typeof LibraryGameIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/user'
     | '/collections/$collectionId/edit'
+    | '/library/$gameId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/user'
     | '/collections/$collectionId/edit'
+    | '/library/$gameId/edit'
   id:
     | '__root__'
     | '/'
@@ -159,11 +170,12 @@ export interface FileRouteTypes {
     | '/discover/'
     | '/user/'
     | '/collections/$collectionId/edit'
+    | '/library/$gameId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LibraryRoute: typeof LibraryRoute
+  LibraryRouteRoute: typeof LibraryRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   CollectionsCollectionIdRouteRoute: typeof CollectionsCollectionIdRouteRouteWithChildren
@@ -194,7 +206,7 @@ declare module '@tanstack/react-router' {
       id: '/library'
       path: '/library'
       fullPath: '/library'
-      preLoaderRoute: typeof LibraryRouteImport
+      preLoaderRoute: typeof LibraryRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -246,6 +258,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsCollectionIdRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/library/$gameId/edit': {
+      id: '/library/$gameId/edit'
+      path: '/$gameId/edit'
+      fullPath: '/library/$gameId/edit'
+      preLoaderRoute: typeof LibraryGameIdEditRouteImport
+      parentRoute: typeof LibraryRouteRoute
+    }
     '/collections/$collectionId/edit': {
       id: '/collections/$collectionId/edit'
       path: '/edit'
@@ -255,6 +274,18 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface LibraryRouteRouteChildren {
+  LibraryGameIdEditRoute: typeof LibraryGameIdEditRoute
+}
+
+const LibraryRouteRouteChildren: LibraryRouteRouteChildren = {
+  LibraryGameIdEditRoute: LibraryGameIdEditRoute,
+}
+
+const LibraryRouteRouteWithChildren = LibraryRouteRoute._addFileChildren(
+  LibraryRouteRouteChildren,
+)
 
 interface CollectionsCollectionIdRouteRouteChildren {
   CollectionsCollectionIdEditRoute: typeof CollectionsCollectionIdEditRoute
@@ -272,7 +303,7 @@ const CollectionsCollectionIdRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LibraryRoute: LibraryRoute,
+  LibraryRouteRoute: LibraryRouteRouteWithChildren,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   CollectionsCollectionIdRouteRoute:

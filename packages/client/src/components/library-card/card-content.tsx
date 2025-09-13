@@ -18,6 +18,7 @@ import StarRating from "@/components/star-rating";
 import useReviews from "@/lib/hooks/use-reviews";
 import GameCardHeader from "./card-header";
 import useUser from "@/lib/hooks/use-user";
+import { useNavigate } from "@tanstack/react-router";
 
 const reviewPlaceholder = "No review added yet...";
 
@@ -31,7 +32,7 @@ function GameCardContent({
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [rating, setRating] = useState(0);
-  const { user } = useUser()
+  const { user } = useUser();
 
   const gameStatusOptions = [
     { value: "Wishlist", label: "Wishlist" },
@@ -46,6 +47,7 @@ function GameCardContent({
   const [review, setReview] = useState<string | null>(null);
   const { updateGame, isFavourite } = useLibrary();
   const { addReview } = useReviews();
+  const navigate = useNavigate();
 
   function handleFinishEdit() {
     setEditMode(false);
@@ -77,7 +79,10 @@ function GameCardContent({
     : userReview || reviewPlaceholder;
 
   return (
-    <DialogContent className="bg-card">
+    <DialogContent
+      className="bg-card [&>button:last-child]:hidden"
+      onInteractOutside={() => navigate({ to: "/library" })}
+    >
       <div className="flex flex-col gap-2">
         <GameCardHeader
           game={game}

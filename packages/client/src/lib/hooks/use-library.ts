@@ -72,6 +72,10 @@ function useLibrary() {
     addToLibraryMutation.mutate(id);
   };
 
+  const findGameById = (id: string) => {
+    return library.find((g) => g.gameId.toString() === id);
+  };
+
   const isInLibrary = (game: Game) => library.some((g) => g.gameId === game.id);
 
   const countFavourites = () => library.filter((game) => game.favorite).length;
@@ -83,6 +87,7 @@ function useLibrary() {
     isInLibrary,
     addToLibrary,
     countFavourites,
+    findGameById,
   };
 }
 
