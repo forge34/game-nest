@@ -27,52 +27,32 @@ function useGetUserCollections(userId: string) {
   return { data, isError, isSuccess, isPending };
 }
 
-type CollectionInput = {
-  name: string;
-  description: string;
-};
-function useUpdateCollection(
-  id: string,
-  { name, description }: CollectionInput,
-) {
-  const mutation = useMutation({
-    mutationFn: () =>
-      CollectionsMutations.updateCollection(id, name, description),
+function useUpdateCollection() {
+  return useMutation({
+    mutationFn: CollectionsMutations.updateCollection,
   });
-
-  return mutation;
 }
 
-function useDeleteCollection(id: string) {
-  const mutation = useMutation({
-    mutationFn: () => CollectionsMutations.deleteCollection(id),
-  });
-
-  return mutation;
+function useDeleteCollection() {
+  return useMutation({ mutationFn: CollectionsMutations.deleteCollection });
 }
 
-function useCreateCollection({ name, description }: CollectionInput) {
-  const mutation = useMutation({
-    mutationFn: () => CollectionsMutations.createCollection(name, description),
+function useCreateCollection() {
+  return useMutation({
+    mutationFn: CollectionsMutations.createCollection,
   });
-
-  return mutation;
 }
 
-function useAddGameToCollection(id: string, gameId: string) {
-  const mutation = useMutation({
-    mutationFn: () => CollectionsMutations.addGameToCollection(id, gameId),
+function useAddGameToCollection() {
+  return useMutation({
+    mutationFn: CollectionsMutations.addGameToCollection,
   });
-
-  return mutation;
 }
 
-function useRemoveGameToCollection(id: string, gameId: string) {
-  const mutation = useMutation({
-    mutationFn: () => CollectionsMutations.removeGameFromCollection(id, gameId),
+function useRemoveGameToCollection() {
+  return useMutation({
+    mutationFn: CollectionsMutations.removeGameFromCollection,
   });
-
-  return mutation;
 }
 
 export {

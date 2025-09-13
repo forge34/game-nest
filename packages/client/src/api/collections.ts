@@ -42,23 +42,35 @@ const CollectionsMutations = {
       credentials: "include",
       body: JSON.stringify({ name, description }),
     }),
-  updateCollection: (id: string, name?: string, description?: string) =>
+
+  updateCollection: ({
+    id,
+    name,
+    description,
+  }: {
+    id: string;
+    name?: string;
+    description?: string;
+  }) =>
     safeFetch<{ message: string }>(`collections/${id}`, {
       method: "PUT",
       credentials: "include",
       body: JSON.stringify({ name, description }),
     }),
+
   deleteCollection: (id: string) =>
     safeFetch<{ message: string }>(`collections/${id}`, {
       method: "DELETE",
       credentials: "include",
     }),
-  addGameToCollection: (id: string, gameId: string) =>
+
+  addGameToCollection: ({ id, gameId }: { id: string; gameId: string }) =>
     safeFetch<{ message: string }>(`collections/${id}/games/${gameId}`, {
       method: "POST",
       credentials: "include",
     }),
-  removeGameFromCollection: (id: string, gameId: string) =>
+
+  removeGameFromCollection: ({ id, gameId }: { id: string; gameId: string }) =>
     safeFetch<{ message: string }>(`collections/${id}/games/${gameId}`, {
       method: "DELETE",
       credentials: "include",
