@@ -48,7 +48,7 @@ function RouteComponent() {
                     {game.title}
                   </span>
 
-                  <Button variant="secondary" className="self-center" size="sm">
+                  <Button variant="secondary" className="self-center" size="sm" asChild>
                     <Link
                       to="/library/$gameId/edit"
                       params={{ gameId: game.id.toString() }}

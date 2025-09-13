@@ -42,7 +42,7 @@ function Pagination({
   const totalPages = Math.ceil(totalItems / limit) || 1;
   const pageNumbers = pages(currentPage, totalPages);
   return (
-    <Root className="my-4">
+    <Root className="my-4 mt-auto">
       <PaginationContent>
         {currentPage > 1 && (
           <PaginationItem>

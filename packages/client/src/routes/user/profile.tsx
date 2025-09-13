@@ -1,7 +1,6 @@
 import { queryClient } from "@/api";
 import { uploadProfilePic } from "@/api/user";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -9,13 +8,24 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import UserAvatar from "@/components/user-avatar";
 import useUser from "@/lib/hooks/use-user";
 import type { User } from "@game-forge/shared";
 import { Label } from "@radix-ui/react-label";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Camera } from "lucide-react";
+import {
+  Camera,
+  Star,
+  Play,
+  Check,
+  Clock,
+  XCircle,
+  LibraryBig,
+  Heart,
+  Pencil,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -23,80 +33,123 @@ export const Route = createFileRoute("/user/profile")({
   component: RouteComponent,
 });
 
-const padLength = 2;
-
 function RouteComponent() {
   const { user } = useUser();
 
-  if (!user) {
-    return null;
-  }
-  const completed = user?.library.filter((g) => g.status === "Completed");
-  const playing = user?.library.filter((g) => g.status === "Playing");
+  if (!user) return null;
+
+  const totalGames = user.library.length;
+  const completedGames = user.library.filter(
+    (g) => g.status === "Completed",
+  ).length;
+  const playingGames = user.library.filter(
+    (g) => g.status === "Playing",
+  ).length;
+  const backlogGames = user.library.filter(
+    (g) => g.status === "Backlog",
+  ).length;
+  const droppedGames = user.library.filter(
+    (g) => g.status === "Dropped",
+  ).length;
+  const totalHours = user.library.reduce((acc, g) => acc + g.hoursPlayed, 0);
+  const favoriteGames = user.library.filter((g) => g.favorite).length;
+  const reviewsCount = user.reviews.length;
+  const averageRating =
+    user.library.reduce((acc, g) => acc + (g.rating || 0), 0) / totalGames || 0;
 
   return (
     <div className="flex flex-col m-4 gap-4">
-      <ProfilePicture user={user} />
-      <div className="flex gap-4">
-        <Card className="w-96 mb-8 bg-card border-border/50 shadow-lg shadow-primary/5">
-          <CardContent className="p-6">
-            <h2 className="text-xl font-bold text-foreground mb-3 flex items-center gap-2">
-              About Me
-            </h2>
-            <p className="text-muted-foreground leading-relaxed text-wrap">
-              Passionate gamer exploring virtual worlds since 2010. Love RPGs,
-              indie games, and competitive shooters. Always hunting for hidden
-              gems and building the ultimate game collection.
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="flex-2 h-fit border-border/50 hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-primary/10">
-          <CardContent className="p-6 ">
-            <div className="flex  items-center gap-4 justify-between mb-4">
-              <div>
-                <h1 className="text-4xl text-center font-semibold">
-                  {user?.library.length.toString().padStart(padLength, "0")}
-                </h1>
-
-                <h3 className="text-md text-muted-foreground">Total games</h3>
-              </div>
-              <div>
-                <h1 className="text-4xl text-center font-semibold">
-                  {completed?.length.toString().padStart(padLength, "0")}
-                </h1>
-
-                <h3 className="text-md text-muted-foreground">
-                  Total games completed
-                </h3>
-              </div>
-              <div>
-                <h1 className="text-4xl text-center font-semibold">
-                  {playing?.length.toString().padStart(padLength, "0")}
-                </h1>
-
-                <h3 className="text-md text-muted-foreground">
-                  Currently playing
-                </h3>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="flex-1 h-fit border-border/50 hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-primary/10">
-          <CardContent className="p-6 ">
-            <div className="flex  items-center gap-4 justify-between mb-4 ">
-              <div className="mx-auto">
-                <h1 className="text-4xl text-center font-semibold ">
-                  {"12".padStart(padLength, "0")}
-                </h1>
-
-                <h3 className="text-lg text-muted-foreground ">
-                  Total collections
-                </h3>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="flex flex-row gap-2">
+        <Button>Profile</Button>
+        <Button>User's Collections</Button>
+        <Button>Reviews</Button>
       </div>
+
+      <div className="flex flex-row gap-6 items-start self-center">
+        <ProfilePicture user={user} />
+      </div>
+
+      <div className="max-w-2xl flex flex-col gap-y-1 mt-4">
+        <h3 className="text-muted-foreground font-light">About me</h3>
+        <Separator />
+        <div className="bg-card rounded-md border py-2 px-3 my-2">
+          <p className="text-sm leading-relaxed text-wrap">
+            {user.bio ||
+              "Passionate gamer exploring virtual worlds since 2010. Love RPGs, indie games, and competitive shooters. Always hunting for hidden gems and building the ultimate game collection."}
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
+        <StatCard
+          icon={<Check />}
+          iconColor="text-green-500"
+          title="Completed"
+          value={completedGames}
+        />
+        <StatCard
+          icon={<Play />}
+          iconColor="text-blue-500"
+          title="Playing"
+          value={playingGames}
+        />
+        <StatCard
+          icon={<LibraryBig />}
+          iconColor="text-orange-500"
+          title="Backlog"
+          value={backlogGames}
+        />
+        <StatCard
+          icon={<Heart />}
+          iconColor="text-red-600"
+          title="Favorites"
+          value={favoriteGames}
+        />
+        <StatCard
+          icon={<Star />}
+          iconColor="text-amber-500"
+          title="Avg Rating"
+          value={averageRating.toFixed(2)}
+        />
+        <StatCard
+          icon={<Pencil />}
+          iconColor="text-teal-500"
+          title="Total Reviews"
+          value={reviewsCount}
+        />
+        <StatCard
+          icon={<Clock />}
+          iconColor="text-purple-500"
+          title="Total Hours"
+          value={totalHours}
+        />
+        <StatCard
+          icon={<XCircle />}
+          iconColor="text-red-500"
+          title="Dropped"
+          value={droppedGames}
+        />
+      </div>
+    </div>
+  );
+}
+
+function StatCard({
+  icon,
+  iconColor = "text-primary",
+  title,
+  value,
+}: {
+  icon: React.ReactNode;
+  iconColor?: string;
+  title: string;
+  value: number | string;
+}) {
+  return (
+    <div className="flex flex-col items-center p-4 bg-card rounded-md border shadow hover:shadow-primary/20 transition-shadow">
+      <div className={`${iconColor} mb-2`}>{icon}</div>
+      <div className="text-xl font-bold">{value}</div>
+      <div className="text-muted-foreground text-sm">{title}</div>
     </div>
   );
 }
@@ -124,25 +177,31 @@ function ProfilePicture({ user }: { user: User | null }) {
   };
 
   return (
-    <div className="mx-auto flex flex-col gap-2">
+    <div className="flex flex-col gap-2 relative">
       <Dialog>
         <DialogTrigger>
-          <UserAvatar className="mx-auto border" avatarUrl={user?.avatarUrl} size={160} />
-        </DialogTrigger>
-        <DialogContent className="bg-card">
-          <DialogTitle className="text-lg">Upload profile picture</DialogTitle>
           <UserAvatar
-            className="mx-auto border"
+            className="mx-auto border rounded-full"
+            avatarUrl={user?.avatarUrl}
+            size={180}
+          />
+        </DialogTrigger>
+        <DialogContent className="bg-card p-4 flex flex-col items-center gap-4">
+          <DialogTitle className="text-lg font-semibold">
+            Upload profile picture
+          </DialogTitle>
+          <UserAvatar
+            className="mx-auto border rounded-full"
             avatarUrl={user?.avatarUrl}
             size={240}
             preview={preview}
           />
           <Label
             htmlFor="uploadPfp"
-            className="flex flex-row gap-2 cursor-pointer p-2 bg-primary w-fit rounded-md "
+            className="flex flex-row gap-2 cursor-pointer p-2 bg-primary w-fit rounded-md text-white hover:bg-primary/90 transition-colors"
           >
             <Camera />
-            upload picture
+            Upload picture
           </Label>
           <Input
             accept=".png, .jpeg, .jpg"
@@ -158,12 +217,12 @@ function ProfilePicture({ user }: { user: User | null }) {
                 mutation.mutate({ file });
               }}
             >
-              {mutation.isPending ? "Saving..." : "Save photo"}
+              {mutation.isPending ? "Saving..." : "Save Photo"}
             </Button>
           )}
         </DialogContent>
       </Dialog>
-      <h3 className="text-2xl font-semibold ">{user?.name}</h3>
+      <h3 className="text-xl font-semibold text-center">{user?.name}</h3>
     </div>
   );
 }
