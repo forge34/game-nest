@@ -21,6 +21,8 @@ const nameValidation = (field: string) =>
     .trim()
     .isLength({ min: 1 })
     .withMessage(`${field} length too short`)
+    .isAlphanumeric()
+    .withMessage("Spaces aren't allowed in username")
     .escape();
 
 const AuthRoute = {
