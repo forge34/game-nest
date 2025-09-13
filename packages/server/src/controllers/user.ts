@@ -85,6 +85,9 @@ const UsersRoute = {
             include: gameIncludes,
           },
         },
+        orderBy: {
+          addedAt: "desc",
+        },
       });
 
       res.status(200).json(library);
