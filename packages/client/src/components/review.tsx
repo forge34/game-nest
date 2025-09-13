@@ -1,6 +1,6 @@
 import type { UserGame, Review as ReviewType } from "@game-forge/shared";
 import StarRating from "./star-rating";
-import UserAvatar from "./user-avatar";
+import UserProfileLink from "./user-profile-link";
 
 function Review({
   review,
@@ -18,19 +18,19 @@ function Review({
   }
 
   return (
-    <div className="flex flex-row gap-2">
-      <UserAvatar  avatarUrl={userGame.user.avatarUrl} />
-      <div className="flex flex-col px-2">
-        <h3>{userGame.user.name}</h3>
-        {userGame?.rating ? (
-          <StarRating initialRating={userGame.rating} disabled size="sm" />
-        ) : (
-          <p>Not rated</p>
-        )}
-        <p className="text-sm text-muted-foreground">
-          {review?.comment ?? "Not reviewd"}
-        </p>
-      </div>
+    <div className="flex flex-col gap-2">
+      <UserProfileLink
+        avatarUrl={userGame.user.avatarUrl}
+        username={userGame.user.name}
+      />
+      {userGame?.rating ? (
+        <StarRating initialRating={userGame.rating} disabled size="sm" />
+      ) : (
+        <p>Not rated</p>
+      )}
+      <p className="text-sm text-muted-foreground">
+        {review?.comment ?? "Not reviewd"}
+      </p>
     </div>
   );
 }

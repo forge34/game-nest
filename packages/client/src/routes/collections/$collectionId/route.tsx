@@ -2,7 +2,7 @@ import { CollectionsQueries } from "@/api/collections";
 import HoverCard from "@/components/hover-card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import UserAvatar from "@/components/user-avatar";
+import UserProfileLink from "@/components/user-profile-link";
 import { useGetCollectionById } from "@/lib/hooks/use-collections";
 import useMedia from "@/lib/hooks/use-media";
 import useUser from "@/lib/hooks/use-user";
@@ -45,10 +45,7 @@ function RouteComponent() {
           </p>
         </div>
         <div className="flex flex-col gap-2 md:ml-auto py-2 px-4 border rounded-md">
-          <div className="flex flex-rowc items-center gap-2">
-            <UserAvatar avatarUrl={user.avatarUrl} size={48} />
-            <h5 className="text-md font-semibold">{user.name}</h5>
-          </div>
+          <UserProfileLink avatarUrl={user.avatarUrl} username={user.name} />
           <span className="flex flex-row text-sm text-muted-foreground justify-between">
             <p>Created at</p>
             <p>{format(data.createdAt, "yyyy-MM-dd")}</p>

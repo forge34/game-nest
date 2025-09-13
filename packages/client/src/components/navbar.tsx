@@ -61,6 +61,15 @@ function UserMenu({ user }: { user: User }) {
             Profile
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem
+          className="flex items-center gap-2 px-3 py-2 text-sm"
+          asChild
+        >
+          <Link to="/library" params={{ username: user.name }}>
+            <Library className="w-5 h-5" />
+            Library
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 text-sm">
           <Settings className="w-4 h-4" />
           <span>Settings</span>
@@ -145,18 +154,6 @@ function NavbarDesktop({ user }: { user?: User | null }) {
             </Link>
           </Button>
         </span>
-
-        {user && (
-          <span className="flex flex-row self-center">
-            <Button variant="link" asChild>
-              <Link to="/library">
-                <Library size={"1rem"} className="mx-2 my-auto" />
-                My library
-              </Link>
-            </Button>
-          </span>
-        )}
-
         <span className="flex gap-2">
           <AuthSection user={user} isLarge />
           {user && <UserMenu user={user} />}
@@ -201,7 +198,10 @@ function NavbarMobile({ user }: { user?: User | null }) {
           ) : (
             <div className="flex gap-2 flex-wrap">
               <Button asChild variant="outline">
-                <Link to="/user/$username/profile" params={{ username: user.name }}>
+                <Link
+                  to="/user/$username/profile"
+                  params={{ username: user.name }}
+                >
                   <Avatar />
                   Profile
                 </Link>
