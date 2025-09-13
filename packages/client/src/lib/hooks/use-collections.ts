@@ -1,9 +1,11 @@
+import { queryClient } from "@/api";
 import {
   CollectionsMutations,
   CollectionsQueries,
   type CollectionPagination,
 } from "@/api/collections";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 function useGetCollectionById(id: string) {
   const { data, isPending, isSuccess, isError } = useQuery(
@@ -27,9 +29,13 @@ function useGetUserCollections(userId: string) {
   return { data, isError, isSuccess, isPending };
 }
 
-function useUpdateCollection() {
+function useUpdateCollection(id: string) {
   return useMutation({
     mutationFn: CollectionsMutations.updateCollection,
+    onSuccess: () => {
+      toast.success("Collection updated sucessfully");
+      queryClient.invalidateQueries({ queryKey: ["collections", id] });
+    },
   });
 }
 
