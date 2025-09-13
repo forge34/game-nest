@@ -19,7 +19,7 @@ import { Camera } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/profile")({
+export const Route = createFileRoute("/user/profile")({
   component: RouteComponent,
 });
 
@@ -127,13 +127,13 @@ function ProfilePicture({ user }: { user: User | null }) {
     <div className="mx-auto flex flex-col gap-2">
       <Dialog>
         <DialogTrigger>
-          <UserAvatar className="mx-auto border" user={user} size={160} />
+          <UserAvatar className="mx-auto border" avatarUrl={user?.avatarUrl} size={160} />
         </DialogTrigger>
         <DialogContent className="bg-card">
           <DialogTitle className="text-lg">Upload profile picture</DialogTitle>
           <UserAvatar
             className="mx-auto border"
-            user={user}
+            avatarUrl={user?.avatarUrl}
             size={240}
             preview={preview}
           />

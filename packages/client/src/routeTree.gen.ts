@@ -9,23 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UserRouteImport } from './routes/user'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UserProfileRouteImport } from './routes/user.profile'
 import { Route as DiscoverGameIdRouteImport } from './routes/discover.$gameId'
+import { Route as CollectionsCollectionIdRouteImport } from './routes/collections.$collectionId'
 
+const UserRoute = UserRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -53,42 +55,58 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserProfileRoute = UserProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => UserRoute,
+} as any)
 const DiscoverGameIdRoute = DiscoverGameIdRouteImport.update({
   id: '/$gameId',
   path: '/$gameId',
   getParentRoute: () => DiscoverRoute,
 } as any)
+const CollectionsCollectionIdRoute = CollectionsCollectionIdRouteImport.update({
+  id: '/$collectionId',
+  path: '/$collectionId',
+  getParentRoute: () => CollectionsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/collections': typeof CollectionsRoute
+  '/collections': typeof CollectionsRouteWithChildren
   '/discover': typeof DiscoverRouteWithChildren
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
-  '/profile': typeof ProfileRoute
   '/signup': typeof SignupRoute
+  '/user': typeof UserRouteWithChildren
+  '/collections/$collectionId': typeof CollectionsCollectionIdRoute
   '/discover/$gameId': typeof DiscoverGameIdRoute
+  '/user/profile': typeof UserProfileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/collections': typeof CollectionsRoute
+  '/collections': typeof CollectionsRouteWithChildren
   '/discover': typeof DiscoverRouteWithChildren
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
-  '/profile': typeof ProfileRoute
   '/signup': typeof SignupRoute
+  '/user': typeof UserRouteWithChildren
+  '/collections/$collectionId': typeof CollectionsCollectionIdRoute
   '/discover/$gameId': typeof DiscoverGameIdRoute
+  '/user/profile': typeof UserProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/collections': typeof CollectionsRoute
+  '/collections': typeof CollectionsRouteWithChildren
   '/discover': typeof DiscoverRouteWithChildren
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
-  '/profile': typeof ProfileRoute
   '/signup': typeof SignupRoute
+  '/user': typeof UserRouteWithChildren
+  '/collections/$collectionId': typeof CollectionsCollectionIdRoute
   '/discover/$gameId': typeof DiscoverGameIdRoute
+  '/user/profile': typeof UserProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -98,9 +116,11 @@ export interface FileRouteTypes {
     | '/discover'
     | '/library'
     | '/login'
-    | '/profile'
     | '/signup'
+    | '/user'
+    | '/collections/$collectionId'
     | '/discover/$gameId'
+    | '/user/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -108,9 +128,11 @@ export interface FileRouteTypes {
     | '/discover'
     | '/library'
     | '/login'
-    | '/profile'
     | '/signup'
+    | '/user'
+    | '/collections/$collectionId'
     | '/discover/$gameId'
+    | '/user/profile'
   id:
     | '__root__'
     | '/'
@@ -118,35 +140,37 @@ export interface FileRouteTypes {
     | '/discover'
     | '/library'
     | '/login'
-    | '/profile'
     | '/signup'
+    | '/user'
+    | '/collections/$collectionId'
     | '/discover/$gameId'
+    | '/user/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CollectionsRoute: typeof CollectionsRoute
+  CollectionsRoute: typeof CollectionsRouteWithChildren
   DiscoverRoute: typeof DiscoverRouteWithChildren
   LibraryRoute: typeof LibraryRoute
   LoginRoute: typeof LoginRoute
-  ProfileRoute: typeof ProfileRoute
   SignupRoute: typeof SignupRoute
+  UserRoute: typeof UserRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/user': {
+      id: '/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof UserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signup': {
       id: '/signup'
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -184,6 +208,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/profile': {
+      id: '/user/profile'
+      path: '/profile'
+      fullPath: '/user/profile'
+      preLoaderRoute: typeof UserProfileRouteImport
+      parentRoute: typeof UserRoute
+    }
     '/discover/$gameId': {
       id: '/discover/$gameId'
       path: '/$gameId'
@@ -191,8 +222,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiscoverGameIdRouteImport
       parentRoute: typeof DiscoverRoute
     }
+    '/collections/$collectionId': {
+      id: '/collections/$collectionId'
+      path: '/$collectionId'
+      fullPath: '/collections/$collectionId'
+      preLoaderRoute: typeof CollectionsCollectionIdRouteImport
+      parentRoute: typeof CollectionsRoute
+    }
   }
 }
+
+interface CollectionsRouteChildren {
+  CollectionsCollectionIdRoute: typeof CollectionsCollectionIdRoute
+}
+
+const CollectionsRouteChildren: CollectionsRouteChildren = {
+  CollectionsCollectionIdRoute: CollectionsCollectionIdRoute,
+}
+
+const CollectionsRouteWithChildren = CollectionsRoute._addFileChildren(
+  CollectionsRouteChildren,
+)
 
 interface DiscoverRouteChildren {
   DiscoverGameIdRoute: typeof DiscoverGameIdRoute
@@ -206,14 +256,24 @@ const DiscoverRouteWithChildren = DiscoverRoute._addFileChildren(
   DiscoverRouteChildren,
 )
 
+interface UserRouteChildren {
+  UserProfileRoute: typeof UserProfileRoute
+}
+
+const UserRouteChildren: UserRouteChildren = {
+  UserProfileRoute: UserProfileRoute,
+}
+
+const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CollectionsRoute: CollectionsRoute,
+  CollectionsRoute: CollectionsRouteWithChildren,
   DiscoverRoute: DiscoverRouteWithChildren,
   LibraryRoute: LibraryRoute,
   LoginRoute: LoginRoute,
-  ProfileRoute: ProfileRoute,
   SignupRoute: SignupRoute,
+  UserRoute: UserRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
