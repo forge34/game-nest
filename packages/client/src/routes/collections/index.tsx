@@ -16,7 +16,7 @@ const CollectionPaginationSchema = z.object({
   limit: z.number().default(15),
 });
 
-export const Route = createFileRoute("/collections")({
+export const Route = createFileRoute("/collections/")({
   component: RouteComponent,
   loader: async ({ context }) => {
     const collections = await context.queryClient.ensureQueryData(

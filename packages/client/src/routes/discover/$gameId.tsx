@@ -19,12 +19,11 @@ import GameRating from "@/components/game-rating";
 import HeartBtn from "@/components/heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "@/components/add-to-library-btn";
-import type { Game, Review, User, UserGame } from "@game-forge/shared";
-import StarRating from "@/components/star-rating";
-import { User as Avatar } from "lucide-react";
+import type { Game, User } from "@game-forge/shared";
 import { Separator } from "@/components/ui/separator";
 import useUser from "@/lib/hooks/use-user";
 import ReviewInput from "@/components/review-input";
+import Review from "@/components/review";
 
 export const Route = createFileRoute("/discover/$gameId")({
   component: RouteComponent,
@@ -100,41 +99,6 @@ function ReviewTab({ game, user }: { game: Game; user?: User | null }) {
         <h3 className="text-md font-light">No reviews yet</h3>
       )}
     </TabsContent>
-  );
-}
-
-export function Review({
-  review,
-  userGame,
-}: {
-  review?: Review;
-  userGame?: UserGame;
-}) {
-  if (!review) {
-    return <p>no review</p>;
-  }
-
-  if (!userGame) {
-    return <p>Failed to load user data</p>;
-  }
-
-  return (
-    <div className="flex flex-row gap-2">
-      <div className="flex items-center justify-center w-10 h-10 bg-gray-300 text-gray-600 shrink-0">
-        <Avatar className="w-5 h-5" />
-      </div>
-      <div className="flex flex-col px-2">
-        <h3>{userGame.user.name}</h3>
-        {userGame?.rating ? (
-          <StarRating initialRating={userGame.rating} disabled size="sm" />
-        ) : (
-          <p>Not rated</p>
-        )}
-        <p className="text-sm text-muted-foreground">
-          {review?.comment ?? "Not reviewd"}
-        </p>
-      </div>
-    </div>
   );
 }
 

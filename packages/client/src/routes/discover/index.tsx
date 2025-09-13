@@ -20,7 +20,7 @@ import useGames from "@/lib/hooks/use-games";
 import Pagination from "@/components/pagination";
 import useMedia, { media } from "@/lib/hooks/use-media";
 
-export const Route = createFileRoute("/discover")({
+export const Route = createFileRoute("/discover/")({
   component: RouteComponent,
   loader: async ({
     context,

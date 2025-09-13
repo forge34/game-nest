@@ -9,22 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UserRouteImport } from './routes/user'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LibraryRouteImport } from './routes/library'
-import { Route as DiscoverRouteImport } from './routes/discover'
-import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as UserProfileRouteImport } from './routes/user.profile'
-import { Route as DiscoverGameIdRouteImport } from './routes/discover.$gameId'
-import { Route as CollectionsCollectionIdRouteImport } from './routes/collections.$collectionId'
+import { Route as UserIndexRouteImport } from './routes/user/index'
+import { Route as DiscoverIndexRouteImport } from './routes/discover/index'
+import { Route as CollectionsIndexRouteImport } from './routes/collections/index'
+import { Route as UserProfileRouteImport } from './routes/user/profile'
+import { Route as DiscoverGameIdRouteImport } from './routes/discover/$gameId'
+import { Route as CollectionsCollectionIdRouteImport } from './routes/collections/$collectionId'
 
-const UserRoute = UserRouteImport.update({
-  id: '/user',
-  path: '/user',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
@@ -40,132 +35,133 @@ const LibraryRoute = LibraryRouteImport.update({
   path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DiscoverRoute = DiscoverRouteImport.update({
-  id: '/discover',
-  path: '/discover',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CollectionsRoute = CollectionsRouteImport.update({
-  id: '/collections',
-  path: '/collections',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserIndexRoute = UserIndexRouteImport.update({
+  id: '/user/',
+  path: '/user/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiscoverIndexRoute = DiscoverIndexRouteImport.update({
+  id: '/discover/',
+  path: '/discover/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
+  id: '/collections/',
+  path: '/collections/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UserProfileRoute = UserProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => UserRoute,
+  id: '/user/profile',
+  path: '/user/profile',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DiscoverGameIdRoute = DiscoverGameIdRouteImport.update({
-  id: '/$gameId',
-  path: '/$gameId',
-  getParentRoute: () => DiscoverRoute,
+  id: '/discover/$gameId',
+  path: '/discover/$gameId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionsCollectionIdRoute = CollectionsCollectionIdRouteImport.update({
-  id: '/$collectionId',
-  path: '/$collectionId',
-  getParentRoute: () => CollectionsRoute,
+  id: '/collections/$collectionId',
+  path: '/collections/$collectionId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/collections': typeof CollectionsRouteWithChildren
-  '/discover': typeof DiscoverRouteWithChildren
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/user': typeof UserRouteWithChildren
   '/collections/$collectionId': typeof CollectionsCollectionIdRoute
   '/discover/$gameId': typeof DiscoverGameIdRoute
   '/user/profile': typeof UserProfileRoute
+  '/collections': typeof CollectionsIndexRoute
+  '/discover': typeof DiscoverIndexRoute
+  '/user': typeof UserIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/collections': typeof CollectionsRouteWithChildren
-  '/discover': typeof DiscoverRouteWithChildren
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/user': typeof UserRouteWithChildren
   '/collections/$collectionId': typeof CollectionsCollectionIdRoute
   '/discover/$gameId': typeof DiscoverGameIdRoute
   '/user/profile': typeof UserProfileRoute
+  '/collections': typeof CollectionsIndexRoute
+  '/discover': typeof DiscoverIndexRoute
+  '/user': typeof UserIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/collections': typeof CollectionsRouteWithChildren
-  '/discover': typeof DiscoverRouteWithChildren
   '/library': typeof LibraryRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/user': typeof UserRouteWithChildren
   '/collections/$collectionId': typeof CollectionsCollectionIdRoute
   '/discover/$gameId': typeof DiscoverGameIdRoute
   '/user/profile': typeof UserProfileRoute
+  '/collections/': typeof CollectionsIndexRoute
+  '/discover/': typeof DiscoverIndexRoute
+  '/user/': typeof UserIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/collections'
-    | '/discover'
     | '/library'
     | '/login'
     | '/signup'
-    | '/user'
     | '/collections/$collectionId'
     | '/discover/$gameId'
     | '/user/profile'
+    | '/collections'
+    | '/discover'
+    | '/user'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/collections'
-    | '/discover'
     | '/library'
     | '/login'
     | '/signup'
-    | '/user'
     | '/collections/$collectionId'
     | '/discover/$gameId'
     | '/user/profile'
+    | '/collections'
+    | '/discover'
+    | '/user'
   id:
     | '__root__'
     | '/'
-    | '/collections'
-    | '/discover'
     | '/library'
     | '/login'
     | '/signup'
-    | '/user'
     | '/collections/$collectionId'
     | '/discover/$gameId'
     | '/user/profile'
+    | '/collections/'
+    | '/discover/'
+    | '/user/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CollectionsRoute: typeof CollectionsRouteWithChildren
-  DiscoverRoute: typeof DiscoverRouteWithChildren
   LibraryRoute: typeof LibraryRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
-  UserRoute: typeof UserRouteWithChildren
+  CollectionsCollectionIdRoute: typeof CollectionsCollectionIdRoute
+  DiscoverGameIdRoute: typeof DiscoverGameIdRoute
+  UserProfileRoute: typeof UserProfileRoute
+  CollectionsIndexRoute: typeof CollectionsIndexRoute
+  DiscoverIndexRoute: typeof DiscoverIndexRoute
+  UserIndexRoute: typeof UserIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/user': {
-      id: '/user'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof UserRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/signup': {
       id: '/signup'
       path: '/signup'
@@ -187,20 +183,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/discover': {
-      id: '/discover'
-      path: '/discover'
-      fullPath: '/discover'
-      preLoaderRoute: typeof DiscoverRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/collections': {
-      id: '/collections'
-      path: '/collections'
-      fullPath: '/collections'
-      preLoaderRoute: typeof CollectionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -208,72 +190,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/': {
+      id: '/user/'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof UserIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/discover/': {
+      id: '/discover/'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/': {
+      id: '/collections/'
+      path: '/collections'
+      fullPath: '/collections'
+      preLoaderRoute: typeof CollectionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/user/profile': {
       id: '/user/profile'
-      path: '/profile'
+      path: '/user/profile'
       fullPath: '/user/profile'
       preLoaderRoute: typeof UserProfileRouteImport
-      parentRoute: typeof UserRoute
+      parentRoute: typeof rootRouteImport
     }
     '/discover/$gameId': {
       id: '/discover/$gameId'
-      path: '/$gameId'
+      path: '/discover/$gameId'
       fullPath: '/discover/$gameId'
       preLoaderRoute: typeof DiscoverGameIdRouteImport
-      parentRoute: typeof DiscoverRoute
+      parentRoute: typeof rootRouteImport
     }
     '/collections/$collectionId': {
       id: '/collections/$collectionId'
-      path: '/$collectionId'
+      path: '/collections/$collectionId'
       fullPath: '/collections/$collectionId'
       preLoaderRoute: typeof CollectionsCollectionIdRouteImport
-      parentRoute: typeof CollectionsRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface CollectionsRouteChildren {
-  CollectionsCollectionIdRoute: typeof CollectionsCollectionIdRoute
-}
-
-const CollectionsRouteChildren: CollectionsRouteChildren = {
-  CollectionsCollectionIdRoute: CollectionsCollectionIdRoute,
-}
-
-const CollectionsRouteWithChildren = CollectionsRoute._addFileChildren(
-  CollectionsRouteChildren,
-)
-
-interface DiscoverRouteChildren {
-  DiscoverGameIdRoute: typeof DiscoverGameIdRoute
-}
-
-const DiscoverRouteChildren: DiscoverRouteChildren = {
-  DiscoverGameIdRoute: DiscoverGameIdRoute,
-}
-
-const DiscoverRouteWithChildren = DiscoverRoute._addFileChildren(
-  DiscoverRouteChildren,
-)
-
-interface UserRouteChildren {
-  UserProfileRoute: typeof UserProfileRoute
-}
-
-const UserRouteChildren: UserRouteChildren = {
-  UserProfileRoute: UserProfileRoute,
-}
-
-const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CollectionsRoute: CollectionsRouteWithChildren,
-  DiscoverRoute: DiscoverRouteWithChildren,
   LibraryRoute: LibraryRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
-  UserRoute: UserRouteWithChildren,
+  CollectionsCollectionIdRoute: CollectionsCollectionIdRoute,
+  DiscoverGameIdRoute: DiscoverGameIdRoute,
+  UserProfileRoute: UserProfileRoute,
+  CollectionsIndexRoute: CollectionsIndexRoute,
+  DiscoverIndexRoute: DiscoverIndexRoute,
+  UserIndexRoute: UserIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

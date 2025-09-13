@@ -4,9 +4,9 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import UserAvatar from "./user-avatar";
 import type { Review as ReviewType, UserGame } from "@game-forge/shared";
-import { Review } from "@/routes/discover.$gameId";
 import useReviews from "@/lib/hooks/use-reviews";
 import { useState } from "react";
+import Review from "./review";
 
 export default function ReviewInput({
   gameId,
