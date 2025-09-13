@@ -279,7 +279,9 @@ const CollectionRoutes = {
         return;
       }
 
-      res.status(200).json(collection);
+      res
+        .status(200)
+        .json({ ...collection, games: collection.games.map((g) => g.game) });
     },
   ],
   getAllCollections: [
