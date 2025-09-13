@@ -15,7 +15,7 @@ function CollectionCard({ collection, className }: CollectionCardProps) {
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 bg-card rounded-md py-2 px-4 flex-1 min-w-[180px] max-w-[220px] border shadow-md shadow-primary/12",
+        "flex flex-col gap-2 bg-card rounded-md py-2 px-4 flex-1 max-w-full md:min-w-[180px] md:max-w-[220px] border shadow-md shadow-primary/12",
         className,
       )}
     >

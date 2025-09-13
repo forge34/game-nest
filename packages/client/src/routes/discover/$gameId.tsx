@@ -135,11 +135,11 @@ function InfoTab({ game, user }: { game: Game; user?: User | null }) {
       value="info"
       className="flex flex-col lg:flex-row my-4 bg-card border py-6 px-8 rounded-md"
     >
-      <div className="flex-1 flex flex-col gap-2 pr-28">
-        <div className="flex flex-row">
+      <div className="flex-1 flex flex-col gap-4 md:pr-28">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-0">
           <h1 className="text-2xl font-bold">{game.title}</h1>
           {user && (
-            <div className="flex flex-row ml-auto gap-x-4">
+            <div className="flex flex-row md:ml-auto gap-x-4">
               <AddToLibraryButton
                 disabled={isInLibrary(game)}
                 inLibrary={isInLibrary(game)}
@@ -150,7 +150,6 @@ function InfoTab({ game, user }: { game: Game; user?: User | null }) {
             </div>
           )}
         </div>
-        <h3 className="text-xl font-semibold text-muted-foreground">About</h3>
         {game?.summary && <GameSummary summary={game.summary} />}
         <div className="flex flex-col gap-y-2 gap-x-4 mt-2">
           <h3 className="text-lg font-semibold">Genres </h3>
@@ -164,7 +163,7 @@ function InfoTab({ game, user }: { game: Game; user?: User | null }) {
         </div>
         <div className="flex flex-col gap-y-2 gap-x-4 my-4 flex-wrap">
           <h3 className="text-lg font-semibold">Platforms</h3>
-          <div className="flex flex-row gap-y-2 gap-x-4">
+          <div className="flex flex-row flex-wrap gap-y-2 gap-x-4">
             {game.platforms.map((platform) => (
               <Badge
                 variant="secondary"
@@ -240,9 +239,14 @@ function InfoTab({ game, user }: { game: Game; user?: User | null }) {
   );
 }
 
-function GameSummary({ summary }: { summary: string }) {
+function GameSummary({
+  summary,
+  limit = 300,
+}: {
+  summary: string;
+  limit?: number;
+}) {
   const [expanded, setExpanded] = useState(false);
-  const limit = 300;
   const isLong = summary.length > limit;
 
   const toggleExpanded = () => setExpanded((prev) => !prev);

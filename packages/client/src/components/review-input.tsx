@@ -30,8 +30,8 @@ export default function ReviewInput({
 
   const validRating = rating ? rating : 0;
   return (
-    <div className="flex flex-row gap-4 lg:h-[200px] w-2xl">
-      <UserAvatar size={64} />
+    <div className="flex flex-row gap-4 h-64 lg:h-[250px] w-2xl">
+      <UserAvatar avatarUrl={userData?.user.avatarUrl} size={64} />
       <div className="flex flex-col w-full h-full gap-2">
         <StarRating
           onRatingChange={onRatingChange}
@@ -43,7 +43,7 @@ export default function ReviewInput({
           <>
             <Textarea
               placeholder="No review added..."
-              className="h-full"
+              className="h-full max-w-fit lg:max-w-64"
               onChange={(e) => setTextAreaValue(e.target.value)}
             />
             <Button

@@ -42,11 +42,11 @@ function RouteComponent() {
         <Outlet />
       ) : (
         <div className="flex flex-col py-6 px-8 gap-2">
-          <div className="flex flex-row flex-wrap gap-4 justify-start">
+          <div className="flex flex-row flex-wrap gap-2 md:gap-5 justify-start">
             {collections?.map((c) => (
               <CollectionCard
                 collection={c}
-                className="flex-1/2 md:flex-1/3 lg:flex-1/4 lg:grow-0"
+                className="md:basis-[18%] lg:grow-0"
                 key={c.id}
               />
             ))}

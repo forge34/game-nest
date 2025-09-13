@@ -19,7 +19,7 @@ function Review({
 
   return (
     <div className="flex flex-row gap-2">
-      <UserAvatar />
+      <UserAvatar  avatarUrl={userGame.user.avatarUrl} />
       <div className="flex flex-col px-2">
         <h3>{userGame.user.name}</h3>
         {userGame?.rating ? (

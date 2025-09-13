@@ -90,7 +90,7 @@ function RouteComponent() {
             </div>
           </div>
           <h3 className="text-sm text-muted-foreground">{releaseDate}</h3>
-          <CardAction className="flex flex-row my-auto gap-4 ">
+          <CardAction className="flex flex-col justify-center items-center md:flex-row my-auto gap-4 w-full">
             <Button>
               <Link
                 to="/discover/$gameId"

@@ -30,7 +30,7 @@ const dummyNews = [
 
 export function GameNews({ className }: { className?: string }) {
   return (
-    <div className={cn("w-[42rem] space-y-6 mt-2", className)}>
+    <div className={cn("lg:w-[42rem] space-y-6 mt-2", className)}>
       <h2 className="text-xl font-bold">Latest News</h2>
 
       {dummyNews.map((news, idx) => (
