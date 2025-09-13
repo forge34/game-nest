@@ -48,7 +48,7 @@ function StarRating({
 
   return (
     <div
-      className="flex flex-row py-1 max-w-fit"
+      className="flex flex-row py-2 px-1 max-w-fit"
       onMouseMove={handleHover}
       onMouseLeave={() => {
         if (!disabled) setHoverRating(null);
