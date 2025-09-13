@@ -42,12 +42,8 @@ const CollectionRoutes = {
   ],
   updateCollection: [
     passport.authenticate("jwt", { session: false }),
-    body("name").optional().trim().isLength({ min: 5 }).escape(),
-    body("description")
-      .optional({ checkFalsy: true })
-      .trim()
-      .isLength({ min: 1 })
-      .escape(),
+    body("name").optional().trim().escape(),
+    body("description").optional({ checkFalsy: true }).trim().escape(),
 
     async (req: Request, res: Response) => {
       const errors = validationResult(req);
