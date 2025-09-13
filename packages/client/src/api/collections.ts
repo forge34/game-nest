@@ -40,6 +40,9 @@ const CollectionsMutations = {
     safeFetch<CollectionWithGames>("collections", {
       method: "POST",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ name, description }),
     }),
 
@@ -52,9 +55,12 @@ const CollectionsMutations = {
     name?: string;
     description?: string;
   }) =>
-    safeFetch<{ message: string }>(`collections/${id}`, {
+    safeFetch<CollectionWithGames>(`collections/${id}`, {
       method: "PUT",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ name, description }),
     }),
 
