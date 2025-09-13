@@ -16,9 +16,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as DiscoverIndexRouteImport } from './routes/discover/index'
 import { Route as CollectionsIndexRouteImport } from './routes/collections/index'
-import { Route as UserProfileRouteImport } from './routes/user/profile'
 import { Route as DiscoverGameIdRouteImport } from './routes/discover/$gameId'
 import { Route as CollectionsCollectionIdRouteRouteImport } from './routes/collections/$collectionId/route'
+import { Route as UserUsernameProfileRouteImport } from './routes/user/$username.profile'
 import { Route as LibraryGameIdEditRouteImport } from './routes/library/$gameId.edit'
 import { Route as CollectionsCollectionIdEditRouteImport } from './routes/collections/$collectionId/edit'
 
@@ -57,11 +57,6 @@ const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
   path: '/collections/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UserProfileRoute = UserProfileRouteImport.update({
-  id: '/user/profile',
-  path: '/user/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DiscoverGameIdRoute = DiscoverGameIdRouteImport.update({
   id: '/discover/$gameId',
   path: '/discover/$gameId',
@@ -73,6 +68,11 @@ const CollectionsCollectionIdRouteRoute =
     path: '/collections/$collectionId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const UserUsernameProfileRoute = UserUsernameProfileRouteImport.update({
+  id: '/user/$username/profile',
+  path: '/user/$username/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibraryGameIdEditRoute = LibraryGameIdEditRouteImport.update({
   id: '/$gameId/edit',
   path: '/$gameId/edit',
@@ -92,12 +92,12 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
   '/discover/$gameId': typeof DiscoverGameIdRoute
-  '/user/profile': typeof UserProfileRoute
   '/collections': typeof CollectionsIndexRoute
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
   '/library/$gameId/edit': typeof LibraryGameIdEditRoute
+  '/user/$username/profile': typeof UserUsernameProfileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -106,12 +106,12 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
   '/discover/$gameId': typeof DiscoverGameIdRoute
-  '/user/profile': typeof UserProfileRoute
   '/collections': typeof CollectionsIndexRoute
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
   '/library/$gameId/edit': typeof LibraryGameIdEditRoute
+  '/user/$username/profile': typeof UserUsernameProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -121,12 +121,12 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
   '/discover/$gameId': typeof DiscoverGameIdRoute
-  '/user/profile': typeof UserProfileRoute
   '/collections/': typeof CollectionsIndexRoute
   '/discover/': typeof DiscoverIndexRoute
   '/user/': typeof UserIndexRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
   '/library/$gameId/edit': typeof LibraryGameIdEditRoute
+  '/user/$username/profile': typeof UserUsernameProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -137,12 +137,12 @@ export interface FileRouteTypes {
     | '/signup'
     | '/collections/$collectionId'
     | '/discover/$gameId'
-    | '/user/profile'
     | '/collections'
     | '/discover'
     | '/user'
     | '/collections/$collectionId/edit'
     | '/library/$gameId/edit'
+    | '/user/$username/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -151,12 +151,12 @@ export interface FileRouteTypes {
     | '/signup'
     | '/collections/$collectionId'
     | '/discover/$gameId'
-    | '/user/profile'
     | '/collections'
     | '/discover'
     | '/user'
     | '/collections/$collectionId/edit'
     | '/library/$gameId/edit'
+    | '/user/$username/profile'
   id:
     | '__root__'
     | '/'
@@ -165,12 +165,12 @@ export interface FileRouteTypes {
     | '/signup'
     | '/collections/$collectionId'
     | '/discover/$gameId'
-    | '/user/profile'
     | '/collections/'
     | '/discover/'
     | '/user/'
     | '/collections/$collectionId/edit'
     | '/library/$gameId/edit'
+    | '/user/$username/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -180,10 +180,10 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   CollectionsCollectionIdRouteRoute: typeof CollectionsCollectionIdRouteRouteWithChildren
   DiscoverGameIdRoute: typeof DiscoverGameIdRoute
-  UserProfileRoute: typeof UserProfileRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   DiscoverIndexRoute: typeof DiscoverIndexRoute
   UserIndexRoute: typeof UserIndexRoute
+  UserUsernameProfileRoute: typeof UserUsernameProfileRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -237,13 +237,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/user/profile': {
-      id: '/user/profile'
-      path: '/user/profile'
-      fullPath: '/user/profile'
-      preLoaderRoute: typeof UserProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/discover/$gameId': {
       id: '/discover/$gameId'
       path: '/discover/$gameId'
@@ -256,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/collections/$collectionId'
       fullPath: '/collections/$collectionId'
       preLoaderRoute: typeof CollectionsCollectionIdRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user/$username/profile': {
+      id: '/user/$username/profile'
+      path: '/user/$username/profile'
+      fullPath: '/user/$username/profile'
+      preLoaderRoute: typeof UserUsernameProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library/$gameId/edit': {
@@ -309,10 +309,10 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsCollectionIdRouteRoute:
     CollectionsCollectionIdRouteRouteWithChildren,
   DiscoverGameIdRoute: DiscoverGameIdRoute,
-  UserProfileRoute: UserProfileRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   DiscoverIndexRoute: DiscoverIndexRoute,
   UserIndexRoute: UserIndexRoute,
+  UserUsernameProfileRoute: UserUsernameProfileRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,9 +1,9 @@
-import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/user/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <Navigate to="/user/profile" />;
+  return <div>Nothing to see here</div>;
 }

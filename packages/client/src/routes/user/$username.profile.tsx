@@ -1,5 +1,5 @@
 import { queryClient } from "@/api";
-import { uploadProfilePic } from "@/api/user";
+import { getUserById, uploadProfilePic } from "@/api/user";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,10 +10,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import UserAvatar from "@/components/user-avatar";
-import useUser from "@/lib/hooks/use-user";
+// import useUser from "@/lib/hooks/use-user";
 import type { User } from "@game-forge/shared";
 import { Label } from "@radix-ui/react-label";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Camera,
@@ -29,13 +29,21 @@ import {
 import { useState } from "react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/user/profile")({
+export const Route = createFileRoute("/user/$username/profile")({
+  beforeLoad: async ({ params, context }) => {
+    const data = await context.queryClient.ensureQueryData(
+      getUserById(params.username),
+    );
+
+    return data;
+  },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { user } = useUser();
-
+  // const { user: authUser } = useUser();
+  const { username } = Route.useParams();
+  const { data: user } = useQuery(getUserById(username));
   if (!user) return null;
 
   const totalGames = user.library.length;
@@ -74,8 +82,7 @@ function RouteComponent() {
         <Separator />
         <div className="bg-card rounded-md border py-2 px-3 my-2">
           <p className="text-sm leading-relaxed text-wrap">
-            {user.bio ||
-              "Passionate gamer exploring virtual worlds since 2010. Love RPGs, indie games, and competitive shooters. Always hunting for hidden gems and building the ultimate game collection."}
+            {user.bio || "No bio"}
           </p>
         </div>
       </div>
