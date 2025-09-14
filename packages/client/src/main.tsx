@@ -10,7 +10,7 @@ import { queryClient } from "./api";
 import { Toaster } from "./components/ui/sonner";
 
 // Create a new router instance
-const router = createRouter({
+export const router = createRouter({
   routeTree,
   context: {
     queryClient,

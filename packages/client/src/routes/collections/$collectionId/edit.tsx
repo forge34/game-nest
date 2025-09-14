@@ -27,8 +27,12 @@ import {
   FormControl,
   Form,
 } from "@/components/ui/form";
-import { useUpdateCollection } from "@/lib/hooks/use-collections";
+import {
+  useDeleteCollection,
+  useUpdateCollection,
+} from "@/lib/hooks/use-collections";
 import useUser from "@/lib/hooks/use-user";
+import { Trash } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().max(32),
@@ -48,7 +52,7 @@ function RouteComponent() {
   const { collectionId } = Route.useParams();
   const update = useUpdateCollection(collectionId);
   const { user } = useUser();
-
+  const deleteMutation = useDeleteCollection(collectionId);
   if (!user) {
     return <Navigate to=".." />;
   }
@@ -65,7 +69,18 @@ function RouteComponent() {
         onInteractOutside={() => navigate({ to: ".." })}
       >
         <DialogHeader>
-          <DialogTitle>Edit collection</DialogTitle>
+          <div className="flex flex-row justify-between">
+            <DialogTitle>Edit collection</DialogTitle>
+            <Button
+              onClick={() => {
+                deleteMutation.mutate(collectionId);
+              }}
+              variant={"destructive"}
+              className="hover:scale-105 transition-transform delay-50 duration-200"
+            >
+              <Trash />
+            </Button>
+          </div>
           <DialogDescription>
             Make changes to your collection here. Click save when you&apos;re
             done.

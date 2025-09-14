@@ -4,6 +4,7 @@ import {
   CollectionsQueries,
   type CollectionPagination,
 } from "@/api/collections";
+import { router } from "@/main";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -39,8 +40,15 @@ function useUpdateCollection(id: string) {
   });
 }
 
-function useDeleteCollection() {
-  return useMutation({ mutationFn: CollectionsMutations.deleteCollection });
+function useDeleteCollection(id: string) {
+  return useMutation({
+    mutationFn: CollectionsMutations.deleteCollection,
+    onSuccess: () => {
+      toast.success("Collection updated sucessfully");
+      queryClient.invalidateQueries({ queryKey: ["collections", id] });
+      router.navigate({ to: "/collections" });
+    },
+  });
 }
 
 function useCreateCollection() {
