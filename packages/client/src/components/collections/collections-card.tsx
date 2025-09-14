@@ -1,7 +1,8 @@
 import { cn, getCoverPreviewLinks } from "@/lib/utils";
 import type { CollectionWithGames } from "@game-forge/shared";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Link } from "@tanstack/react-router";
+import CollectionPreview from "./collection-preview";
 
 type CollectionCardProps = {
   collection: CollectionWithGames;
@@ -19,7 +20,7 @@ function CollectionCard({ collection, className }: CollectionCardProps) {
         className,
       )}
     >
-      <CoverPreview links={coverPreview} />
+      <CollectionPreview links={coverPreview} />
       <h3 className="text-sm mt-1 text-center font-semibold truncate">
         {collection.name}
       </h3>
@@ -35,34 +36,4 @@ function CollectionCard({ collection, className }: CollectionCardProps) {
   );
 }
 
-function CoverPreview({ links }: { links: string[] }) {
-  const fanAngle = 12;
-  const center = Math.floor(links.length / 2);
-
-  return (
-    <div className="relative aspect-[3/4] w-full flex items-center justify-center">
-      {links.map((link, i) => {
-        const offset = i - center;
-        return (
-          <div
-            key={i}
-            className="absolute rounded-md overflow-hidden shadow-md border border-border"
-            style={{
-              width: "85%",
-              height: "auto",
-              transform: `translateX(${offset * 18}px) rotate(${offset * fanAngle}deg) scale(0.9)`,
-              zIndex: links.length - i,
-            }}
-          >
-            <img
-              src={link.replace("t_thumb", "t_original")}
-              alt={`Game preview ${i + 1}`}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
 export default CollectionCard;

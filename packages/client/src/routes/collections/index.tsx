@@ -1,5 +1,5 @@
 import { CollectionsQueries } from "@/api/collections";
-import CollectionCard from "@/components/collections-card";
+import CollectionCard from "@/components/collections/collections-card";
 import Pagination from "@/components/pagination";
 import { useGetCollections } from "@/lib/hooks/use-collections";
 import {
