@@ -15,7 +15,6 @@ import {
   DialogTrigger,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 // import useUser from "@/lib/hooks/use-user";
 //
@@ -54,16 +53,14 @@ function RouteComponent() {
         <ProfilePicture user={user} />
       </div>
 
-      <div className="max-w-2xl flex flex-col gap-y-1 mt-4">
-        <h3 className="text-muted-foreground font-light">About me</h3>
-        <Separator />
-        <div className="bg-card rounded-md border py-2 px-3 my-2">
+      <div className="flex gap-4">
+        <div className="bg-card rounded-md border py-2 px-3 my-2 w-64 max-w-[45%] max-h-fit">
           <p className="text-sm leading-relaxed text-wrap">
             {user.bio || "No bio"}
           </p>
         </div>
+        <Outlet />
       </div>
-      <Outlet />
     </div>
   );
 }

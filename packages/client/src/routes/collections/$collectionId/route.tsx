@@ -56,11 +56,18 @@ function RouteComponent() {
           </span>
           <p className="text-sm text-muted-foreground">{games.length} Games</p>
           {authUser && (
-            <Button asChild>
-              <Link to="./edit" from={Route.path}>
-                Edit Collection
-              </Link>
-            </Button>
+            <>
+              <Button asChild>
+                <Link to="./edit" from={Route.path}>
+                  Edit Collection
+                </Link>
+              </Button>
+              <Button asChild>
+                <Link to="./add-game" from={Route.path}>
+                  Add a game to collection
+                </Link>
+              </Button>
+            </>
           )}
         </div>
       </div>

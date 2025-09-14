@@ -36,7 +36,7 @@ const UsersRoute = {
             },
           },
           collections: {
-            select: {
+            include: {
               games: {
                 take: 3,
                 select: {
@@ -59,7 +59,12 @@ const UsersRoute = {
         },
       });
 
-      res.status(200).json(user);
+      const collections = user.collections.map((c) => ({
+        ...c,
+        games: c.games.map((g) => g.game),
+      }));
+      const formatted = { ...user , collections : collections };
+      res.status(200).json(formatted);
     },
   ],
   getUserCollections: [

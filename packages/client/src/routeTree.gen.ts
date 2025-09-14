@@ -9,29 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SignupRouteImport } from './routes/signup'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as LibraryRouteRouteImport } from './routes/library/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as DiscoverIndexRouteImport } from './routes/discover/index'
 import { Route as CollectionsIndexRouteImport } from './routes/collections/index'
 import { Route as DiscoverGameIdRouteImport } from './routes/discover/$gameId'
+import { Route as authSignupRouteImport } from './routes/(auth)/signup'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as UserUsernameRouteRouteImport } from './routes/user/$username/route'
 import { Route as CollectionsCollectionIdRouteRouteImport } from './routes/collections/$collectionId/route'
-import { Route as UserUsernameProfileRouteImport } from './routes/user/$username.profile'
+import { Route as UserUsernameProfileRouteImport } from './routes/user/$username/profile'
+import { Route as UserUsernameCollectionsRouteImport } from './routes/user/$username/collections'
 import { Route as LibraryGameIdEditRouteImport } from './routes/library/$gameId.edit'
 import { Route as CollectionsCollectionIdEditRouteImport } from './routes/collections/$collectionId/edit'
+import { Route as CollectionsCollectionIdAddGameRouteImport } from './routes/collections/$collectionId/add-game'
+import { Route as UserUsernameCollectionsAddRouteImport } from './routes/user/$username/collections.add'
 
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LibraryRouteRoute = LibraryRouteRouteImport.update({
   id: '/library',
   path: '/library',
@@ -62,6 +56,21 @@ const DiscoverGameIdRoute = DiscoverGameIdRouteImport.update({
   path: '/discover/$gameId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authSignupRoute = authSignupRouteImport.update({
+  id: '/(auth)/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserUsernameRouteRoute = UserUsernameRouteRouteImport.update({
+  id: '/user/$username',
+  path: '/user/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CollectionsCollectionIdRouteRoute =
   CollectionsCollectionIdRouteRouteImport.update({
     id: '/collections/$collectionId',
@@ -69,9 +78,14 @@ const CollectionsCollectionIdRouteRoute =
     getParentRoute: () => rootRouteImport,
   } as any)
 const UserUsernameProfileRoute = UserUsernameProfileRouteImport.update({
-  id: '/user/$username/profile',
-  path: '/user/$username/profile',
-  getParentRoute: () => rootRouteImport,
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => UserUsernameRouteRoute,
+} as any)
+const UserUsernameCollectionsRoute = UserUsernameCollectionsRouteImport.update({
+  id: '/collections',
+  path: '/collections',
+  getParentRoute: () => UserUsernameRouteRoute,
 } as any)
 const LibraryGameIdEditRoute = LibraryGameIdEditRouteImport.update({
   id: '/$gameId/edit',
@@ -84,124 +98,146 @@ const CollectionsCollectionIdEditRoute =
     path: '/edit',
     getParentRoute: () => CollectionsCollectionIdRouteRoute,
   } as any)
+const CollectionsCollectionIdAddGameRoute =
+  CollectionsCollectionIdAddGameRouteImport.update({
+    id: '/add-game',
+    path: '/add-game',
+    getParentRoute: () => CollectionsCollectionIdRouteRoute,
+  } as any)
+const UserUsernameCollectionsAddRoute =
+  UserUsernameCollectionsAddRouteImport.update({
+    id: '/add',
+    path: '/add',
+    getParentRoute: () => UserUsernameCollectionsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/library': typeof LibraryRouteRouteWithChildren
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
+  '/user/$username': typeof UserUsernameRouteRouteWithChildren
+  '/login': typeof authLoginRoute
+  '/signup': typeof authSignupRoute
   '/discover/$gameId': typeof DiscoverGameIdRoute
   '/collections': typeof CollectionsIndexRoute
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
+  '/collections/$collectionId/add-game': typeof CollectionsCollectionIdAddGameRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
   '/library/$gameId/edit': typeof LibraryGameIdEditRoute
+  '/user/$username/collections': typeof UserUsernameCollectionsRouteWithChildren
   '/user/$username/profile': typeof UserUsernameProfileRoute
+  '/user/$username/collections/add': typeof UserUsernameCollectionsAddRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/library': typeof LibraryRouteRouteWithChildren
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
+  '/user/$username': typeof UserUsernameRouteRouteWithChildren
+  '/login': typeof authLoginRoute
+  '/signup': typeof authSignupRoute
   '/discover/$gameId': typeof DiscoverGameIdRoute
   '/collections': typeof CollectionsIndexRoute
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
+  '/collections/$collectionId/add-game': typeof CollectionsCollectionIdAddGameRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
   '/library/$gameId/edit': typeof LibraryGameIdEditRoute
+  '/user/$username/collections': typeof UserUsernameCollectionsRouteWithChildren
   '/user/$username/profile': typeof UserUsernameProfileRoute
+  '/user/$username/collections/add': typeof UserUsernameCollectionsAddRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/library': typeof LibraryRouteRouteWithChildren
-  '/login': typeof LoginRoute
-  '/signup': typeof SignupRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
+  '/user/$username': typeof UserUsernameRouteRouteWithChildren
+  '/(auth)/login': typeof authLoginRoute
+  '/(auth)/signup': typeof authSignupRoute
   '/discover/$gameId': typeof DiscoverGameIdRoute
   '/collections/': typeof CollectionsIndexRoute
   '/discover/': typeof DiscoverIndexRoute
   '/user/': typeof UserIndexRoute
+  '/collections/$collectionId/add-game': typeof CollectionsCollectionIdAddGameRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
   '/library/$gameId/edit': typeof LibraryGameIdEditRoute
+  '/user/$username/collections': typeof UserUsernameCollectionsRouteWithChildren
   '/user/$username/profile': typeof UserUsernameProfileRoute
+  '/user/$username/collections/add': typeof UserUsernameCollectionsAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/library'
+    | '/collections/$collectionId'
+    | '/user/$username'
     | '/login'
     | '/signup'
-    | '/collections/$collectionId'
     | '/discover/$gameId'
     | '/collections'
     | '/discover'
     | '/user'
+    | '/collections/$collectionId/add-game'
     | '/collections/$collectionId/edit'
     | '/library/$gameId/edit'
+    | '/user/$username/collections'
     | '/user/$username/profile'
+    | '/user/$username/collections/add'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/library'
+    | '/collections/$collectionId'
+    | '/user/$username'
     | '/login'
     | '/signup'
-    | '/collections/$collectionId'
     | '/discover/$gameId'
     | '/collections'
     | '/discover'
     | '/user'
+    | '/collections/$collectionId/add-game'
     | '/collections/$collectionId/edit'
     | '/library/$gameId/edit'
+    | '/user/$username/collections'
     | '/user/$username/profile'
+    | '/user/$username/collections/add'
   id:
     | '__root__'
     | '/'
     | '/library'
-    | '/login'
-    | '/signup'
     | '/collections/$collectionId'
+    | '/user/$username'
+    | '/(auth)/login'
+    | '/(auth)/signup'
     | '/discover/$gameId'
     | '/collections/'
     | '/discover/'
     | '/user/'
+    | '/collections/$collectionId/add-game'
     | '/collections/$collectionId/edit'
     | '/library/$gameId/edit'
+    | '/user/$username/collections'
     | '/user/$username/profile'
+    | '/user/$username/collections/add'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LibraryRouteRoute: typeof LibraryRouteRouteWithChildren
-  LoginRoute: typeof LoginRoute
-  SignupRoute: typeof SignupRoute
   CollectionsCollectionIdRouteRoute: typeof CollectionsCollectionIdRouteRouteWithChildren
+  UserUsernameRouteRoute: typeof UserUsernameRouteRouteWithChildren
+  authLoginRoute: typeof authLoginRoute
+  authSignupRoute: typeof authSignupRoute
   DiscoverGameIdRoute: typeof DiscoverGameIdRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   DiscoverIndexRoute: typeof DiscoverIndexRoute
   UserIndexRoute: typeof UserIndexRoute
-  UserUsernameProfileRoute: typeof UserUsernameProfileRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/library': {
       id: '/library'
       path: '/library'
@@ -244,6 +280,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiscoverGameIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(auth)/signup': {
+      id: '/(auth)/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof authSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user/$username': {
+      id: '/user/$username'
+      path: '/user/$username'
+      fullPath: '/user/$username'
+      preLoaderRoute: typeof UserUsernameRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/collections/$collectionId': {
       id: '/collections/$collectionId'
       path: '/collections/$collectionId'
@@ -253,10 +310,17 @@ declare module '@tanstack/react-router' {
     }
     '/user/$username/profile': {
       id: '/user/$username/profile'
-      path: '/user/$username/profile'
+      path: '/profile'
       fullPath: '/user/$username/profile'
       preLoaderRoute: typeof UserUsernameProfileRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof UserUsernameRouteRoute
+    }
+    '/user/$username/collections': {
+      id: '/user/$username/collections'
+      path: '/collections'
+      fullPath: '/user/$username/collections'
+      preLoaderRoute: typeof UserUsernameCollectionsRouteImport
+      parentRoute: typeof UserUsernameRouteRoute
     }
     '/library/$gameId/edit': {
       id: '/library/$gameId/edit'
@@ -271,6 +335,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/collections/$collectionId/edit'
       preLoaderRoute: typeof CollectionsCollectionIdEditRouteImport
       parentRoute: typeof CollectionsCollectionIdRouteRoute
+    }
+    '/collections/$collectionId/add-game': {
+      id: '/collections/$collectionId/add-game'
+      path: '/add-game'
+      fullPath: '/collections/$collectionId/add-game'
+      preLoaderRoute: typeof CollectionsCollectionIdAddGameRouteImport
+      parentRoute: typeof CollectionsCollectionIdRouteRoute
+    }
+    '/user/$username/collections/add': {
+      id: '/user/$username/collections/add'
+      path: '/add'
+      fullPath: '/user/$username/collections/add'
+      preLoaderRoute: typeof UserUsernameCollectionsAddRouteImport
+      parentRoute: typeof UserUsernameCollectionsRoute
     }
   }
 }
@@ -288,11 +366,13 @@ const LibraryRouteRouteWithChildren = LibraryRouteRoute._addFileChildren(
 )
 
 interface CollectionsCollectionIdRouteRouteChildren {
+  CollectionsCollectionIdAddGameRoute: typeof CollectionsCollectionIdAddGameRoute
   CollectionsCollectionIdEditRoute: typeof CollectionsCollectionIdEditRoute
 }
 
 const CollectionsCollectionIdRouteRouteChildren: CollectionsCollectionIdRouteRouteChildren =
   {
+    CollectionsCollectionIdAddGameRoute: CollectionsCollectionIdAddGameRoute,
     CollectionsCollectionIdEditRoute: CollectionsCollectionIdEditRoute,
   }
 
@@ -301,18 +381,45 @@ const CollectionsCollectionIdRouteRouteWithChildren =
     CollectionsCollectionIdRouteRouteChildren,
   )
 
+interface UserUsernameCollectionsRouteChildren {
+  UserUsernameCollectionsAddRoute: typeof UserUsernameCollectionsAddRoute
+}
+
+const UserUsernameCollectionsRouteChildren: UserUsernameCollectionsRouteChildren =
+  {
+    UserUsernameCollectionsAddRoute: UserUsernameCollectionsAddRoute,
+  }
+
+const UserUsernameCollectionsRouteWithChildren =
+  UserUsernameCollectionsRoute._addFileChildren(
+    UserUsernameCollectionsRouteChildren,
+  )
+
+interface UserUsernameRouteRouteChildren {
+  UserUsernameCollectionsRoute: typeof UserUsernameCollectionsRouteWithChildren
+  UserUsernameProfileRoute: typeof UserUsernameProfileRoute
+}
+
+const UserUsernameRouteRouteChildren: UserUsernameRouteRouteChildren = {
+  UserUsernameCollectionsRoute: UserUsernameCollectionsRouteWithChildren,
+  UserUsernameProfileRoute: UserUsernameProfileRoute,
+}
+
+const UserUsernameRouteRouteWithChildren =
+  UserUsernameRouteRoute._addFileChildren(UserUsernameRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LibraryRouteRoute: LibraryRouteRouteWithChildren,
-  LoginRoute: LoginRoute,
-  SignupRoute: SignupRoute,
   CollectionsCollectionIdRouteRoute:
     CollectionsCollectionIdRouteRouteWithChildren,
+  UserUsernameRouteRoute: UserUsernameRouteRouteWithChildren,
+  authLoginRoute: authLoginRoute,
+  authSignupRoute: authSignupRoute,
   DiscoverGameIdRoute: DiscoverGameIdRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   DiscoverIndexRoute: DiscoverIndexRoute,
   UserIndexRoute: UserIndexRoute,
-  UserUsernameProfileRoute: UserUsernameProfileRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

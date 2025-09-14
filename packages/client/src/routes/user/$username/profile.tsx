@@ -44,7 +44,7 @@ function RouteComponent() {
     user.library.reduce((acc, g) => acc + (g.rating || 0), 0) / totalGames || 0;
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4  justify-between w-full">
       <StatCard
         icon={<Check />}
         iconColor="text-green-500"

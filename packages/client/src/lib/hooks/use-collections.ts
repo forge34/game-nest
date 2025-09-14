@@ -54,6 +54,11 @@ function useDeleteCollection(id: string) {
 function useCreateCollection() {
   return useMutation({
     mutationFn: CollectionsMutations.createCollection,
+    onSuccess: () => {
+      toast.success("Collection created sucessfully");
+      queryClient.invalidateQueries({});
+      router.navigate({ to: ".." });
+    },
   });
 }
 

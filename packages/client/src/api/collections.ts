@@ -36,7 +36,13 @@ const CollectionsQueries = {
 };
 
 const CollectionsMutations = {
-  createCollection: (name: string, description?: string) =>
+  createCollection: ({
+    name,
+    description,
+  }: {
+    name: string;
+    description?: string;
+  }) =>
     safeFetch<CollectionWithGames>("collections", {
       method: "POST",
       credentials: "include",

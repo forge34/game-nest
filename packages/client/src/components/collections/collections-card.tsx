@@ -7,10 +7,15 @@ import CollectionPreview from "./collection-preview";
 type CollectionCardProps = {
   collection: CollectionWithGames;
   className?: string;
+  showEmpty?: boolean;
 };
 
-function CollectionCard({ collection, className }: CollectionCardProps) {
-  if (!collection || collection.games.length === 0) return null;
+function CollectionCard({
+  collection,
+  className,
+  showEmpty = false,
+}: CollectionCardProps) {
+  if ((!collection || collection.games.length === 0) && !showEmpty) return null;
 
   const coverPreview = getCoverPreviewLinks(collection.games) || [];
   return (

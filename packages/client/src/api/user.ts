@@ -1,5 +1,5 @@
 import { safeFetch } from "@/lib/utils";
-import type { User } from "@game-forge/shared";
+import type { CollectionWithGames, Library, User } from "@game-forge/shared";
 import { queryOptions } from "@tanstack/react-query";
 
 const addReviewFn = (gameId: string, reviewbody: string) => {
@@ -25,7 +25,11 @@ const uploadProfilePic = (img: File) => {
 const getUserById = (username: string) =>
   queryOptions({
     queryKey: ["user", username],
-    queryFn: () => safeFetch<User>(`users/${username}`, {}),
+    queryFn: () =>
+      safeFetch<User & { collections: CollectionWithGames[] ,library: Library}>(
+        `users/${username}`,
+        {},
+      ),
   });
 
 export { addReviewFn, uploadProfilePic, getUserById };
