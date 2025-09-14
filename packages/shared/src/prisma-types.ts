@@ -1,5 +1,5 @@
 import { gameIncludes } from "./constants";
-import type { Prisma } from "@game-forge/prisma/generated/prisma";
+import type { Prisma } from "@game-forge/prisma/generated";
 
 export type Game = Prisma.GameGetPayload<{
   include: typeof gameIncludes;

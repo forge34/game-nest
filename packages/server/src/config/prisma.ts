@@ -16,6 +16,7 @@ const prisma = new PrismaClient({
       password: true,
     },
   },
+  log: [{ emit: "stdout", level: "query" }],
 });
 
 export default prisma;
