@@ -11,16 +11,24 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useLogin } from "@/api/auth";
+import { useSign } from "@/api/auth";
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  password: z.string().min(8, {}),
-});
+const formSchema = z
+  .object({
+    username: z.string().min(2, {
+      message: "Username must be at least 2 characters.",
+    }),
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
+    confirmPassword: z.string(),
+  })
+  .refine((values) => {
+    return values.password === values.confirmPassword;
+  }, "Passwords do not match!");
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/(auth)/signup")({
   component: RouteComponent,
 });
 
@@ -30,18 +38,19 @@ function RouteComponent() {
     defaultValues: {
       username: "",
       password: "",
+      confirmPassword: "",
+      email: "",
     },
   });
-
-  const login = useLogin();
+  const signup = useSign();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    login.mutate(values);
+    signup.mutate(values);
   }
 
   return (
-    <div className="flex flex-col gap-4 w-fit mx-auto my-16 bg-card py-4 px-6 rounded-md border">
-      <h3 className="text-lg font-bold ">Login</h3>
+    <div className="flex flex-col gap-4 w-fit mx-auto my-8 bg-card py-4 px-6 rounded-md border">
+      <h3 className="text-lg font-bold ">Create Account</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
           <FormField
@@ -58,6 +67,19 @@ function RouteComponent() {
           />
           <FormField
             control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="at@gmail.com" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem>
@@ -68,10 +90,25 @@ function RouteComponent() {
               </FormItem>
             )}
           />
-
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Confirm Password"
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
           <Button type="submit">Submit</Button>
           <Button type="button" variant="outline" className="ml-6">
-            <Link to="/signup">don't have account? Create one!</Link>
+            <Link to="/login">Already have account? Login</Link>
           </Button>
         </form>
       </Form>
