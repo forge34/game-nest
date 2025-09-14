@@ -2,9 +2,20 @@ import { gameIncludes, mappedSort, SortOptions } from "@game-forge/shared";
 import prisma from "../config/prisma";
 import { Response, Request } from "express";
 import { toArray } from "../utils";
-import { Prisma } from "@game-forge/prisma/generated/prisma";
+import { Prisma } from "@game-forge/prisma/generated";
+import textSearch from "@game-forge/prisma/generated/sql";
 
 const GamesRoute = {
+  searchGame: [
+    async (req: Request, res: Response) => {
+      const term = req.query.term;
+
+      const result = await prisma.$queryRawTyped(
+        textSearch.textSearch(term.toString()),
+      );
+      res.status(200).json(result);
+    },
+  ],
   findMany: async (req: Request, res: Response) => {
     const page = Number(req.query.page) || 1;
     const genre = toArray<string>(req.query.genre as string[]);

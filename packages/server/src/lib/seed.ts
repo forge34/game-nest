@@ -1,4 +1,4 @@
-import { PrismaClient } from "@game-forge/prisma/generated/prisma";
+import { PrismaClient } from "@game-forge/prisma/generated";
 import { type Game } from "./seed-types";
 import { fetchIGDB, getClient } from "./igdb";
 import { fetchData, storeData } from "./utils";

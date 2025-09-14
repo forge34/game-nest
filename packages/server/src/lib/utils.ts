@@ -1,4 +1,4 @@
-import { PrismaClient } from "@game-forge/prisma/generated/prisma";
+import { PrismaClient } from "@game-forge/prisma/generated";
 import { fetchIGDB } from "./igdb";
 import {
   AgeRating,

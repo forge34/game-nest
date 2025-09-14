@@ -15,6 +15,7 @@ router.post("/login", AuthRoute.login);
 router.get("/me", UsersRoute.getMe);
 
 router.get("/games", GamesRoute.findMany);
+router.get("/games/search" ,GamesRoute.searchGame)
 router.get("/games/:id", GamesRoute.findOneById);
 router.get("/genres", GamesRoute.genresFindMany);
 router.get("/platforms", GamesRoute.platformFindMany);
