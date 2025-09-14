@@ -19,9 +19,22 @@ const getAllGames = (filters?: Partial<FilterState>) =>
       parsed.platforms.forEach((p) => params.append("platform", p));
       params.set("sort", parsed.sort);
       params.set("page", parsed.page.toString());
-      params.set("limit",parsed.limit.toString())
+      params.set("limit", parsed.limit.toString());
       return safeFetch<{ games: Game[]; total: number }>(
         `games?${params.toString()}`,
+        {},
+      );
+    },
+  });
+
+const searchGame = (term: string) =>
+  queryOptions({
+    queryKey: ["games", term],
+    queryFn: () => {
+      const params = new URLSearchParams();
+      params.set("term", term.toString());
+      return safeFetch<{ id:string, title: string; coverUrl: string; releaseDate: Date }[]>(
+        `games/search?${params.toString()}`,
         {},
       );
     },
@@ -58,4 +71,11 @@ const getLibrary = () =>
     },
   });
 
-export { getAllGames, getGameById, getAllGenres, getLibrary, getAllPlatforms };
+export {
+  getAllGames,
+  getGameById,
+  getAllGenres,
+  getLibrary,
+  getAllPlatforms,
+  searchGame,
+};

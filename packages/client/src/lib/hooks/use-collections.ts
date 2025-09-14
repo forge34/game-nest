@@ -62,9 +62,13 @@ function useCreateCollection() {
   });
 }
 
-function useAddGameToCollection() {
+function useAddGameToCollection(id: string) {
   return useMutation({
     mutationFn: CollectionsMutations.addGameToCollection,
+    onSuccess: () => {
+      toast.success("Game added to collection updated ");
+      queryClient.invalidateQueries({ queryKey: ["collections", id] });
+    },
   });
 }
 

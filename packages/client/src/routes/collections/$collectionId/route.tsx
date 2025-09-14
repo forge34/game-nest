@@ -40,9 +40,12 @@ function RouteComponent() {
       <div className="flex flex-col md:flex-row">
         <div className="flex flex-col gap-4">
           <h1 className="font-semibold text-4xl ">{data.name}</h1>
-          <p className="font-light text-muted-foreground">
+          <p className="font-light text-muted-foreground h-full">
             {data.description ?? "No description"}
           </p>
+          <div className="min-w-full">
+            <Outlet />
+          </div>
         </div>
         <div className="flex flex-col gap-2 md:ml-auto py-2 px-4 border rounded-md">
           <UserProfileLink avatarUrl={user.avatarUrl} username={user.name} />
@@ -87,7 +90,7 @@ function RouteComponent() {
               }
             }}
           >
-            <span className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center text-lg font-semibold text-white">
+            <span className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center text-sm font-semibold text-white">
               {game.title}
               <Button asChild>
                 <Link
@@ -101,7 +104,6 @@ function RouteComponent() {
           </HoverCard>
         ))}
       </div>
-      <Outlet />
     </div>
   );
 }
