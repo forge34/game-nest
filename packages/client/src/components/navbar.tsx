@@ -1,4 +1,3 @@
-import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import useMedia, { media } from "@/lib/hooks/use-media";
 import { Link } from "@tanstack/react-router";
@@ -27,6 +26,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import UserAvatar from "./user-avatar";
 import useUser from "@/lib/hooks/use-user";
+import { ModeToggle } from "./ui/mode-toggle";
 
 function Navbar() {
   const { user } = useUser();
