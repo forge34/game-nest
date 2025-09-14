@@ -9,6 +9,8 @@
   "scripts": {
     "dev:client": "pnpm --filter ./packages/client dev",
     "dev:server": "pnpm --filter ./packages/server dev",
+    "build:client": "pnpm --filter ./packages/client build",
+    "build:server": "pnpm --filter ./packages/server build",
     "test:server": "pnpm --filter ./packages/server test",
     "db:push": "pnpm --filter ./packages/server db:push",
     "db:reset": "pnpm --filter ./packages/server db:push --force-reset",

@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { User } from "@game-forge/prisma/generated/prisma";
 import jwt from "jsonwebtoken";
 import passport from "passport";
+import rateLimit from "express-rate-limit";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -65,6 +66,11 @@ const AuthRoute = {
   ],
 
   login: [
+    rateLimit({
+      windowMs: 15 * 60 * 1000,
+      max: 5,
+      message: "Too many login attempts, try again later.",
+    }),
     oneOf([nameValidation("username"), body("email").isEmail()]),
     body("password")
       .trim()

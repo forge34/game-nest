@@ -6,8 +6,8 @@ import morgan from "morgan";
 import router from "./routes/index";
 import { configJwt, configLocal } from "./config/passport";
 import passport from "passport";
-import { Prisma } from "@game-forge/prisma/generated/prisma";
 import compression from "compression";
+import rateLimit from "express-rate-limit";
 
 const app: Express = express();
 
@@ -21,12 +21,20 @@ export const corsOptions: CorsOptions = {
   allowedHeaders: ["Content-type"],
 };
 
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: "Too many requests from this IP, please try again later.",
+});
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(apiLimiter);
 
 configLocal();
 configJwt();
