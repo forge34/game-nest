@@ -4,7 +4,7 @@ import {
   type FilterState,
   type Game,
   type Genre,
-} from "@game-forge/shared";
+} from "@gridcollect/shared";
 import {
   createFileRoute,
   Link,

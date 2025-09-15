@@ -3,7 +3,7 @@ import StarRating from "./star-rating";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import UserAvatar from "./user-avatar";
-import type { Review as ReviewType, UserGame } from "@game-forge/shared";
+import type { Review as ReviewType, UserGame } from "@gridcollect/shared";
 import useReviews from "@/lib/hooks/use-reviews";
 import { useState } from "react";
 import Review from "./review";

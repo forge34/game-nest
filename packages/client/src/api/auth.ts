@@ -1,5 +1,5 @@
 import { safeFetch, type RouteError } from "@/lib/utils";
-import type { User } from "@game-forge/shared";
+import type { User } from "@gridcollect/shared";
 import { queryOptions, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";

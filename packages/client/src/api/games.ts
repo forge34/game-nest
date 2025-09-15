@@ -6,7 +6,7 @@ import {
   type Genre,
   type Library,
   type Platform,
-} from "@game-forge/shared";
+} from "@gridcollect/shared";
 import { queryOptions } from "@tanstack/react-query";
 
 const getAllGames = (filters?: Partial<FilterState>) =>

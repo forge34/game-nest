@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import passport from "passport";
 import prisma from "../config/prisma";
-import { User } from "@game-forge/prisma/generated/client";
-import { gameIncludes } from "@game-forge/shared";
+import { User } from "@gridcollect/prisma/generated/client";
+import { gameIncludes } from "@gridcollect/shared";
 import { body, validationResult } from "express-validator";
 import multer from "multer";
 import { uploadImage } from "../config/cloudinary";

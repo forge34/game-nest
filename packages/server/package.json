@@ -1,5 +1,5 @@
 {
-  "name": "@game-forge/server",
+  "name": "@gridcollect/server",
   "version": "1.0.0",
   "scripts": {
     "test": "NODE_ENV=test && vitest",
@@ -32,8 +32,8 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "@game-forge/prisma": "workspace:^",
-    "@game-forge/shared": "workspace:^"
+    "@gridcollect/prisma": "workspace:^",
+    "@gridcollect/shared": "workspace:^"
   },
   "devDependencies": {
     "@types/compression": "^1.8.1",

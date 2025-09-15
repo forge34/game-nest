@@ -1,5 +1,5 @@
 import useLibrary, { GameStatus } from "@/lib/hooks/use-library";
-import { type Library } from "@game-forge/shared";
+import { type Library } from "@gridcollect/shared";
 import { DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";

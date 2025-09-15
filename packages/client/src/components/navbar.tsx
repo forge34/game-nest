@@ -17,7 +17,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
-import type { User } from "@game-forge/shared";
+import type { User } from "@gridcollect/shared";
 import { cn } from "@/lib/utils";
 import { DropdownMenu, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import {
@@ -126,7 +126,7 @@ function NavbarDesktop({ user }: { user?: User | null }) {
   return (
     <nav>
       <div className="flex py-2 border px-4 gap-2 items-center justify-between flex-wrap">
-        <h3 className="text-2xl font-logo">GameNest</h3>
+        <h3 className="text-2xl font-logo">GridCollect</h3>
 
         <span className="flex flex-row self-center">
           <Button variant="link" asChild>
@@ -171,7 +171,7 @@ function NavbarMobile({ user }: { user?: User | null }) {
         className="flex py-2 border px-4 items-center gap-2 justify-between flex-wrap"
         openOnClick
       >
-        <h3 className="text-2xl font-logo">GameNest</h3>
+        <h3 className="text-2xl font-logo">GridCollect</h3>
 
         <span className="flex flex-row self-center">
           <Button variant="link" asChild>

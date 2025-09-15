@@ -6,7 +6,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import useLibrary from "@/lib/hooks/use-library";
-import type { Game } from "@game-forge/shared";
+import type { Game } from "@gridcollect/shared";
 import { useNavigate } from "@tanstack/react-router";
 
 type props = React.ComponentProps<"button"> & {

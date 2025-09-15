@@ -19,7 +19,7 @@ import GameRating from "@/components/game-rating";
 import HeartBtn from "@/components/heart-btn";
 import useLibrary from "@/lib/hooks/use-library";
 import AddToLibraryButton from "@/components/add-to-library-btn";
-import type { Game, User } from "@game-forge/shared";
+import type { Game, User } from "@gridcollect/shared";
 import { Separator } from "@/components/ui/separator";
 import useUser from "@/lib/hooks/use-user";
 import ReviewInput from "@/components/review-input";

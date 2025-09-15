@@ -1,7 +1,7 @@
 import { queryClient } from "@/api";
 import { getLibrary } from "@/api/games";
 import { safeFetch } from "@/lib/utils";
-import type { Game } from "@game-forge/shared";
+import type { Game } from "@gridcollect/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import useUser from "./use-user";

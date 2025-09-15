@@ -1,5 +1,5 @@
 {
-  "name": "game-forge",
+  "name": "gridcollect",
   "version": "1.0.0",
   "description": "game library project , kinda similar to steam",
   "private": true,
@@ -14,8 +14,8 @@
     "test:server": "pnpm --filter ./packages/server test",
     "db:push": "pnpm --filter ./packages/prisma db:push",
     "db:reset": "pnpm --filter ./packages/prisma db:push --force-reset",
-    "db:generate": "pnpm --filter @game-forge/prisma db:generate && pnpm build:types",
-    "build:types": "pnpm --filter @game-forge/shared build"
+    "db:generate": "pnpm --filter @gridcollect/prisma db:generate && pnpm build:types",
+    "build:types": "pnpm --filter @gridcollect/shared build"
   },
   "devDependencies": {
     "typescript": "^5.9.2"

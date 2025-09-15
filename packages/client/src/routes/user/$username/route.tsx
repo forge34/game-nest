@@ -3,7 +3,7 @@ import { getUserById, uploadProfilePic } from "@/api/user";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import UserAvatar from "@/components/user-avatar";
-import type { User } from "@game-forge/shared";
+import type { User } from "@gridcollect/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Camera } from "lucide-react";

@@ -1,5 +1,5 @@
 import { cn, getCoverPreviewLinks } from "@/lib/utils";
-import type { CollectionWithGames } from "@game-forge/shared";
+import type { CollectionWithGames } from "@gridcollect/shared";
 import { Button } from "../ui/button";
 import { Link } from "@tanstack/react-router";
 import CollectionPreview from "./collection-preview";

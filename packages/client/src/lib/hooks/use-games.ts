@@ -1,5 +1,5 @@
 import { getAllGames } from "@/api/games";
-import type { FilterState } from "@game-forge/shared";
+import type { FilterState } from "@gridcollect/shared";
 import { useQuery } from "@tanstack/react-query";
 
 function useGames(searchParams?: Partial<FilterState>) {

@@ -1,5 +1,5 @@
 import { safeFetch } from "@/lib/utils";
-import type { CollectionWithGames, Library, User } from "@game-forge/shared";
+import type { CollectionWithGames, Library, User } from "@gridcollect/shared";
 import { queryOptions } from "@tanstack/react-query";
 
 const addReviewFn = (gameId: string, reviewbody: string) => {

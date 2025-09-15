@@ -1,4 +1,4 @@
-import type { Game } from "@game-forge/shared";
+import type { Game } from "@gridcollect/shared";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 

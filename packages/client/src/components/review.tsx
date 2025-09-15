@@ -1,4 +1,4 @@
-import type { UserGame, Review as ReviewType } from "@game-forge/shared";
+import type { UserGame, Review as ReviewType } from "@gridcollect/shared";
 import StarRating from "./star-rating";
 import UserProfileLink from "./user-profile-link";
 

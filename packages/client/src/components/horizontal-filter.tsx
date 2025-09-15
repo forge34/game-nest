@@ -4,7 +4,7 @@ import {
   type Genre,
   type Platform,
   type SortOptions,
-} from "@game-forge/shared";
+} from "@gridcollect/shared";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Checkbox } from "./ui/checkbox";

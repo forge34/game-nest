@@ -1,4 +1,4 @@
-import { type Game } from "@game-forge/shared";
+import { type Game } from "@gridcollect/shared";
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import GameRating from "@/components/game-rating";

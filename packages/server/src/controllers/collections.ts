@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { gameIncludes, User } from "@game-forge/shared";
+import { gameIncludes, User } from "@gridcollect/shared";
 import prisma from "../config/prisma";
 
 const CollectionRoutes = {

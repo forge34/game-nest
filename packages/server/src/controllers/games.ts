@@ -1,9 +1,9 @@
-import { gameIncludes, mappedSort, SortOptions } from "@game-forge/shared";
+import { gameIncludes, mappedSort, SortOptions } from "@gridcollect/shared";
 import prisma from "../config/prisma";
 import { Response, Request } from "express";
 import { toArray } from "../utils";
-import { Prisma } from "@game-forge/prisma/generated/client";
-import { textSearch } from "@game-forge/prisma/generated/sql";
+import { Prisma } from "@gridcollect/prisma/generated/client";
+import { textSearch } from "@gridcollect/prisma/generated/sql";
 
 const GamesRoute = {
   searchGame: [

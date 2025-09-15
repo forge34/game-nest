@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/collapsible";
 import GameRating from "@/components/game-rating";
 import { Badge } from "@/components/ui/badge";
-import type { Game } from "@game-forge/shared";
+import type { Game } from "@gridcollect/shared";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";

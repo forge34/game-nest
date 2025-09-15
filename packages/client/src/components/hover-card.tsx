@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { Game } from "@game-forge/shared";
+import type { Game } from "@gridcollect/shared";
 import { useState } from "react";
 
 type HoverCardProps = {

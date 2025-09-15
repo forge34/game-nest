@@ -1,5 +1,5 @@
 import { safeFetch } from "@/lib/utils";
-import type { CollectionWithGames } from "@game-forge/shared";
+import type { CollectionWithGames } from "@gridcollect/shared";
 import { queryOptions } from "@tanstack/react-query";
 
 export type CollectionPagination = { limit: number; page: number };

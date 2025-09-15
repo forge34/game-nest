@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="w-full border-t border-border max-h-fit">
       <div className="mx-auto max-w-6xl px-6 py-10 flex flex-col md:flex-row justify-between items-start gap-8 text-sm">
         <div className="space-y-2">
-          <h2 className="text-lg font-bold">GameNest</h2>
+          <h2 className="text-lg font-bold">GridCollect</h2>
           <p className="text-muted-foreground max-w-xs">
             Your ultimate video game collection and discovery platform.
           </p>
@@ -41,7 +41,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-border text-center py-4 text-muted-foreground text-xs">
-        &copy; {new Date().getFullYear()} GameNest . All rights reserved.
+        &copy; {new Date().getFullYear()} GridCollect . All rights reserved.
       </div>
     </footer>
   );

@@ -1,5 +1,5 @@
 {
-  "name": "@game-forge/prisma",
+  "name": "@gridcollect/prisma",
   "version": "1.0.0",
   "main": "dist/client.js",
   "types": "dist/client.d.ts",
