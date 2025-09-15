@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as LibraryRouteRouteImport } from './routes/library/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
@@ -25,6 +26,11 @@ import { Route as LibraryGameIdEditRouteImport } from './routes/library/$gameId.
 import { Route as CollectionsCollectionIdEditRouteImport } from './routes/collections/$collectionId/edit'
 import { Route as UserUsernameCollectionsAddRouteImport } from './routes/user/$username/collections.add'
 
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibraryRouteRoute = LibraryRouteRouteImport.update({
   id: '/library',
   path: '/library',
@@ -107,6 +113,7 @@ const UserUsernameCollectionsAddRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/library': typeof LibraryRouteRouteWithChildren
+  '/about': typeof AboutRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
   '/user/$username': typeof UserUsernameRouteRouteWithChildren
   '/login': typeof authLoginRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/library': typeof LibraryRouteRouteWithChildren
+  '/about': typeof AboutRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
   '/user/$username': typeof UserUsernameRouteRouteWithChildren
   '/login': typeof authLoginRoute
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/library': typeof LibraryRouteRouteWithChildren
+  '/about': typeof AboutRoute
   '/collections/$collectionId': typeof CollectionsCollectionIdRouteRouteWithChildren
   '/user/$username': typeof UserUsernameRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/library'
+    | '/about'
     | '/collections/$collectionId'
     | '/user/$username'
     | '/login'
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/library'
+    | '/about'
     | '/collections/$collectionId'
     | '/user/$username'
     | '/login'
@@ -195,6 +206,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/library'
+    | '/about'
     | '/collections/$collectionId'
     | '/user/$username'
     | '/(auth)/login'
@@ -213,6 +225,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LibraryRouteRoute: typeof LibraryRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
   CollectionsCollectionIdRouteRoute: typeof CollectionsCollectionIdRouteRouteWithChildren
   UserUsernameRouteRoute: typeof UserUsernameRouteRouteWithChildren
   authLoginRoute: typeof authLoginRoute
@@ -225,6 +238,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/library': {
       id: '/library'
       path: '/library'
@@ -389,6 +409,7 @@ const UserUsernameRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LibraryRouteRoute: LibraryRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
   CollectionsCollectionIdRouteRoute:
     CollectionsCollectionIdRouteRouteWithChildren,
   UserUsernameRouteRoute: UserUsernameRouteRouteWithChildren,

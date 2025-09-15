@@ -1,5 +1,6 @@
 import { Github, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 
 export default function Footer() {
   return (
@@ -10,6 +11,9 @@ export default function Footer() {
           <p className="text-muted-foreground max-w-xs">
             Your ultimate video game collection and discovery platform.
           </p>
+          <Link to="/about" className="underline text-lg text-muted-foreground">
+            About
+          </Link>
           <p className="text-xs text-muted-foreground">Powered by IGDB</p>
         </div>
 
