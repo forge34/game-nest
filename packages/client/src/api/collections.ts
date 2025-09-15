@@ -3,6 +3,8 @@ import type { CollectionWithGames } from "@game-forge/shared";
 import { queryOptions } from "@tanstack/react-query";
 
 export type CollectionPagination = { limit: number; page: number };
+
+
 const CollectionsQueries = {
   getById: (id: string) =>
     queryOptions({

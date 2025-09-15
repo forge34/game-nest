@@ -1,6 +1,5 @@
-import { z } from "zod";
 export * from "./prisma-types.js";
-import type { Prisma } from "@game-forge/prisma/generated";
+import type { Prisma } from "@game-forge/prisma/generated/client";
 
 export const gameIncludes = {
   coverImage: true,
