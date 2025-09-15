@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "./dist",
     "declaration": true,
     "emitDeclarationOnly": false,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "module": "commonjs",
-    "target": "es2019",
+    "target": "ESNext",
+    "module": "ESNext",
     "skipLibCheck": true,
-    "composite": true
+    "composite": true,
+    "rootDir": "./"
   },
-  "include": ["generated/**/*.ts"],
+  "include": [".","generated/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

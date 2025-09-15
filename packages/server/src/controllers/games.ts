@@ -2,17 +2,15 @@ import { gameIncludes, mappedSort, SortOptions } from "@gridcollect/shared";
 import prisma from "../config/prisma";
 import { Response, Request } from "express";
 import { toArray } from "../utils";
-import { Prisma } from "@gridcollect/prisma/generated/client";
-import { textSearch } from "@gridcollect/prisma/generated/sql";
+import { Prisma } from "@gridcollect/prisma";
+import { textSearch } from "@gridcollect/prisma";
 
 const GamesRoute = {
   searchGame: [
     async (req: Request, res: Response) => {
       const term = req.query.term;
 
-      const result = await prisma.$queryRawTyped(
-        textSearch(term.toString()),
-      );
+      const result = await prisma.$queryRawTyped(textSearch(term.toString()));
       res.status(200).json(result);
     },
   ],

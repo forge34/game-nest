@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import passport from "passport";
 import prisma from "../config/prisma";
-import { User } from "@gridcollect/prisma/generated/client";
+import { User } from "@gridcollect/prisma";
 import { gameIncludes } from "@gridcollect/shared";
 import { body, validationResult } from "express-validator";
 import multer from "multer";

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@gridcollect/prisma/generated/client";
+import { PrismaClient } from "@gridcollect/prisma";
 import { type Game } from "./seed-types";
 import { fetchIGDB, getClient } from "./igdb";
 import { fetchData, storeData } from "./utils";
@@ -16,7 +16,7 @@ async function seed() {
       "total_rating_count > 50",
       "parent_game = null",
     ],
-    customLimit:3000,
+    customLimit: 3000,
     delayMs: 350,
   });
 

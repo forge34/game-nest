@@ -1,4 +1,4 @@
-import { PrismaClient } from "@gridcollect/prisma/generated/client";
+import { PrismaClient } from "@gridcollect/prisma";
 import { fetchIGDB } from "./igdb";
 import {
   AgeRating,

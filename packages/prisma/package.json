@@ -1,10 +1,17 @@
 {
   "name": "@gridcollect/prisma",
   "version": "1.0.0",
-  "main": "dist/client.js",
-  "types": "dist/client.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "dependencies": {
     "@prisma/client": "^6.15.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
