@@ -175,16 +175,22 @@ importers:
       '@prisma/client':
         specifier: ^6.15.0
         version: 6.15.0(prisma@6.15.0(typescript@5.9.2))(typescript@5.9.2)
+    devDependencies:
       prisma:
         specifier: ^6.15.0
         version: 6.15.0(typescript@5.9.2)
-
-  packages/prisma/generated: {}
-
-  packages/prisma/generated/prisma: {}
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
 
   packages/server:
     dependencies:
+      '@game-forge/prisma':
+        specifier: workspace:^
+        version: link:../prisma
+      '@game-forge/shared':
+        specifier: workspace:^
+        version: link:../shared
       apicalypse:
         specifier: ^1.0.5
         version: 1.0.5(debug@4.4.1)
@@ -246,12 +252,6 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
     devDependencies:
-      '@game-forge/prisma':
-        specifier: workspace:^
-        version: link:../prisma
-      '@game-forge/shared':
-        specifier: workspace:^
-        version: link:../shared
       '@types/compression':
         specifier: ^1.8.1
         version: 1.8.1
@@ -310,7 +310,7 @@ importers:
   packages/shared:
     dependencies:
       '@game-forge/prisma':
-        specifier: workspace:^
+        specifier: workspace:^*
         version: link:../prisma
       zod:
         specifier: ^4.1.5

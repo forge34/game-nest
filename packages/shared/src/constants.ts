@@ -1,5 +1,5 @@
 export * from "./prisma-types.js";
-import type { Prisma } from "@game-forge/prisma/generated/client";
+import type { Prisma } from "@game-forge/prisma";
 
 export const gameIncludes = {
   coverImage: true,

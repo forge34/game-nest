@@ -48,7 +48,7 @@ export async function fetchIGDB<T>(
   const IGDB_MAX_LIMIT = 500;
   const results: T[] = [];
   const { delayMs = 350, where = [], customLimit = 500, ids, fields } = opt;
-  console.log(`Fetching ${fields} (total - ${ids ? ids.length : 0})`  );
+  console.log(`Fetching ${fields} (total - ${ids ? ids.length : 0})`);
   if (ids && ids.length > 0) {
     for (let i = 0; i < ids.length; i += IGDB_MAX_LIMIT) {
       const chunk = ids.slice(i, i + IGDB_MAX_LIMIT);
@@ -90,7 +90,7 @@ export async function fetchIGDB<T>(
   return results;
 }
 
-export const getClient = async () => {
+export const getClient = async (): Promise<ReturnType<typeof igdb>> => {
   const token = (await getAccessToken())?.access_token || "";
   return igdb(client_id, token);
 };

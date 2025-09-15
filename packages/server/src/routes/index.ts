@@ -4,7 +4,7 @@ import GamesRoute from "../controllers/games";
 import UsersRoute from "../controllers/user";
 import CollectionRoutes from "../controllers/collections";
 
-const router = Router();
+const router : Router = Router();
 
 router.get("/", (_, res) => {
   res.json("Hello word");

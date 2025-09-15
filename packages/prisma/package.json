@@ -1,15 +1,19 @@
 {
   "name": "@game-forge/prisma",
   "version": "1.0.0",
-  "description": "",
+  "main": "dist/client.js",
+  "types": "dist/client.d.ts",
   "dependencies": {
-    "@prisma/client": "^6.15.0",
-    "prisma": "^6.15.0"
+    "@prisma/client": "^6.15.0"
   },
   "scripts": {
-    "generate": "prisma generate",
+    "build": "tsc -p tsconfig.json",
     "db:push": "pnpm prisma db push",
     "db:reset": "pnpm prisma db push --force-reset",
-    "db:generate": "pnpm prisma generate && pnpm build:types"
+    "db:generate": "pnpm prisma generate --sql && pnpm build"
+  },
+  "devDependencies": {
+    "prisma": "^6.15.0",
+    "typescript": "^5.9.2"
   }
 }

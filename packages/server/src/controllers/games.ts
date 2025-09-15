@@ -3,7 +3,7 @@ import prisma from "../config/prisma";
 import { Response, Request } from "express";
 import { toArray } from "../utils";
 import { Prisma } from "@game-forge/prisma/generated/client";
-import textSearch from "@game-forge/prisma/generated/sql";
+import { textSearch } from "@game-forge/prisma/generated/sql";
 
 const GamesRoute = {
   searchGame: [
@@ -11,7 +11,7 @@ const GamesRoute = {
       const term = req.query.term;
 
       const result = await prisma.$queryRawTyped(
-        textSearch.textSearch(term.toString()),
+        textSearch(term.toString()),
       );
       res.status(200).json(result);
     },

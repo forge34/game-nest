@@ -31,11 +31,11 @@
     "p-limit": "^7.1.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "@game-forge/prisma": "workspace:^",
+    "@game-forge/shared": "workspace:^"
   },
   "devDependencies": {
-    "@game-forge/prisma": "workspace:^",
-    "@game-forge/shared": "workspace:^",
     "@types/compression": "^1.8.1",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",

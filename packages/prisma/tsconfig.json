@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "es2019",
+    "skipLibCheck": true,
+    "composite": true
+  },
+  "include": ["generated/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

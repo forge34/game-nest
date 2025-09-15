@@ -1,11 +1,11 @@
-import { PrismaClient } from "@game-forge/prisma/generated/client";
+import { PrismaClient } from "@game-forge/prisma";
 
 const databaseUrl =
   process.env.NODE_ENV === "test"
     ? process.env.TEST_DATABASE_URL
     : process.env.DATABASE_URL;
 
-const prisma = new PrismaClient({
+const prisma: PrismaClient = new PrismaClient({
   datasources: {
     db: {
       url: databaseUrl,

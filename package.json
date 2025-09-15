@@ -14,8 +14,8 @@
     "test:server": "pnpm --filter ./packages/server test",
     "db:push": "pnpm --filter ./packages/prisma db:push",
     "db:reset": "pnpm --filter ./packages/prisma db:push --force-reset",
-    "db:generate": "pnpm --filter ./packages/prisma generate && pnpm build:types",
-    "build:types": "pnpm --filter ./packages/shared build"
+    "db:generate": "pnpm --filter @game-forge/prisma db:generate && pnpm build:types",
+    "build:types": "pnpm --filter @game-forge/shared build"
   },
   "devDependencies": {
     "typescript": "^5.9.2"
