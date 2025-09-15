@@ -23,7 +23,6 @@ import { Route as UserUsernameProfileRouteImport } from './routes/user/$username
 import { Route as UserUsernameCollectionsRouteImport } from './routes/user/$username/collections'
 import { Route as LibraryGameIdEditRouteImport } from './routes/library/$gameId.edit'
 import { Route as CollectionsCollectionIdEditRouteImport } from './routes/collections/$collectionId/edit'
-import { Route as CollectionsCollectionIdAddGameRouteImport } from './routes/collections/$collectionId/add-game'
 import { Route as UserUsernameCollectionsAddRouteImport } from './routes/user/$username/collections.add'
 
 const LibraryRouteRoute = LibraryRouteRouteImport.update({
@@ -98,12 +97,6 @@ const CollectionsCollectionIdEditRoute =
     path: '/edit',
     getParentRoute: () => CollectionsCollectionIdRouteRoute,
   } as any)
-const CollectionsCollectionIdAddGameRoute =
-  CollectionsCollectionIdAddGameRouteImport.update({
-    id: '/add-game',
-    path: '/add-game',
-    getParentRoute: () => CollectionsCollectionIdRouteRoute,
-  } as any)
 const UserUsernameCollectionsAddRoute =
   UserUsernameCollectionsAddRouteImport.update({
     id: '/add',
@@ -122,7 +115,6 @@ export interface FileRoutesByFullPath {
   '/collections': typeof CollectionsIndexRoute
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
-  '/collections/$collectionId/add-game': typeof CollectionsCollectionIdAddGameRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
   '/library/$gameId/edit': typeof LibraryGameIdEditRoute
   '/user/$username/collections': typeof UserUsernameCollectionsRouteWithChildren
@@ -140,7 +132,6 @@ export interface FileRoutesByTo {
   '/collections': typeof CollectionsIndexRoute
   '/discover': typeof DiscoverIndexRoute
   '/user': typeof UserIndexRoute
-  '/collections/$collectionId/add-game': typeof CollectionsCollectionIdAddGameRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
   '/library/$gameId/edit': typeof LibraryGameIdEditRoute
   '/user/$username/collections': typeof UserUsernameCollectionsRouteWithChildren
@@ -159,7 +150,6 @@ export interface FileRoutesById {
   '/collections/': typeof CollectionsIndexRoute
   '/discover/': typeof DiscoverIndexRoute
   '/user/': typeof UserIndexRoute
-  '/collections/$collectionId/add-game': typeof CollectionsCollectionIdAddGameRoute
   '/collections/$collectionId/edit': typeof CollectionsCollectionIdEditRoute
   '/library/$gameId/edit': typeof LibraryGameIdEditRoute
   '/user/$username/collections': typeof UserUsernameCollectionsRouteWithChildren
@@ -179,7 +169,6 @@ export interface FileRouteTypes {
     | '/collections'
     | '/discover'
     | '/user'
-    | '/collections/$collectionId/add-game'
     | '/collections/$collectionId/edit'
     | '/library/$gameId/edit'
     | '/user/$username/collections'
@@ -197,7 +186,6 @@ export interface FileRouteTypes {
     | '/collections'
     | '/discover'
     | '/user'
-    | '/collections/$collectionId/add-game'
     | '/collections/$collectionId/edit'
     | '/library/$gameId/edit'
     | '/user/$username/collections'
@@ -215,7 +203,6 @@ export interface FileRouteTypes {
     | '/collections/'
     | '/discover/'
     | '/user/'
-    | '/collections/$collectionId/add-game'
     | '/collections/$collectionId/edit'
     | '/library/$gameId/edit'
     | '/user/$username/collections'
@@ -336,13 +323,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsCollectionIdEditRouteImport
       parentRoute: typeof CollectionsCollectionIdRouteRoute
     }
-    '/collections/$collectionId/add-game': {
-      id: '/collections/$collectionId/add-game'
-      path: '/add-game'
-      fullPath: '/collections/$collectionId/add-game'
-      preLoaderRoute: typeof CollectionsCollectionIdAddGameRouteImport
-      parentRoute: typeof CollectionsCollectionIdRouteRoute
-    }
     '/user/$username/collections/add': {
       id: '/user/$username/collections/add'
       path: '/add'
@@ -366,13 +346,11 @@ const LibraryRouteRouteWithChildren = LibraryRouteRoute._addFileChildren(
 )
 
 interface CollectionsCollectionIdRouteRouteChildren {
-  CollectionsCollectionIdAddGameRoute: typeof CollectionsCollectionIdAddGameRoute
   CollectionsCollectionIdEditRoute: typeof CollectionsCollectionIdEditRoute
 }
 
 const CollectionsCollectionIdRouteRouteChildren: CollectionsCollectionIdRouteRouteChildren =
   {
-    CollectionsCollectionIdAddGameRoute: CollectionsCollectionIdAddGameRoute,
     CollectionsCollectionIdEditRoute: CollectionsCollectionIdEditRoute,
   }
 
