@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^6.15.0"
+    "@prisma/client": "^6.15.0",
+    "prisma": "^6.15.0"
   },
   "scripts": {
-    "generate": "prisma generate"
+    "generate": "prisma generate",
+    "db:push": "pnpm prisma db push",
+    "db:reset": "pnpm prisma db push --force-reset",
+    "db:generate": "pnpm prisma generate && pnpm build:types"
   }
 }

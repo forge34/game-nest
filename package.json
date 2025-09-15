@@ -12,9 +12,9 @@
     "build:client": "pnpm --filter ./packages/client build",
     "build:server": "pnpm --filter ./packages/server build",
     "test:server": "pnpm --filter ./packages/server test",
-    "db:push": "pnpm --filter ./packages/server db:push",
-    "db:reset": "pnpm --filter ./packages/server db:push --force-reset",
-    "db:generate": "pnpm --filter ./packages/server generate && pnpm build:types",
+    "db:push": "pnpm --filter ./packages/prisma db:push",
+    "db:reset": "pnpm --filter ./packages/prisma db:push --force-reset",
+    "db:generate": "pnpm --filter ./packages/prisma generate && pnpm build:types",
     "build:types": "pnpm --filter ./packages/shared build"
   },
   "devDependencies": {

@@ -12,7 +12,6 @@
   },
   "private": true,
   "dependencies": {
-    "@prisma/client": "^6.15.0",
     "apicalypse": "^1.0.5",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
@@ -51,7 +50,6 @@
     "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.3",
     "nodemon": "^3.1.10",
-    "prisma": "^6.15.0",
     "supertest": "^7.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2",
