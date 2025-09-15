@@ -37,6 +37,7 @@ import { searchGame } from "@/api/games";
 import { useAddGameToCollection } from "@/lib/hooks/use-collections";
 import { useQuery } from "@tanstack/react-query";
 import { zodValidator } from "@tanstack/zod-adapter";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().max(32),
@@ -69,7 +70,11 @@ function RouteComponent() {
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.description.trim() || values.name.trim() == "") return;
+    console.log(values)
+    if (values.description.trim() === "" && values.name.trim() === "") {
+      toast.error("Can't update collection with empty fields");
+      return;
+    }
     update.mutate({ id: collectionId, ...values });
   }
 
