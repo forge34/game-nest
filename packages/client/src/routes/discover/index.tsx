@@ -59,12 +59,13 @@ function RouteComponent() {
     });
   }
 
+  const totalPages = Math.ceil(total / filter.limit) || 1;
   return (
     <>
       {!isMatched ? (
         <Outlet />
       ) : (
-        <div className="flex flex-col mx-6 mask-y-from-04 gap-4">
+        <div className="flex flex-col px-12 py-5 mask-y-from-04 gap-4">
           <HorizontalFilter
             onClear={clearFitlers}
             state={filter}
@@ -85,10 +86,11 @@ function RouteComponent() {
             })}
           </div>
           <Pagination
-            limit={filter.limit}
             currentPage={filter.page}
-            totalItems={total}
-            onPageChange={(page) => navigate({ search: () => ({ page }) })}
+            totalPages={totalPages}
+            onPageChange={(page) =>
+              navigate({ search: (prev) => ({ ...prev, page }) })
+            }
           />
         </div>
       )}

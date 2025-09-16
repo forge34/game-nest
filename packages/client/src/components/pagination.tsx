@@ -10,8 +10,7 @@ import {
 
 type GamePaginationProps = {
   currentPage: number;
-  totalItems: number;
-  limit:number;
+  totalPages:number
   onPageChange: (page: number) => void;
 };
 
@@ -35,11 +34,9 @@ function pages(current: number, total: number) {
 
 function Pagination({
   currentPage,
-  totalItems,
-  limit,
+  totalPages,
   onPageChange,
 }: GamePaginationProps) {
-  const totalPages = Math.ceil(totalItems / limit) || 1;
   const pageNumbers = pages(currentPage, totalPages);
   return (
     <Root className="my-4 mt-auto">

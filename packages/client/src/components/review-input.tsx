@@ -7,6 +7,7 @@ import type { Review as ReviewType, UserGame } from "@gridcollect/shared";
 import useReviews from "@/lib/hooks/use-reviews";
 import { useState } from "react";
 import Review from "./review";
+import useUser from "@/lib/hooks/use-user";
 
 export default function ReviewInput({
   gameId,
@@ -22,16 +23,18 @@ export default function ReviewInput({
   const { updateGame } = useLibrary();
   const { addReview } = useReviews();
   const [textareaValue, setTextAreaValue] = useState("");
+  const { user } = useUser();
+
+  if (!user) return null;
   function onRatingChange(rating: number) {
     updateGame(gameId, {
       rating,
     });
   }
-
   const validRating = rating ? rating : 0;
   return (
     <div className="flex flex-row gap-4 h-64 lg:h-[250px] w-2xl">
-      <UserAvatar avatarUrl={userData?.user.avatarUrl} size={64} />
+      <UserAvatar avatarUrl={user.avatarUrl} size={64} />
       <div className="flex flex-col w-full h-full gap-3">
         <StarRating
           onRatingChange={onRatingChange}
@@ -49,7 +52,10 @@ export default function ReviewInput({
             <Button
               className="self-start"
               onClick={() => {
-                if (typeof textareaValue === "string" && textareaValue.trim() !== "") {
+                if (
+                  typeof textareaValue === "string" &&
+                  textareaValue.trim() !== ""
+                ) {
                   addReview(gameId, textareaValue, {
                     showToast: false,
                   });

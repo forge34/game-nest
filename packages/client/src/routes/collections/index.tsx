@@ -31,17 +31,19 @@ export const Route = createFileRoute("/collections/")({
 function RouteComponent() {
   const { data } = useGetCollections();
   const collections = data?.collections;
-  const count = data?.count || 0;
+  const total = data?.count || 0;
   const filter = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const match = useMatchRoute();
   const isMatched = match({ to: "/collections" });
+  const totalPages = Math.ceil(total / filter.limit) || 1;
+
   return (
     <>
       {!isMatched ? (
         <Outlet />
       ) : (
-        <div className="flex flex-col py-6 px-8 gap-2">
+        <div className="flex flex-col px-12 py-5 gap-4">
           <div className="flex flex-row flex-wrap gap-2 md:gap-5 justify-start">
             {collections?.map((c) => (
               <CollectionCard
@@ -53,9 +55,8 @@ function RouteComponent() {
           </div>
 
           <Pagination
-            totalItems={count}
             currentPage={filter.page}
-            limit={filter.limit}
+            totalPages={totalPages}
             onPageChange={(page) => navigate({ search: () => ({ page }) })}
           />
         </div>

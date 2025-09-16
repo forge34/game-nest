@@ -36,17 +36,16 @@ function RouteComponent() {
   return (
     <div className="flex flex-col m-4 gap-4">
       <div className="flex flex-row gap-2">
-        <Button>
+        <Button asChild>
           <Link to="./profile" from={Route.path}>
             Profile
           </Link>
         </Button>
-        <Button>
+        <Button asChild>
           <Link to="./collections" from={Route.path}>
             User's Collections
           </Link>
         </Button>
-        <Button>Reviews</Button>
       </div>
 
       <div className="flex flex-row gap-6 items-start self-center">

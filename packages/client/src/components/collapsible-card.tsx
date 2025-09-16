@@ -26,7 +26,7 @@ function CollapsibleCard({
     : "Unknown";
 
   const { isFavourite, isInLibrary } = useLibrary();
-  const { user } = useUser()
+  const { user } = useUser();
 
   return (
     <Collapsible
@@ -34,7 +34,7 @@ function CollapsibleCard({
       className="bg-card py-2 px-4 rounded-md border"
     >
       <div className="relative">
-        <CollapsibleTrigger asChild>
+        <CollapsibleTrigger>
           <div className="flex flex-col w-full">
             <img
               className="w-full  rounded-md "

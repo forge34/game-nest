@@ -22,9 +22,15 @@ function UserAvatar({
       )}
       style={{ width: size, height: size }}
     >
-      {avatarUrl ? (
+      {preview ? (
         <img
-          src={preview ? preview : avatarUrl}
+          src={preview}
+          alt={"User Avatar"}
+          className="rounded-full object-cover w-full h-full"
+        />
+      ) : avatarUrl ? (
+        <img
+          src={avatarUrl}
           alt={"User Avatar"}
           className="rounded-full object-cover w-full h-full"
         />

@@ -63,7 +63,7 @@ function RouteComponent() {
             <p>{format(data.updatedAt, "yyyy-MM-dd")}</p>
           </span>
           <p className="text-sm text-muted-foreground">{games.length} Games</p>
-          {authUser && (
+          {authUser && authUser.id === data.userId && (
             <Button asChild>
               <Link to="./edit" from={Route.path}>
                 Edit Collection

@@ -182,7 +182,7 @@ function NavbarMobile({ user }: { user?: User | null }) {
           </Button>
         </span>
 
-        <CollapsibleTrigger>
+        <CollapsibleTrigger asChild>
           <Button variant="outline" size="icon">
             <Menu />
           </Button>

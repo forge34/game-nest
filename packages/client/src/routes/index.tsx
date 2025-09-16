@@ -38,7 +38,6 @@ function RouteComponent() {
   const { user } = useUser()
   const { games } = useGames();
   const featured = games[Math.floor(Math.random() * games.length)];
-  console.log(featured)
   const releaseDate = featured.releaseDate
     ? format(featured.releaseDate, "dd MMM yyyy")
     : "Unkown";
@@ -91,7 +90,7 @@ function RouteComponent() {
           </div>
           <h3 className="text-sm text-muted-foreground">{releaseDate}</h3>
           <CardAction className="flex flex-col justify-center items-center md:flex-row my-auto gap-4 w-full">
-            <Button>
+            <Button asChild>
               <Link
                 to="/discover/$gameId"
                 params={{ gameId: `${featured.id}` }}
