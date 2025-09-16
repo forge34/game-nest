@@ -7,6 +7,14 @@
 
 # GridCollect
 
+## Table of Contents
+- [About](#about)
+- [Tech stack](#tech-stack)
+- [Screenshots](#screenshots)
+- [Setup instructions](#setup-instructions)
+- [Deployment Instructions](#deployment-instructions)
+- [Testing](#testing)
+
 ## About
 
 GridCollect is a game collection website where you can:
@@ -23,6 +31,17 @@ This project is a personal practice to improve full-stack web development and ma
 - **Frontend** : React, TailwindCSS, Shadcn, Tanstack Router & Query
 - **Backend** : Node.js, Express, PostgreSQL + PrismaORM
 - **Other** : IGDB API for fetching games
+
+## Screenshots
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem;">
+
+  <img src="screenshots/home.png" alt="Homepage" width="300"/>
+  <img src="screenshots/discover.png" alt="Discover" width="300"/>
+  <img src="screenshots/edit-collection-add-game.png" alt="Edit Collection" width="400"/>
+  <img src="screenshots/profile.png" alt="Profile" width="400"/>
+
+</div>
 
 ## Setup instructions
 
